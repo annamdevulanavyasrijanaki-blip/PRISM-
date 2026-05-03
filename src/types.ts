@@ -104,6 +104,7 @@ export interface ResumeData {
   customSections?: CustomSection[];
   sectionOrder: string[];
   template: string;
+  sectionLabels?: Record<string, string>;
   settings?: {
     fontSize: number;
     sectionSpacing: number;
@@ -111,66 +112,24 @@ export interface ResumeData {
 }
 
 export const INITIAL_RESUME_DATA: ResumeData = {
-  // ... (existing John Doe data)
   personal: {
-    fullName: "John Doe",
-    jobTitle: "Software Engineer",
-    email: "john.doe@example.com",
-    phone: "+1 234 567 890",
-    location: "San Francisco, CA",
-    website: "https://johndoe.dev",
-    linkedin: "https://linkedin.com/in/johndoe",
-    github: "https://github.com/johndoe",
-    leetcode: "https://leetcode.com/johndoe",
-    hackathon: "https://devpost.com/johndoe",
-    summary: "Dedicated software engineer with 5+ years of experience building scalable web applications. Passionate about clean code, performance optimization, and mentoring junior developers.",
+    fullName: "",
+    jobTitle: "",
+    email: "",
+    phone: "",
+    location: "",
+    website: "",
+    linkedin: "",
+    github: "",
+    leetcode: "",
+    hackathon: "",
+    summary: "",
     profileImage: "",
   },
-  experience: [
-    {
-      id: "1",
-      company: "Tech Solutions Inc.",
-      position: "Senior Developer",
-      startDate: "2020-01",
-      endDate: "Present",
-      current: true,
-      description: "Led the development of a flagship SaaS product, resulting in a 40% increase in user engagement. Managed a team of 5 developers and implemented CI/CD pipelines.",
-    },
-    {
-      id: "2",
-      company: "Innovate Web",
-      position: "Frontend Developer",
-      startDate: "2018-06",
-      endDate: "2019-12",
-      current: false,
-      description: "Developed responsive UI components using React and Tailwind CSS. Optimized application performance, reducing page load times by 30%.",
-    },
-  ],
-  education: [
-    {
-      id: "1",
-      school: "University of Technology",
-      degree: "B.S. in Computer Science",
-      startDate: "2014-09",
-      endDate: "2018-05",
-      description: "GPA: 3.8/4.0. Relevant coursework: Data Structures, Algorithms, Web Development.",
-    },
-  ],
-  skills: [
-    { id: "1", name: "React", level: "Expert" },
-    { id: "2", name: "TypeScript", level: "Expert" },
-    { id: "3", name: "Node.js", level: "Intermediate" },
-    { id: "4", name: "Tailwind CSS", level: "Expert" },
-    { id: "5", name: "PostgreSQL", level: "Intermediate" },
-  ],
-  projects: [
-    {
-      id: "1",
-      name: "E-commerce Platform",
-      description: "Built a full-stack e-commerce application with Stripe integration and user authentication.",
-      link: "https://github.com/johndoe/shop",
-    },
-  ],
+  experience: [],
+  education: [],
+  skills: [],
+  projects: [],
   certifications: [],
   awards: [],
   volunteer: [],
@@ -179,6 +138,18 @@ export const INITIAL_RESUME_DATA: ResumeData = {
   customSections: [],
   sectionOrder: ["summary", "experience", "education", "skills", "projects"],
   template: "modern",
+  sectionLabels: {
+    summary: "Profile",
+    experience: "Experience",
+    education: "Education",
+    skills: "Expertise",
+    projects: "Featured Projects",
+    certifications: "Certifications",
+    awards: "Recognitions",
+    languages: "Linguistics",
+    volunteer: "Volunteer Work",
+    interests: "Interests"
+  },
   settings: {
     fontSize: 1,
     sectionSpacing: 1,
@@ -212,6 +183,18 @@ export const EMPTY_RESUME_DATA: ResumeData = {
   customSections: [],
   sectionOrder: ["summary", "experience", "education", "skills", "projects"],
   template: "modern",
+  sectionLabels: {
+    summary: "Profile",
+    experience: "Experience",
+    education: "Education",
+    skills: "Expertise",
+    projects: "Featured Projects",
+    certifications: "Certifications",
+    awards: "Recognitions",
+    languages: "Linguistics",
+    volunteer: "Volunteer Work",
+    interests: "Interests"
+  },
   settings: {
     fontSize: 1,
     sectionSpacing: 1,
@@ -222,36 +205,24 @@ export const SAMPLE_RESUME_DATA: ResumeData = {
   ...INITIAL_RESUME_DATA,
   personal: {
     ...INITIAL_RESUME_DATA.personal,
-    fullName: "Alex Sterling",
-    jobTitle: "Lead Systems Architect",
-    summary: "Strategic technology leader with over 12 years of experience in distributed systems and cloud infrastructure. Expert in scaling engineering teams and implementing robust architecture for high-traffic global platforms.",
+    fullName: "Resume Preview",
+    jobTitle: "Your Title Here",
+    summary: "This is a preview of how your resume will look with actual data. All sections are dynamic and will only appear when populated.",
   },
   experience: [
     {
       id: "demo-1",
-      company: "Quantum Dynamics",
-      position: "Lead Systems Architect",
-      startDate: "2021-03",
+      company: "Previous Company",
+      position: "Your Position",
+      startDate: "2021",
       endDate: "Present",
       current: true,
-      description: "Architected a multi-region kubernetes cluster handling 500k+ concurrent requests. Reduced operational costs by 35% through infrastructure automation.",
-    },
-    {
-      id: "demo-2",
-      company: "Stellar Cloud",
-      position: "Senior Infrastructure Engineer",
-      startDate: "2018-01",
-      endDate: "2021-02",
-      current: false,
-      description: "Deployed global edge computing network. Spearheaded migration from legacy monolith to serverless architecture.",
+      description: "Briefly describe your responsibilities and achievements in this role.",
     }
   ],
   skills: [
-    { id: "s1", name: "Kubernetes", level: "Expert" },
-    { id: "s2", name: "Golang", level: "Expert" },
-    { id: "s3", name: "Rust", level: "Intermediate" },
-    { id: "s4", name: "AWS/GCP", level: "Expert" },
-    { id: "s5", name: "Terraform", level: "Expert" }
+    { id: "s1", name: "Key Skill 1", level: "Expert" },
+    { id: "s2", name: "Key Skill 2", level: "Intermediate" }
   ],
   sectionOrder: ["summary", "experience", "education", "skills", "projects"],
 };

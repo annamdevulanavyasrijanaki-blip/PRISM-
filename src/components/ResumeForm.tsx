@@ -1,4 +1,4 @@
-import { Plus, Trash2, ChevronLeft, ChevronRight, Lightbulb, Sparkles, Upload, FileJson, ArrowRight, Save, RotateCcw, Image as ImageIcon, GripVertical, Eye, EyeOff } from "lucide-react";
+import { Plus, Trash2, ChevronLeft, ChevronRight, Lightbulb, Sparkles, Upload, FileJson, FileText, ArrowRight, Save, RotateCcw, Image as ImageIcon, GripVertical, Eye, EyeOff } from "lucide-react";
 import React, { useState, useRef } from "react";
 import { ResumeData, Experience, Education, Skill, Project, INITIAL_RESUME_DATA, Certification, Award, Volunteer, Language, Interest, CustomSection } from "../types";
 import { cn } from "../lib/utils";
@@ -1192,6 +1192,32 @@ export default function ResumeForm() {
                          </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <div className="flex items-center gap-2 px-1">
+                    <FileText size={14} className="text-gray-400" />
+                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Section Branding / Labels</p>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {ALL_SECTIONS.filter(s => s.id !== 'custom').map(section => (
+                      <div key={`label-${section.id}`} className="group p-4 bg-white border border-gray-50 rounded-[28px] hover:border-blue-100 transition-all shadow-sm">
+                        <label className="block text-[8px] uppercase font-black text-gray-300 mb-2 ml-2">
+                          Original: {section.label}
+                        </label>
+                        <input 
+                          type="text"
+                          value={data.sectionLabels?.[section.id] || ""}
+                          placeholder={section.label}
+                          onChange={(e) => {
+                            const newLabels = { ...(data.sectionLabels || {}), [section.id]: e.target.value };
+                            setData({ ...data, sectionLabels: newLabels });
+                          }}
+                          className="w-full px-4 py-3 bg-gray-50/50 rounded-2xl text-[11px] font-bold outline-none focus:ring-2 focus:ring-blue-500/10 focus:bg-white transition-all"
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
 

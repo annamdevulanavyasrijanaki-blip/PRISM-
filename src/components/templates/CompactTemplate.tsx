@@ -1,10 +1,11 @@
 import { ResumeData } from "../../types";
 import { SummarySection, ExperienceSection, EducationSection, SkillsSection, ProjectsSection, CustomSectionRenderer } from "../ResumeSections";
+import { hasData } from "../../lib/utils";
 
 export default function CompactTemplate({ data }: { data: ResumeData }) {
   const { personal, sectionOrder, template } = data;
 
-  const isVisible = (id: string) => sectionOrder.includes(id);
+  const isVisible = (id: string) => sectionOrder.includes(id) && hasData(id, data);
 
   return (
     <div className="bg-white text-gray-900 p-10 min-h-[297mm] w-full mx-auto font-sans leading-tight text-[11px]">
@@ -32,7 +33,9 @@ export default function CompactTemplate({ data }: { data: ResumeData }) {
           <div className="col-span-8 space-y-6">
             {isVisible("experience") && (
               <section>
-                <h2 className="text-[10px] font-black uppercase tracking-widest border-l-4 border-gray-900 pl-2 mb-3 bg-gray-50 py-1">Professional Background</h2>
+                <h2 className="text-[10px] font-black uppercase tracking-widest border-l-4 border-gray-900 pl-2 mb-3 bg-gray-50 py-1">
+                  {data.sectionLabels?.experience || "Professional Background"}
+                </h2>
                 <div className="prose-tight">
                   <ExperienceSection data={data} templateType={template} />
                 </div>
@@ -41,7 +44,9 @@ export default function CompactTemplate({ data }: { data: ResumeData }) {
 
             {isVisible("projects") && (
               <section>
-                <h2 className="text-[10px] font-black uppercase tracking-widest border-l-4 border-gray-900 pl-2 mb-3 bg-gray-50 py-1">Major Initiatives</h2>
+                <h2 className="text-[10px] font-black uppercase tracking-widest border-l-4 border-gray-900 pl-2 mb-3 bg-gray-50 py-1">
+                  {data.sectionLabels?.projects || "Major Initiatives"}
+                </h2>
                 <ProjectsSection data={data} templateType={template} />
               </section>
             )}
@@ -50,14 +55,18 @@ export default function CompactTemplate({ data }: { data: ResumeData }) {
           <div className="col-span-4 space-y-6">
             {isVisible("skills") && (
               <section>
-                <h2 className="text-[10px] font-black uppercase tracking-widest border-l-4 border-gray-900 pl-2 mb-3 bg-gray-50 py-1">Tech Matrix</h2>
+                <h2 className="text-[10px] font-black uppercase tracking-widest border-l-4 border-gray-900 pl-2 mb-3 bg-gray-50 py-1">
+                  {data.sectionLabels?.skills || "Tech Matrix"}
+                </h2>
                 <SkillsSection data={data} templateType={template} />
               </section>
             )}
 
             {isVisible("education") && (
               <section>
-                <h2 className="text-[10px] font-black uppercase tracking-widest border-l-4 border-gray-900 pl-2 mb-3 bg-gray-50 py-1">Credentials</h2>
+                <h2 className="text-[10px] font-black uppercase tracking-widest border-l-4 border-gray-900 pl-2 mb-3 bg-gray-50 py-1">
+                  {data.sectionLabels?.education || "Credentials"}
+                </h2>
                 <EducationSection data={data} templateType={template} />
               </section>
             )}

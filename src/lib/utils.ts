@@ -33,3 +33,34 @@ export function getDynamicFontSize(text: string, baseRem: number = 2.25, minRem:
   
   return `${Math.max(calculatedSize, minRem) * multiplier}rem`;
 }
+
+export function hasData(sectionId: string, data: any): boolean {
+  if (!data) return false;
+  
+  switch (sectionId) {
+    case 'summary':
+      return !!data.personal?.summary;
+    case 'experience':
+      return !!(data.experience?.length > 0 && data.experience.some((e: any) => e.position || e.company || e.description));
+    case 'education':
+      return !!(data.education?.length > 0 && data.education.some((e: any) => e.school || e.degree));
+    case 'skills':
+      return !!(data.skills?.length > 0 && data.skills.some((s: any) => s.name));
+    case 'projects':
+      return !!(data.projects?.length > 0 && data.projects.some((p: any) => p.name || p.description));
+    case 'certifications':
+      return !!(data.certifications?.length > 0 && data.certifications.some((c: any) => c.name));
+    case 'awards':
+      return !!(data.awards?.length > 0 && data.awards.some((a: any) => a.title));
+    case 'languages':
+      return !!(data.languages?.length > 0 && data.languages.some((l: any) => l.name));
+    case 'volunteer':
+      return !!(data.volunteer?.length > 0 && data.volunteer.some((v: any) => v.organization || v.role));
+    case 'interests':
+      return !!(data.interests?.length > 0 && data.interests.some((i: any) => i.name));
+    case 'custom':
+      return !!(data.customSections?.length > 0 && data.customSections.some((c: any) => c.title || c.content));
+    default:
+      return false;
+  }
+}

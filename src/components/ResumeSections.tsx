@@ -1,7 +1,7 @@
 import React from 'react';
 import { ResumeData, Experience, Education, Skill, Project, Certification, Award, Volunteer, Language, Interest, CustomSection } from '../types';
 import SectionWrapper from './SectionWrapper';
-import { cn } from '../lib/utils';
+import { cn, hasData } from '../lib/utils';
 
 interface SectionProps {
   data: ResumeData;
@@ -11,29 +11,32 @@ interface SectionProps {
 export function SummarySection({ data }: SectionProps) {
   if (!data.personal.summary) return null;
   return (
-    <SectionWrapper title="Profile">
+    <SectionWrapper title={data.sectionLabels?.summary || "Profile"}>
       <p className="res-scale-text-sm leading-relaxed text-gray-700 whitespace-pre-line">{data.personal.summary}</p>
     </SectionWrapper>
   );
 }
 
 export function ExperienceSection({ data }: SectionProps) {
-  if (!data.experience || data.experience.length === 0) return null;
+  const experiences = data.experience?.filter(exp => exp.position || exp.company || exp.description) || [];
+  if (experiences.length === 0) return null;
   return (
-    <SectionWrapper title="Experience">
+    <SectionWrapper title={data.sectionLabels?.experience || "Experience"}>
       <div className="space-y-6">
-        {data.experience.map((exp: Experience) => (
+        {experiences.map((exp: Experience) => (
           <div key={exp.id} className="space-y-2">
             <div className="flex justify-between items-start">
               <div className="min-w-0 flex-1">
-                <h4 className="font-bold text-gray-900 res-scale-text-base break-words">{exp.position}</h4>
-                <p className="res-scale-text-sm text-blue-600 font-medium truncate">{exp.company}</p>
+                {exp.position && <h4 className="font-bold text-gray-900 res-scale-text-base break-words">{exp.position}</h4>}
+                {exp.company && <p className="res-scale-text-sm text-blue-600 font-medium truncate">{exp.company}</p>}
               </div>
-              <p className="res-scale-text-xs font-bold text-gray-400 uppercase tracking-widest shrink-0 ml-4">
-                {exp.startDate} — {exp.current ? 'Present' : exp.endDate}
-              </p>
+              {(exp.startDate || exp.endDate) && (
+                <p className="res-scale-text-xs font-bold text-gray-400 uppercase tracking-widest shrink-0 ml-4">
+                  {exp.startDate} {exp.startDate && (exp.endDate || exp.current) && '—'} {exp.current ? 'Present' : exp.endDate}
+                </p>
+              )}
             </div>
-            <p className="res-scale-text-xs text-gray-600 whitespace-pre-line leading-relaxed">{exp.description}</p>
+            {exp.description && <p className="res-scale-text-xs text-gray-600 whitespace-pre-line leading-relaxed">{exp.description}</p>}
           </div>
         ))}
       </div>
@@ -42,18 +45,19 @@ export function ExperienceSection({ data }: SectionProps) {
 }
 
 export function EducationSection({ data }: SectionProps) {
-  if (!data.education || data.education.length === 0) return null;
+  const education = data.education?.filter(edu => edu.school || edu.degree || edu.description) || [];
+  if (education.length === 0) return null;
   return (
-    <SectionWrapper title="Education">
+    <SectionWrapper title={data.sectionLabels?.education || "Education"}>
       <div className="space-y-6">
-        {data.education.map((edu: Education) => (
+        {education.map((edu: Education) => (
           <div key={edu.id} className="space-y-2">
             <div className="flex justify-between items-start">
               <div className="min-w-0 flex-1">
-                <h4 className="font-bold text-gray-900 res-scale-text-base break-words">{edu.degree}</h4>
-                <p className="res-scale-text-sm text-blue-600 font-medium truncate">{edu.school}</p>
+                {edu.degree && <h4 className="font-bold text-gray-900 res-scale-text-base break-words">{edu.degree}</h4>}
+                {edu.school && <p className="res-scale-text-sm text-blue-600 font-medium truncate">{edu.school}</p>}
               </div>
-              <p className="res-scale-text-xs font-bold text-gray-400 uppercase tracking-widest shrink-0 ml-4">{edu.startDate} — {edu.endDate}</p>
+              {(edu.startDate || edu.endDate) && <p className="res-scale-text-xs font-bold text-gray-400 uppercase tracking-widest shrink-0 ml-4">{edu.startDate} {edu.startDate && edu.endDate && '—'} {edu.endDate}</p>}
             </div>
             {edu.description && <p className="res-scale-text-xs text-gray-600 whitespace-pre-line leading-relaxed">{edu.description}</p>}
           </div>
@@ -66,7 +70,7 @@ export function EducationSection({ data }: SectionProps) {
 export function SkillsSection({ data }: SectionProps) {
   if (!data.skills || data.skills.length === 0) return null;
   return (
-    <SectionWrapper title="Expertise">
+    <SectionWrapper title={data.sectionLabels?.skills || "Expertise"}>
       <div className="flex flex-wrap gap-2">
         {data.skills.map((skill: Skill) => (
           <div key={skill.id} className="px-3 py-1 bg-gray-50 border border-gray-100 rounded-lg flex items-center gap-2">
@@ -80,17 +84,18 @@ export function SkillsSection({ data }: SectionProps) {
 }
 
 export function ProjectsSection({ data }: SectionProps) {
-  if (!data.projects || data.projects.length === 0) return null;
+  const projects = data.projects?.filter(proj => proj.name || proj.description) || [];
+  if (projects.length === 0) return null;
   return (
-    <SectionWrapper title="Featured Projects">
+    <SectionWrapper title={data.sectionLabels?.projects || "Featured Projects"}>
       <div className="space-y-6">
-        {data.projects.map((proj: Project) => (
+        {projects.map((proj: Project) => (
           <div key={proj.id} className="space-y-2">
             <div className="flex justify-between items-center">
-              <h4 className="font-bold text-gray-900 res-scale-text-base break-words">{proj.name}</h4>
+              {proj.name && <h4 className="font-bold text-gray-900 res-scale-text-base break-words">{proj.name}</h4>}
               {proj.link && <span className="res-scale-text-xs font-bold text-blue-500 uppercase tracking-widest underline decoration-2 underline-offset-4 break-all ml-2">{proj.link.replace(/^https?:\/\/(www\.)?/, '')}</span>}
             </div>
-            <p className="res-scale-text-xs text-gray-600 whitespace-pre-line leading-relaxed">{proj.description}</p>
+            {proj.description && <p className="res-scale-text-xs text-gray-600 whitespace-pre-line leading-relaxed">{proj.description}</p>}
           </div>
         ))}
       </div>
@@ -101,7 +106,7 @@ export function ProjectsSection({ data }: SectionProps) {
 export function CertificationsSection({ data }: SectionProps) {
   if (!data.certifications || data.certifications.length === 0) return null;
   return (
-    <SectionWrapper title="Certifications">
+    <SectionWrapper title={data.sectionLabels?.certifications || "Certifications"}>
       <div className="grid grid-cols-2 gap-4">
         {data.certifications.map((cert: Certification) => (
           <div key={cert.id} className="p-3 bg-gray-50 border border-gray-100 rounded-xl">
@@ -118,7 +123,7 @@ export function CertificationsSection({ data }: SectionProps) {
 export function AwardsSection({ data }: SectionProps) {
   if (!data.awards || data.awards.length === 0) return null;
   return (
-    <SectionWrapper title="Recognitions">
+    <SectionWrapper title={data.sectionLabels?.awards || "Recognitions"}>
        <div className="space-y-4">
         {data.awards.map((award: Award) => (
           <div key={award.id} className="space-y-1">
@@ -137,7 +142,7 @@ export function AwardsSection({ data }: SectionProps) {
 export function LanguagesSection({ data }: SectionProps) {
   if (!data.languages || data.languages.length === 0) return null;
   return (
-    <SectionWrapper title="Linguistics">
+    <SectionWrapper title={data.sectionLabels?.languages || "Linguistics"}>
       <div className="flex flex-wrap gap-x-6 gap-y-3">
         {data.languages.map((lang: Language) => (
           <div key={lang.id} className="flex items-center gap-3">
@@ -159,7 +164,7 @@ export function LanguagesSection({ data }: SectionProps) {
 export function VolunteerSection({ data }: SectionProps) {
   if (!data.volunteer || data.volunteer.length === 0) return null;
   return (
-    <SectionWrapper title="Volunteer Work">
+    <SectionWrapper title={data.sectionLabels?.volunteer || "Volunteer Work"}>
       <div className="space-y-6">
         {data.volunteer.map((v: Volunteer) => (
           <div key={v.id} className="space-y-2">
@@ -179,11 +184,12 @@ export function VolunteerSection({ data }: SectionProps) {
 }
 
 export function InterestsSection({ data }: SectionProps) {
-  if (!data.interests || data.interests.length === 0) return null;
+  const interests = data.interests?.filter(i => i.name) || [];
+  if (interests.length === 0) return null;
   return (
-    <SectionWrapper title="Interests">
+    <SectionWrapper title={data.sectionLabels?.interests || "Interests"}>
       <div className="flex flex-wrap gap-2 text-gray-600">
-        {data.interests.map((interest, idx) => (
+        {interests.map((interest, idx) => (
           <span key={interest.id} className="res-scale-text-xs font-medium bg-gray-50 px-3 py-1 rounded-lg border border-gray-100">
             {interest.name}
           </span>
@@ -242,6 +248,8 @@ export function ResumeMasterRenderer({ data, templateType }: SectionProps) {
       }}
     >
       {data.sectionOrder.map((sectionId) => {
+        if (!hasData(sectionId, data)) return null;
+
         if (sectionId === 'custom') {
           return <React.Fragment key="custom-sections-fragment">{renderCustomSections()}</React.Fragment>;
         }

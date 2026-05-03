@@ -57,7 +57,7 @@ export const useResumeStore = create<ResumeState>()(
       resetData: (empty) => set({ data: empty ? EMPTY_RESUME_DATA : INITIAL_RESUME_DATA }),
     }),
     {
-      name: 'resume-storage', // name of the item in storage (must be unique)
+      name: 'resume-forge-storage-v5', // Updated name to force reset of hardcoded data
     }
   )
 );

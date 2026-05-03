@@ -1,8 +1,9 @@
 import { ResumeData } from "../../types";
-import { getDynamicFontSize } from "../../lib/utils";
+import { getDynamicFontSize, hasData } from "../../lib/utils";
 
 export default function ExecutiveTemplate({ data }: { data: ResumeData }) {
-  const { personal, experience, education, skills } = data;
+  const { personal, experience, education, skills, sectionOrder } = data;
+  const isVisible = (id: string) => sectionOrder.includes(id) && hasData(id, data);
 
   return (
     <div className="bg-white text-[#1a1a1a] p-16 min-h-[297mm] w-full mx-auto shadow-2xl print:shadow-none font-serif">
@@ -44,32 +45,36 @@ export default function ExecutiveTemplate({ data }: { data: ResumeData }) {
       </header>
 
       <div className="space-y-12">
-        {personal.summary && data.sectionOrder.includes('summary') && (
+        {isVisible('summary') && (
           <section className="text-center max-w-2xl mx-auto italic text-lg leading-relaxed text-gray-700">
             "{personal.summary}"
           </section>
         )}
 
-        {experience.length > 0 && data.sectionOrder.includes('experience') && (
+        {isVisible('experience') && (
           <section className="space-y-6">
             <h2 className="text-sm font-black uppercase tracking-[0.3em] border-b border-gray-200 pb-2 text-center">
-              Professional Trajectory
+              {data.sectionLabels?.experience || "Professional Trajectory"}
             </h2>
             <div className="space-y-8">
               {experience.map((exp) => (
                 <div key={exp.id}>
                   <div className="flex justify-between items-end mb-2">
                     <div>
-                      <h3 className="text-xl font-bold">{exp.position}</h3>
-                      <p className="text-sm uppercase font-bold tracking-widest text-gray-500">{exp.company}</p>
+                      {exp.position && <h3 className="text-xl font-bold">{exp.position}</h3>}
+                      {exp.company && <p className="text-sm uppercase font-bold tracking-widest text-gray-500">{exp.company}</p>}
                     </div>
-                    <span className="text-[10px] font-black uppercase tracking-widest bg-gray-100 px-3 py-1 rounded">
-                      {exp.startDate} — {exp.current ? "Present" : exp.endDate}
-                    </span>
+                    {(exp.startDate || exp.endDate) && (
+                      <span className="text-[10px] font-black uppercase tracking-widest bg-gray-100 px-3 py-1 rounded">
+                        {exp.startDate} {exp.startDate && (exp.endDate || exp.current) && '—'} {exp.current ? "Present" : exp.endDate}
+                      </span>
+                    )}
                   </div>
-                  <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line font-sans">
-                    {exp.description}
-                  </p>
+                  {exp.description && (
+                    <p className="text-sm leading-relaxed text-gray-800 whitespace-pre-line font-sans">
+                      {exp.description}
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
@@ -77,27 +82,27 @@ export default function ExecutiveTemplate({ data }: { data: ResumeData }) {
         )}
 
         <div className="grid grid-cols-2 gap-12 pt-8">
-          {education.length > 0 && data.sectionOrder.includes('education') && (
+          {isVisible('education') && (
             <section className="space-y-6">
               <h2 className="text-[10px] font-black uppercase tracking-[0.3em] border-b border-gray-200 pb-2">
-                Education
+                {data.sectionLabels?.education || "Education"}
               </h2>
               <div className="space-y-4">
                 {education.map((edu) => (
                   <div key={edu.id}>
-                    <h3 className="font-bold text-gray-900">{edu.degree}</h3>
-                    <p className="text-sm text-gray-500 italic">{edu.school}</p>
-                    <p className="text-[10px] font-bold mt-1 text-gray-400">{edu.startDate} — {edu.endDate}</p>
+                    {edu.degree && <h3 className="font-bold text-gray-900">{edu.degree}</h3>}
+                    {edu.school && <p className="text-sm text-gray-500 italic">{edu.school}</p>}
+                    {(edu.startDate || edu.endDate) && <p className="text-[10px] font-bold mt-1 text-gray-400">{edu.startDate} {edu.startDate && edu.endDate && '—'} {edu.endDate}</p>}
                   </div>
                 ))}
               </div>
             </section>
           )}
 
-          {skills.length > 0 && data.sectionOrder.includes('skills') && (
+          {isVisible('skills') && (
             <section className="space-y-6">
               <h2 className="text-[10px] font-black uppercase tracking-[0.3em] border-b border-gray-200 pb-2">
-                Strategic Skills
+                {data.sectionLabels?.skills || "Strategic Skills"}
               </h2>
               <div className="grid grid-cols-1 gap-2">
                 {skills.map((skill) => (
@@ -111,30 +116,29 @@ export default function ExecutiveTemplate({ data }: { data: ResumeData }) {
           )}
         </div>
         
-        {/* Missing sections for Executive */}
-        {data.projects && data.projects.length > 0 && data.sectionOrder.includes('projects') && (
+        {isVisible('projects') && (
           <section className="space-y-6">
             <h2 className="text-sm font-black uppercase tracking-[0.3em] border-b border-gray-200 pb-2 text-center">
-              Key Initiatives
+              {data.sectionLabels?.projects || "Key Initiatives"}
             </h2>
             <div className="space-y-6">
-              {data.projects.map((proj) => (
+              {data.projects?.map((proj) => (
                 <div key={proj.id} className="space-y-1">
-                  <h3 className="font-bold text-lg">{proj.name}</h3>
-                  <p className="text-sm text-gray-600 italic font-sans leading-relaxed">{proj.description}</p>
+                  {proj.name && <h3 className="font-bold text-lg">{proj.name}</h3>}
+                  {proj.description && <p className="text-sm text-gray-600 italic font-sans leading-relaxed">{proj.description}</p>}
                 </div>
               ))}
             </div>
           </section>
         )}
 
-        {data.certifications && data.certifications.length > 0 && data.sectionOrder.includes('certifications') && (
+        {isVisible('certifications') && (
           <section className="space-y-6">
             <h2 className="text-sm font-black uppercase tracking-[0.3em] border-b border-gray-200 pb-2 text-center">
-              Certifications & Credentials
+              {data.sectionLabels?.certifications || "Certifications & Credentials"}
             </h2>
             <div className="grid grid-cols-2 gap-4">
-              {data.certifications.map((cert) => (
+              {data.certifications?.map((cert) => (
                 <div key={cert.id} className="text-center p-4 bg-gray-50 rounded-xl">
                   <p className="font-bold text-xs">{cert.name}</p>
                   <p className="text-[10px] text-gray-500">{cert.issuer}</p>

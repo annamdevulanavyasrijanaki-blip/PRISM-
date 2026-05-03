@@ -1,10 +1,11 @@
 import { ResumeData } from "../../types";
 import { SummarySection, ExperienceSection, EducationSection, SkillsSection, ProjectsSection, CertificationsSection, AwardsSection, CustomSectionRenderer } from "../ResumeSections";
+import { getDynamicFontSize, hasData } from "../../lib/utils";
 
 export default function AcademicTemplate({ data }: { data: ResumeData }) {
   const { personal, sectionOrder, template } = data;
 
-  const isVisible = (id: string) => sectionOrder.includes(id);
+  const isVisible = (id: string) => sectionOrder.includes(id) && hasData(id, data);
 
   return (
     <div className="bg-white text-gray-900 p-16 min-h-[297mm] w-full mx-auto shadow-2xl print:shadow-none font-serif leading-relaxed">
@@ -26,35 +27,45 @@ export default function AcademicTemplate({ data }: { data: ResumeData }) {
       <div className="space-y-10">
         {isVisible("summary") && (
           <section>
-            <h2 className="text-sm font-bold uppercase tracking-widest border-b border-gray-100 pb-2 mb-4 text-gray-400">Personal Statement</h2>
+            <h2 className="text-sm font-bold uppercase tracking-widest border-b border-gray-100 pb-2 mb-4 text-gray-400">
+              {data.sectionLabels?.summary || "Personal Statement"}
+            </h2>
             <SummarySection data={data} templateType={template} />
           </section>
         )}
 
         {isVisible("education") && (
           <section>
-            <h2 className="text-sm font-bold uppercase tracking-widest border-b border-gray-100 pb-2 mb-4 text-gray-400">Education</h2>
+            <h2 className="text-sm font-bold uppercase tracking-widest border-b border-gray-100 pb-2 mb-4 text-gray-400">
+              {data.sectionLabels?.education || "Education"}
+            </h2>
             <EducationSection data={data} templateType={template} />
           </section>
         )}
 
         {isVisible("experience") && (
           <section>
-            <h2 className="text-sm font-bold uppercase tracking-widest border-b border-gray-100 pb-2 mb-4 text-gray-400">Professional Experience</h2>
+            <h2 className="text-sm font-bold uppercase tracking-widest border-b border-gray-100 pb-2 mb-4 text-gray-400">
+              {data.sectionLabels?.experience || "Professional Experience"}
+            </h2>
             <ExperienceSection data={data} templateType={template} />
           </section>
         )}
 
         {isVisible("projects") && (
           <section>
-            <h2 className="text-sm font-bold uppercase tracking-widest border-b border-gray-100 pb-2 mb-4 text-gray-400">Publications & Research</h2>
+            <h2 className="text-sm font-bold uppercase tracking-widest border-b border-gray-100 pb-2 mb-4 text-gray-400">
+              {data.sectionLabels?.projects || "Publications & Research"}
+            </h2>
             <ProjectsSection data={data} templateType={template} />
           </section>
         )}
 
         {isVisible("skills") && (
           <section>
-            <h2 className="text-sm font-bold uppercase tracking-widest border-b border-gray-100 pb-2 mb-4 text-gray-400">Domain Expertise</h2>
+            <h2 className="text-sm font-bold uppercase tracking-widest border-b border-gray-100 pb-2 mb-4 text-gray-400">
+              {data.sectionLabels?.skills || "Domain Expertise"}
+            </h2>
             <SkillsSection data={data} templateType={template} />
           </section>
         )}

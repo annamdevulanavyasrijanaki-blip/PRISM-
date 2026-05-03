@@ -1,10 +1,11 @@
 import { ResumeData } from "../../types";
 import { SummarySection, ExperienceSection, EducationSection, SkillsSection, ProjectsSection, CustomSectionRenderer } from "../ResumeSections";
+import { hasData } from "../../lib/utils";
 
 export default function DesignerTemplate({ data }: { data: ResumeData }) {
   const { personal, sectionOrder, template } = data;
 
-  const isVisible = (id: string) => sectionOrder.includes(id);
+  const isVisible = (id: string) => sectionOrder.includes(id) && hasData(id, data);
 
   return (
     <div className="bg-[#111] text-white p-12 min-h-[297mm] w-full mx-auto font-sans">
@@ -36,14 +37,18 @@ export default function DesignerTemplate({ data }: { data: ResumeData }) {
 
            {isVisible("skills") && (
              <div className="space-y-6">
-                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-orange-500">Toolset</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-orange-500">
+                  {data.sectionLabels?.skills || "Toolset"}
+                </p>
                 <SkillsSection data={data} templateType={template} />
              </div>
            )}
 
            {isVisible("education") && (
              <div className="space-y-6">
-                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-orange-500">Education</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-orange-500">
+                  {data.sectionLabels?.education || "Education"}
+                </p>
                 <EducationSection data={data} templateType={template} />
              </div>
            )}
@@ -58,14 +63,18 @@ export default function DesignerTemplate({ data }: { data: ResumeData }) {
 
           {isVisible("experience") && (
             <div className="space-y-8">
-               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-orange-500">Career Trajectory</p>
+               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-orange-500">
+                 {data.sectionLabels?.experience || "Career Trajectory"}
+               </p>
                <ExperienceSection data={data} templateType={template} />
             </div>
           )}
 
           {isVisible("projects") && (
             <div className="space-y-8">
-               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-orange-500">Featured Builds</p>
+               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-orange-500">
+                 {data.sectionLabels?.projects || "Featured Builds"}
+               </p>
                <ProjectsSection data={data} templateType={template} />
             </div>
           )}

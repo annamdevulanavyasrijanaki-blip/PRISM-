@@ -1,10 +1,10 @@
 import { ResumeData } from "../../types";
-import { getDynamicFontSize } from "../../lib/utils";
+import { getDynamicFontSize, hasData } from "../../lib/utils";
 
 export default function MinimalTemplate({ data }: { data: ResumeData }) {
   const { personal, experience, education, skills, projects, certifications = [], awards = [], languages = [], sectionOrder } = data;
 
-  const isVisible = (id: string) => sectionOrder.includes(id);
+  const isVisible = (id: string) => sectionOrder.includes(id) && hasData(id, data);
 
   return (
     <div className="bg-white text-zinc-900 p-16 min-h-[297mm] w-full mx-auto shadow-lg print:shadow-none print:p-0 font-sans tracking-tight">
@@ -47,7 +47,7 @@ export default function MinimalTemplate({ data }: { data: ResumeData }) {
         {personal.summary && isVisible('summary') && (
           <section className="grid grid-cols-4 gap-8">
             <h2 className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-black">
-              About
+              {data.sectionLabels?.summary || "About"}
             </h2>
             <div className="col-span-3">
               <p className="text-base text-zinc-700 leading-relaxed font-light whitespace-pre-line">
@@ -61,7 +61,7 @@ export default function MinimalTemplate({ data }: { data: ResumeData }) {
         {(personal.linkedin || personal.github || personal.leetcode || personal.hackathon) && (
           <section className="grid grid-cols-4 gap-8">
             <h2 className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-black">
-              Connect
+              {data.sectionLabels?.contact || "Connect"}
             </h2>
             <div className="col-span-3">
               <div className="flex flex-wrap gap-x-8 gap-y-2">
@@ -106,7 +106,7 @@ export default function MinimalTemplate({ data }: { data: ResumeData }) {
         {experience.length > 0 && isVisible('experience') && (
           <section className="grid grid-cols-4 gap-8">
             <h2 className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-black pt-2">
-              Experience
+              {data.sectionLabels?.experience || "Experience"}
             </h2>
             <div className="col-span-3 space-y-12">
               {experience.map((exp) => (
@@ -129,7 +129,7 @@ export default function MinimalTemplate({ data }: { data: ResumeData }) {
         {education.length > 0 && isVisible('education') && (
           <section className="grid grid-cols-4 gap-8">
             <h2 className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-black pt-2">
-              Education
+              {data.sectionLabels?.education || "Education"}
             </h2>
             <div className="col-span-3 space-y-8">
               {education.map((edu) => (
@@ -149,7 +149,7 @@ export default function MinimalTemplate({ data }: { data: ResumeData }) {
         {skills.length > 0 && isVisible('skills') && (
           <section className="grid grid-cols-4 gap-8">
             <h2 className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-black">
-              Competence
+              {data.sectionLabels?.skills || "Competence"}
             </h2>
             <div className="col-span-3">
               <div className="flex flex-wrap gap-x-6 gap-y-2">
@@ -171,7 +171,7 @@ export default function MinimalTemplate({ data }: { data: ResumeData }) {
         {certifications.length > 0 && isVisible('certifications') && (
           <section className="grid grid-cols-4 gap-8">
             <h2 className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-black">
-              Certs
+              {data.sectionLabels?.certifications || "Certs"}
             </h2>
             <div className="col-span-3 space-y-4">
               {certifications.map((cert) => (

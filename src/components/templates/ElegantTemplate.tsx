@@ -1,10 +1,11 @@
 import { ResumeData } from "../../types";
 import { SummarySection, ExperienceSection, EducationSection, SkillsSection, ProjectsSection, CustomSectionRenderer } from "../ResumeSections";
+import { hasData } from "../../lib/utils";
 
 export default function ElegantTemplate({ data }: { data: ResumeData }) {
   const { personal, sectionOrder, template } = data;
 
-  const isVisible = (id: string) => sectionOrder.includes(id);
+  const isVisible = (id: string) => sectionOrder.includes(id) && hasData(id, data);
 
   return (
     <div className="bg-[#fffcf9] text-[#1c1c1c] p-24 min-h-[297mm] w-full mx-auto shadow-2xl print:p-0 font-serif leading-relaxed">
@@ -32,7 +33,9 @@ export default function ElegantTemplate({ data }: { data: ResumeData }) {
 
         {isVisible("experience") && (
           <section>
-            <h2 className="text-xs font-black uppercase tracking-[0.5em] text-amber-700 mb-10 text-center">Exhibition of Experience</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.5em] text-amber-700 mb-10 text-center">
+              {data.sectionLabels?.experience || "Exhibition of Experience"}
+            </h2>
             <ExperienceSection data={data} templateType={template} />
           </section>
         )}
@@ -40,14 +43,18 @@ export default function ElegantTemplate({ data }: { data: ResumeData }) {
         <div className="grid grid-cols-2 gap-20">
           {isVisible("skills") && (
             <section>
-              <h2 className="text-xs font-black uppercase tracking-[0.5em] text-amber-700 mb-8">Specializations</h2>
+              <h2 className="text-xs font-black uppercase tracking-[0.5em] text-amber-700 mb-8">
+                {data.sectionLabels?.skills || "Specializations"}
+              </h2>
               <SkillsSection data={data} templateType={template} />
             </section>
           )}
 
           {isVisible("education") && (
             <section>
-              <h2 className="text-xs font-black uppercase tracking-[0.5em] text-amber-700 mb-8">Foundational Studies</h2>
+              <h2 className="text-xs font-black uppercase tracking-[0.5em] text-amber-700 mb-8">
+                {data.sectionLabels?.education || "Foundational Studies"}
+              </h2>
               <EducationSection data={data} templateType={template} />
             </section>
           )}
@@ -55,7 +62,9 @@ export default function ElegantTemplate({ data }: { data: ResumeData }) {
 
         {isVisible("projects") && (
           <section>
-            <h2 className="text-xs font-black uppercase tracking-[0.5em] text-amber-700 mb-10 text-center">Notable Works</h2>
+            <h2 className="text-xs font-black uppercase tracking-[0.5em] text-amber-700 mb-10 text-center">
+              {data.sectionLabels?.projects || "Notable Works"}
+            </h2>
             <ProjectsSection data={data} templateType={template} />
           </section>
         )}

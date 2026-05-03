@@ -27,11 +27,13 @@ import SourceSidebar from "./components/SourceSidebar";
 import Logo from "./components/Logo";
 import { cn } from "./lib/utils";
 
+import { AdContainer, ScriptAd } from "./components/AdBanner";
+
 export default function App() {
   const [view, setView] = useState<"landing" | "editor">("landing");
   const { data, setData, resetData, sidebarOpen, toggleSidebar, formOpen, toggleForm } = useResumeStore();
   const [isImporting, setIsImporting] = useState(false);
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(0.8);
   const [autoScale, setAutoScale] = useState(1);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const componentRef = useRef<HTMLDivElement>(null);
@@ -473,7 +475,7 @@ export default function App() {
         </div>
       </nav>
 
-      <main className="max-w-none mx-auto px-2 md:px-8 py-6 md:py-12 no-print">
+      <main className="max-w-none mx-auto px-2 md:px-8 py-6 md:pt-12 no-print relative">
         {/* Horizontal Toggle Shelf */}
         <div className="flex gap-4 mb-6 md:mb-8 no-print overflow-x-auto pb-2 scrollbar-hide">
           <AnimatePresence>
@@ -559,8 +561,8 @@ export default function App() {
                   </div>
                   <ResumeForm />
                 </section>
-                
-                <div className="text-center pt-4 pb-12 opacity-30 group hover:opacity-100 transition-opacity">
+
+                <div className="text-center pt-8 pb-12 opacity-30 group hover:opacity-100 transition-opacity">
                    <p className="text-[9px] uppercase font-black tracking-[0.4em] text-gray-400">
                      Crafted for Performance & Clarity
                    </p>
@@ -573,7 +575,7 @@ export default function App() {
 
           {/* Preview Canvas */}
           <div className={cn(
-            "transition-all duration-500 ease-in-out w-full",
+            "transition-all duration-500 ease-in-out w-full relative z-20",
             sidebarOpen && formOpen ? "lg:col-span-5 xl:col-span-6" :
             !sidebarOpen && formOpen ? "lg:col-span-7 xl:col-span-7" :
             sidebarOpen && !formOpen ? "lg:col-span-8 xl:col-span-9" :
@@ -630,22 +632,35 @@ export default function App() {
             </div>
           </div>
         </div>
-      </main>
 
-      {/* Chipp AI Chatbot Label */}
-      <div className="fixed bottom-6 right-24 z-[9999] no-print pointer-events-none">
-        <motion.div 
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 2, duration: 1 }}
-          className="flex items-center gap-3 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full border border-blue-100 shadow-lg"
-        >
-          <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-          <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">
-            Ask your questions to AI
-          </span>
-        </motion.div>
-      </div>
+        {/* Dedicated Non-Intrusive Ad Footer Area within Main - Absolute Bottom */}
+        <div className="mt-32 pb-16 border-t border-gray-100 flex flex-col items-center gap-12 no-print relative z-10">
+          <div className="flex flex-wrap justify-center gap-12 pt-12">
+            <AdContainer id="a870fdd741d63cdfaeb2898e965a37bb" className="shadow-sm rounded-lg overflow-hidden" />
+            <ScriptAd 
+              src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
+              options={{
+                'key' : 'c1a1fd1c38b67f937be1735b780adca9',
+                'format' : 'iframe',
+                'height' : 50,
+                'width' : 320,
+                'params' : {}
+              }}
+              className="flex justify-center border border-gray-50 rounded-lg p-2"
+            />
+          </div>
+          
+          <div className="text-center space-y-4 opacity-50">
+            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-900">
+              Prism Studio v4.0.2
+            </p>
+            <div className="flex gap-8 justify-center">
+              <span className="text-[8px] uppercase font-bold tracking-[0.2em] text-gray-400 underline decoration-gray-200">System Status: Optimal</span>
+              <span className="text-[8px] uppercase font-bold tracking-[0.2em] text-gray-400 underline decoration-gray-200">A4 Vector Engine: Active</span>
+            </div>
+          </div>
+        </div>
+      </main>
 
       {/* Static Styles */}
       <style>{`

@@ -18,9 +18,9 @@ export default function TechnicalTemplate({ data }: { data: ResumeData }) {
           </h1>
           <p className="text-sm text-slate-400 mb-6 font-bold break-words">{personal.jobTitle}</p>
           <div className="grid grid-cols-2 gap-x-8 gap-y-1 text-slate-500 font-bold uppercase text-[8px] mt-4 border-t border-slate-800 pt-2">
-            <p className="break-all">{"[email] "}{personal.email}</p>
-            <p className="break-all">{"[phone] "}{personal.phone}</p>
-            <p className="break-all">{"[loc]   "}{personal.location}</p>
+            {personal.email && <p className="break-all">{"[email] "}{personal.email}</p>}
+            {personal.phone && <p className="break-all">{"[phone] "}{personal.phone}</p>}
+            {personal.location && <p className="break-all">{"[loc]   "}{personal.location}</p>}
             {personal.website && <p className="break-all text-blue-400">{"[web]   "}{personal.website.replace(/^https?:\/\/(www\.)?/, '')}</p>}
             {personal.linkedin && <p className="break-all text-slate-400">{"[li]    "}{personal.linkedin.replace(/^https?:\/\/(www\.)?/, '')}</p>}
             {personal.github && <p className="break-all text-slate-400">{"[git]   "}{personal.github.replace(/^https?:\/\/(www\.)?/, '')}</p>}

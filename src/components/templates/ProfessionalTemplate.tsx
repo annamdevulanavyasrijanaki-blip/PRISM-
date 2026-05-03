@@ -23,14 +23,14 @@ export default function ProfessionalTemplate({ data }: { data: ResumeData }) {
           {personal.fullName}
         </h1>
         <div className="flex justify-center flex-wrap gap-x-4 text-[10px] text-gray-400 font-bold uppercase tracking-widest">
-          <span>{personal.location}</span>
-          <span>•</span>
-          <span>{personal.phone}</span>
-          <span>•</span>
-          <span>{personal.email}</span>
+          {personal.location && <span>{personal.location}</span>}
+          {personal.location && (personal.phone || personal.email) && <span>•</span>}
+          {personal.phone && <span>{personal.phone}</span>}
+          {personal.phone && personal.email && <span>•</span>}
+          {personal.email && <span>{personal.email}</span>}
           {personal.website && (
             <>
-              <span>•</span>
+              {(personal.location || personal.phone || personal.email) && <span>•</span>}
               <span className="text-blue-600">{personal.website.replace(/^https?:\/\/(www\.)?/, '')}</span>
             </>
           )}

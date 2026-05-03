@@ -1,10 +1,10 @@
 import { ResumeData } from "../../types";
-import { cn, getDynamicFontSize } from "../../lib/utils";
+import { cn, getDynamicFontSize, hasData } from "../../lib/utils";
 
 export default function CreativeTemplate({ data }: { data: ResumeData }) {
   const { personal, experience, education, skills, projects, certifications = [], awards = [], languages = [], interests = [], sectionOrder } = data;
 
-  const isVisible = (id: string) => sectionOrder.includes(id);
+  const isVisible = (id: string) => sectionOrder.includes(id) && hasData(id, data);
 
   return (
     <div className="bg-[#FAF9F6] text-slate-800 flex min-h-[297mm] w-full mx-auto shadow-2xl print:shadow-none font-sans overflow-visible">
@@ -31,7 +31,9 @@ export default function CreativeTemplate({ data }: { data: ResumeData }) {
         </div>
 
         <section className="space-y-4 pt-8">
-          <h2 className="res-scale-text-xs uppercase tracking-[0.3em] font-black text-blue-400">Contact</h2>
+          <h2 className="res-scale-text-xs uppercase tracking-[0.3em] font-black text-blue-400">
+            {data.sectionLabels?.contact || "Contact"}
+          </h2>
           <div className="res-scale-text-xs space-y-2 opacity-80 font-medium overflow-hidden">
             <p className="flex items-center gap-2 text-[10px] break-all">{personal.email}</p>
             <p className="flex items-center gap-2 text-[10px] break-all">{personal.phone}</p>
@@ -52,7 +54,9 @@ export default function CreativeTemplate({ data }: { data: ResumeData }) {
 
         {skills.length > 0 && isVisible('skills') && (
           <section className="space-y-4">
-            <h2 className="res-scale-text-xs uppercase tracking-[0.3em] font-black text-blue-400">Skills</h2>
+            <h2 className="res-scale-text-xs uppercase tracking-[0.3em] font-black text-blue-400">
+              {data.sectionLabels?.skills || "Skills"}
+            </h2>
             <div className="space-y-3">
               {skills.map((skill) => (
                 <div key={skill.id} className="space-y-1">
@@ -73,7 +77,9 @@ export default function CreativeTemplate({ data }: { data: ResumeData }) {
 
         {education.length > 0 && isVisible('education') && (
           <section className="space-y-4">
-            <h2 className="text-[10px] uppercase tracking-[0.3em] font-black text-blue-400">Education</h2>
+            <h2 className="text-[10px] uppercase tracking-[0.3em] font-black text-blue-400">
+              {data.sectionLabels?.education || "Education"}
+            </h2>
             {education.map((edu) => (
               <div key={edu.id} className="space-y-1">
                 <p className="text-[10px] font-bold">{edu.degree}</p>
@@ -86,7 +92,9 @@ export default function CreativeTemplate({ data }: { data: ResumeData }) {
 
         {languages.length > 0 && isVisible('languages') && (
           <section className="space-y-4">
-            <h2 className="text-[10px] uppercase tracking-[0.3em] font-black text-blue-400">Languages</h2>
+            <h2 className="text-[10px] uppercase tracking-[0.3em] font-black text-blue-400">
+              {data.sectionLabels?.languages || "Languages"}
+            </h2>
             <div className="space-y-2">
               {languages.map((lang) => (
                 <div key={lang.id} className="flex justify-between items-center text-[10px]">
@@ -103,7 +111,9 @@ export default function CreativeTemplate({ data }: { data: ResumeData }) {
       <div className="flex-1 p-12 space-y-12">
         {personal.summary && isVisible('summary') && (
           <section className="space-y-4">
-            <h2 className="res-scale-text-xs uppercase tracking-[0.4em] font-black border-l-4 border-blue-500 pl-4">Profile</h2>
+            <h2 className="res-scale-text-xs uppercase tracking-[0.4em] font-black border-l-4 border-blue-500 pl-4">
+              {data.sectionLabels?.summary || "Profile"}
+            </h2>
             <p className="res-scale-text-sm leading-relaxed opacity-70 italic">
               "{personal.summary}"
             </p>
@@ -112,7 +122,9 @@ export default function CreativeTemplate({ data }: { data: ResumeData }) {
 
         {experience.length > 0 && isVisible('experience') && (
           <section className="space-y-8">
-            <h2 className="res-scale-text-xs uppercase tracking-[0.4em] font-black border-l-4 border-blue-500 pl-4">Experience</h2>
+            <h2 className="res-scale-text-xs uppercase tracking-[0.4em] font-black border-l-4 border-blue-500 pl-4">
+              {data.sectionLabels?.experience || "Experience"}
+            </h2>
             <div className="space-y-10">
               {experience.map((exp) => (
                 <div key={exp.id} className="relative">
@@ -134,7 +146,9 @@ export default function CreativeTemplate({ data }: { data: ResumeData }) {
 
         {projects.length > 0 && isVisible('projects') && (
           <section className="space-y-6">
-            <h2 className="text-xs uppercase tracking-[0.4em] font-black border-l-4 border-blue-500 pl-4">Projects</h2>
+            <h2 className="text-xs uppercase tracking-[0.4em] font-black border-l-4 border-blue-500 pl-4">
+              {data.sectionLabels?.projects || "Projects"}
+            </h2>
             <div className="grid grid-cols-1 gap-6">
               {projects.map((proj) => (
                 <div key={proj.id} className="bg-white p-4 border border-slate-100 shadow-sm rounded-lg">
@@ -149,7 +163,9 @@ export default function CreativeTemplate({ data }: { data: ResumeData }) {
 
         {certifications.length > 0 && isVisible('certifications') && (
           <section className="space-y-6">
-            <h2 className="text-xs uppercase tracking-[0.4em] font-black border-l-4 border-blue-500 pl-4">Certifications</h2>
+            <h2 className="text-xs uppercase tracking-[0.4em] font-black border-l-4 border-blue-500 pl-4">
+              {data.sectionLabels?.certifications || "Certifications"}
+            </h2>
             <div className="grid grid-cols-2 gap-4">
               {certifications.map((cert) => (
                 <div key={cert.id} className="space-y-1">
@@ -164,7 +180,9 @@ export default function CreativeTemplate({ data }: { data: ResumeData }) {
 
         {awards.length > 0 && isVisible('awards') && (
           <section className="space-y-6">
-            <h2 className="text-xs uppercase tracking-[0.4em] font-black border-l-4 border-blue-500 pl-4">Awards</h2>
+            <h2 className="text-xs uppercase tracking-[0.4em] font-black border-l-4 border-blue-500 pl-4">
+              {data.sectionLabels?.awards || "Awards"}
+            </h2>
             <div className="space-y-4">
               {awards.map((award) => (
                 <div key={award.id} className="flex justify-between items-start">

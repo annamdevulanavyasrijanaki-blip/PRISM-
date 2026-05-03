@@ -1,10 +1,11 @@
 import { ResumeData } from "../../types";
 import { SummarySection, ExperienceSection, EducationSection, SkillsSection, ProjectsSection, CustomSectionRenderer } from "../ResumeSections";
+import { hasData } from "../../lib/utils";
 
 export default function IndigoTemplate({ data }: { data: ResumeData }) {
   const { personal, sectionOrder, template } = data;
 
-  const isVisible = (id: string) => sectionOrder.includes(id);
+  const isVisible = (id: string) => sectionOrder.includes(id) && hasData(id, data);
 
   return (
     <div className="bg-white text-slate-800 flex min-h-[297mm] w-full mx-auto shadow-2xl print:shadow-none font-sans">
@@ -21,7 +22,9 @@ export default function IndigoTemplate({ data }: { data: ResumeData }) {
         </div>
 
         <div className="space-y-6">
-          <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400 border-b border-indigo-500/30 pb-2">Contact</h2>
+          <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400 border-b border-indigo-500/30 pb-2">
+            {data.sectionLabels?.contact || "Contact"}
+          </h2>
           <div className="space-y-3 text-xs opacity-80">
             <p className="break-all">{personal.email}</p>
             <p>{personal.phone}</p>
@@ -32,7 +35,9 @@ export default function IndigoTemplate({ data }: { data: ResumeData }) {
 
         {isVisible("skills") && (
           <div className="space-y-6">
-            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400 border-b border-indigo-500/30 pb-2">Expertise</h2>
+            <h2 className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400 border-b border-indigo-500/30 pb-2">
+              {data.sectionLabels?.skills || "Expertise"}
+            </h2>
             <SkillsSection data={data} templateType={template} />
           </div>
         )}
@@ -49,21 +54,27 @@ export default function IndigoTemplate({ data }: { data: ResumeData }) {
 
         {isVisible("experience") && (
           <section>
-            <h2 className="text-xl font-black text-indigo-900 mb-6 uppercase tracking-tight">Experience History</h2>
+            <h2 className="text-xl font-black text-indigo-900 mb-6 uppercase tracking-tight">
+              {data.sectionLabels?.experience || "Experience History"}
+            </h2>
             <ExperienceSection data={data} templateType={template} />
           </section>
         )}
 
         {isVisible("projects") && (
           <section>
-            <h2 className="text-xl font-black text-indigo-900 mb-6 uppercase tracking-tight">Key Initiatives</h2>
+            <h2 className="text-xl font-black text-indigo-900 mb-6 uppercase tracking-tight">
+              {data.sectionLabels?.projects || "Key Initiatives"}
+            </h2>
             <ProjectsSection data={data} templateType={template} />
           </section>
         )}
 
         {isVisible("education") && (
           <section>
-            <h2 className="text-xl font-black text-indigo-900 mb-6 uppercase tracking-tight">Academic Background</h2>
+            <h2 className="text-xl font-black text-indigo-900 mb-6 uppercase tracking-tight">
+              {data.sectionLabels?.education || "Academic Background"}
+            </h2>
             <EducationSection data={data} templateType={template} />
           </section>
         )}

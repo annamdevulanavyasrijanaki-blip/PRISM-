@@ -5,6 +5,8 @@ import { cn } from '../lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
 import { useResumeStore } from '../store/useResumeStore';
 
+import { ScriptAd } from './AdBanner';
+
 export default function SourceSidebar() {
   const { toggleSidebar } = useResumeStore();
   const [extractedText, setExtractedText] = useState<string>("");
@@ -136,6 +138,7 @@ export default function SourceSidebar() {
           </div>
         )}
       </div>
+
     </div>
   );
 }

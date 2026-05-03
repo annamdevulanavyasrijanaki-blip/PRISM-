@@ -44,8 +44,6 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
 
       {/* Footer / Meta (Optional) */}
       <footer className="mt-12 pt-8 border-t border-gray-100 text-[8px] text-gray-300 font-bold uppercase tracking-[0.4em] flex justify-between italic">
-        <span>Framework optimized archetype</span>
-        <span>210 x 297 mm • Standard ISO</span>
       </footer>
     </div>
   );
