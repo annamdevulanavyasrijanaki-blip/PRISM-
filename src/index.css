@@ -1,0 +1,167 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+}
+
+@layer base {
+  @media print {
+    body {
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Hide everything that is NOT the resume component */
+    nav, 
+    .no-print,
+    .controls-sidebar,
+    .sidebar-source,
+    button,
+    footer,
+    .sidebar-toggle-button {
+      display: none !important;
+    }
+
+    /* Ensure the target component is the only thing visible and takes full page */
+    .print-container {
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 100% !important;
+      max-width: none !important;
+      min-height: 297mm !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: none !important;
+      box-shadow: none !important;
+      visibility: visible !important;
+      transform: none !important;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    .page-break-inside-avoid {
+      page-break-inside: avoid;
+    }
+
+    .smart-wrap {
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      hyphens: auto;
+      min-width: 0;
+    }
+  }
+
+  :root {
+    --res-font-scale: 1;
+  }
+
+  .res-scale-text-xs { font-size: calc(0.75rem * var(--res-font-scale)); }
+  .res-scale-text-sm { font-size: calc(0.875rem * var(--res-font-scale)); }
+  .res-scale-text-base { font-size: calc(1rem * var(--res-font-scale)); }
+  .res-scale-text-lg { font-size: calc(1.125rem * var(--res-font-scale)); }
+  .res-scale-text-xl { font-size: calc(1.25rem * var(--res-font-scale)); }
+  .res-scale-text-2xl { font-size: calc(1.5rem * var(--res-font-scale)); }
+
+  /* Custom scrollbar for better UI feel */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
+  }
+
+  /* Utility to hide scrollbar but keep functionality */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* Force long URLs and links to wrap */
+  a, .url-text, .break-all, .break-words, p, span, h1, h2, h3, h4, h5, h6 {
+    word-wrap: break-word !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  /* Specific link hardening */
+  a {
+    word-break: break-word;
+  }
+
+  /* Scale-to-Fit Strategy */
+  .resume-viewport-wrapper {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    position: relative;
+    background: #F8F9FA;
+  }
+
+  .resume-paper {
+    width: 210mm !important;
+    min-height: 297mm !important;
+    transform-origin: top center;
+    flex-shrink: 0;
+    background: white;
+    transition: transform 0.1s ease-out;
+  }
+
+  /* Hardened Print/PDF Rules */
+  @media print {
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    /* Aggressive visibility control */
+    body * {
+      visibility: hidden !important;
+    }
+
+    #print-source-root, #print-source-root * {
+      visibility: visible !important;
+    }
+
+    #print-source-root {
+      position: absolute !important;
+      left: 0 !important;
+      top: 0 !important;
+      width: 210mm !important;
+      height: 297mm !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      transform: scale(1) !important;
+      box-shadow: none !important;
+      z-index: 99999;
+      background: white !important;
+    }
+  }
+
+  /* Optimize for mobile viewport heights */
+  @media (max-width: 640px) {
+    .mobile-full-height {
+      min-height: -webkit-fill-available;
+    }
+  }
+}
+

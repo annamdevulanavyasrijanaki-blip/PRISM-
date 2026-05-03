@@ -1,0 +1,10 @@
+{
+  "name": "Remix: ProResume Builder",
+  "description": "A high-performance, template-driven resume builder for freshers and experienced professionals. Export to PDF with professional layouts.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "PDF Export",
+    "Real-time Preview",
+    "Multiple Templates"
+  ]
+}
