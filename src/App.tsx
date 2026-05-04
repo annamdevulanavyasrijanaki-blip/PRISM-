@@ -30,7 +30,7 @@ import { cn } from "./lib/utils";
 import { AdContainer, ScriptAd } from "./components/AdBanner";
 
 export default function App() {
-  const [view, setView] = useState<"landing" | "editor">("landing");
+  const [view, setView] = useState<"landing" | "editor" | "privacy" | "terms" | "contact">("landing");
   const { data, setData, resetData, sidebarOpen, toggleSidebar, formOpen, toggleForm } = useResumeStore();
   const [isImporting, setIsImporting] = useState(false);
   const [zoom, setZoom] = useState(0.8);
@@ -72,6 +72,7 @@ export default function App() {
       const { toPng } = await import("html-to-image");
       const { jsPDF } = await import("jspdf");
       
+      // Capture the element as an image
       const imgData = await toPng(printRef.current, {
         quality: 1.0,
         pixelRatio: 2, 
@@ -80,6 +81,7 @@ export default function App() {
       
       const pdf = new jsPDF("p", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
       
       const img = new Image();
       img.src = imgData;
@@ -88,9 +90,33 @@ export default function App() {
         img.onerror = reject;
       });
       
-      const pdfHeight = (img.height * pdfWidth) / img.width;
+      const imgWidth = pdfWidth;
+      const calculatedImgHeight = (img.height * imgWidth) / img.width;
       
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+      // If the content is slightly over one page, scale it down to fit one page
+      // This fulfills the user's request to "reduce font" to fit content
+      const threshold = pdfHeight * 1.25; // 25% tolerance
+      if (calculatedImgHeight > pdfHeight && calculatedImgHeight <= threshold) {
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
+      } else if (calculatedImgHeight <= pdfHeight) {
+        // Fits perfectly on one page
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, calculatedImgHeight, undefined, 'FAST');
+      } else {
+        // Handle multiple pages for very long resumes
+        let heightLeft = calculatedImgHeight;
+        let position = 0;
+        
+        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, calculatedImgHeight, undefined, 'FAST');
+        heightLeft -= pdfHeight;
+
+        while (heightLeft >= 0) {
+          position = heightLeft - calculatedImgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, calculatedImgHeight, undefined, 'FAST');
+          heightLeft -= pdfHeight;
+        }
+      }
+      
       pdf.save(`${data.personal.fullName.replace(/\s+/g, "_")}_Resume.pdf`);
     } catch (err) {
       console.error("PDF Export Error:", err);
@@ -123,6 +149,65 @@ export default function App() {
     }
   };
 
+  if (view === "privacy") {
+    return (
+      <div className="min-h-screen bg-white p-12 max-w-4xl mx-auto space-y-8 font-sans">
+        <button onClick={() => setView("landing")} className="flex items-center gap-2 text-blue-600 font-black uppercase text-xs tracking-widest mb-12">
+          <ChevronLeft size={16} /> Back to Home
+        </button>
+        <h1 className="text-6xl font-black tracking-tighter">Privacy Policy</h1>
+        <div className="my-8 py-4 bg-gray-50 flex items-center justify-center rounded-2xl border border-gray-100 overflow-hidden">
+          <ScriptAd 
+            src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
+            options={{
+              'key' : 'c1a1fd1c38b67f937be1735b780adca9',
+              'format' : 'iframe',
+              'height' : 90,
+              'width' : 728,
+              'params' : {}
+            }}
+          />
+        </div>
+        <p className="text-gray-600 leading-relaxed font-medium">Your privacy is our priority. Prism Resume Studio operates entirely on the client-side. This means your personal data, resume content, and uploaded images are stored locally in your browser's session storage and are never transmitted to our servers. We do not maintain a database of your personal information.</p>
+        <h2 className="text-2xl font-black">Data Usage</h2>
+        <p className="text-gray-500">We do not track your personal identity. We use standard analytical tools to improve the user interface and performance of the application without collecting PII (Personally Identifiable Information).</p>
+      </div>
+    );
+  }
+
+  if (view === "terms") {
+    return (
+      <div className="min-h-screen bg-white p-12 max-w-4xl mx-auto space-y-8 font-sans">
+        <button onClick={() => setView("landing")} className="flex items-center gap-2 text-blue-600 font-black uppercase text-xs tracking-widest mb-12">
+          <ChevronLeft size={16} /> Back to Home
+        </button>
+        <h1 className="text-6xl font-black tracking-tighter">Terms & Conditions</h1>
+        <div className="my-8 py-4 bg-gray-50 flex items-center justify-center rounded-2xl border border-gray-100 overflow-hidden">
+          <AdContainer id="a870fdd741d63cdfaeb2898e965a37bb" className="shadow-sm" />
+        </div>
+        <p className="text-gray-600 leading-relaxed font-medium font-medium">By using Prism Resume Studio, you agree to these terms. This tool is provided as-is for personal resume creation. You are responsible for the content you create and ensuring you have the rights to use any images or information provided.</p>
+        <h2 className="text-2xl font-black">Usage License</h2>
+        <p className="text-gray-500">You may use the resumes generated for any legal professional purpose. You may not reverse engineer, redistribute, or sell the core application engine without explicit permission.</p>
+      </div>
+    );
+  }
+
+  if (view === "contact") {
+    return (
+      <div className="min-h-screen bg-white p-12 max-w-4xl mx-auto space-y-8 font-sans">
+        <button onClick={() => setView("landing")} className="flex items-center gap-2 text-blue-600 font-black uppercase text-xs tracking-widest mb-12">
+          <ChevronLeft size={16} /> Back to Home
+        </button>
+        <h1 className="text-6xl font-black tracking-tighter">Get in Touch</h1>
+        <p className="text-gray-600 leading-relaxed font-medium">Have questions, feedback, or need support? Our team is ready to help you build your best professional identity.</p>
+        <div className="p-12 bg-blue-50 border border-blue-100 rounded-[40px] text-center">
+            <p className="text-gray-400 font-black uppercase tracking-widest text-[10px] mb-4">Official Contact Email</p>
+            <a href="mailto:thenewyouai@gmail.com" className="text-2xl md:text-3xl font-black text-blue-600 hover:underline">thenewyouai@gmail.com</a>
+        </div>
+      </div>
+    );
+  }
+
   if (view === "landing") {
     return (
       <div className="min-h-screen bg-[#F0F2F5] text-gray-900 font-sans selection:bg-blue-100 overflow-x-hidden relative">
@@ -135,18 +220,24 @@ export default function App() {
 
         <nav className="relative z-50 px-8 md:px-12 py-8 flex justify-between items-center max-w-[1600px] mx-auto">
           <Logo />
-          <div className="hidden md:flex gap-10 text-[11px] font-black uppercase tracking-[0.3em] text-gray-400">
-             <button className="hover:text-blue-600 transition-colors">Frameworks</button>
-             <button className="hover:text-blue-600 transition-colors">Showcase</button>
-             <button className="hover:text-blue-600 transition-colors group flex items-center gap-2">
-                Docs <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
-             </button>
+          <div className="hidden md:flex items-center gap-10">
+             <ScriptAd 
+                src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
+                options={{
+                  'key' : 'c1a1fd1c38b67f937be1735b780adca9',
+                  'format' : 'iframe',
+                  'height' : 32,
+                  'width' : 468,
+                  'params' : {}
+                }}
+                className="opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all rounded"
+              />
           </div>
           <button 
             onClick={() => setView("editor")}
             className="px-6 py-3 bg-gray-900 text-white rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-blue-600 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-gray-200"
           >
-            Launch Studio
+            Create Resume
           </button>
         </nav>
 
@@ -159,20 +250,20 @@ export default function App() {
             >
               <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md rounded-full border border-white/50 shadow-sm">
                 <Sparkles size={14} className="text-blue-500" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">v4.0 Obsidian Update</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Free Forever • No Login Required</span>
               </div>
               
               <div className="relative">
-                <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter leading-[0.85] text-gray-900">
-                  Precision <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">Portfolios.</span>
+                <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[100px] font-black tracking-tighter leading-[0.85] text-gray-900">
+                  The Ultimate <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 italic">Resume Builder.</span>
                 </h2>
                 <div className="absolute -top-10 -right-10 w-20 h-20 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" />
                 <div className="absolute -bottom-20 -left-20 w-32 h-32 bg-purple-500 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-blob animation-delay-2000" />
               </div>
               
               <p className="text-xl text-gray-500 font-medium leading-relaxed max-w-xl">
-                The high-performance resume engine for modern creators. Built on architectural principles of hierarchy, density, and 3D precision.
+                Design professional, A4-ready resumes in minutes. Built for the Tech Generation—100% Free, No Login, and Entirely Private.
               </p>
 
               <div className="flex flex-wrap gap-8 pt-4">
@@ -180,27 +271,27 @@ export default function App() {
                   onClick={() => setView("editor")}
                   className="group px-12 py-6 bg-gray-900 text-white rounded-[32px] font-black uppercase text-xs tracking-[0.3em] flex items-center gap-6 hover:bg-blue-600 transition-all hover:scale-105 active:scale-95 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)]"
                 >
-                  Start Engineering <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                  Get Started <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                 </button>
               </div>
 
               <div className="grid grid-cols-3 gap-8 pt-16 border-t border-gray-200/50">
                 <div className="space-y-1">
-                   <p className="text-2xl font-black text-gray-900">12</p>
-                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Archetypes</p>
+                   <p className="text-2xl font-black text-gray-900">12+</p>
+                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Templates</p>
                 </div>
                 <div className="space-y-1">
-                   <p className="text-2xl font-black text-gray-900">3D</p>
-                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Preview</p>
+                   <p className="text-2xl font-black text-gray-900">0</p>
+                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Logins</p>
                 </div>
                 <div className="space-y-1">
-                   <p className="text-2xl font-black text-gray-900">A4</p>
-                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Exports</p>
+                   <p className="text-2xl font-black text-gray-900">100%</p>
+                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Private</p>
                 </div>
               </div>
             </motion.div>
 
-            {/* 3D Floating Hero Canvas */}
+            {/* 3D Floating Hero Canvas - Refined Professional Look */}
             <motion.div 
               initial={{ opacity: 0, scale: 0.8, rotateY: 20 }} 
               animate={{ opacity: 1, scale: 1, rotateY: -10 }}
@@ -211,124 +302,177 @@ export default function App() {
                 animate={{ 
                   y: [0, -20, 0],
                   rotateY: [-10, -5, -10],
-                  rotateX: [5, 10, 5]
+                  rotateX: [5, 6, 5]
                 }}
-                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                className="relative z-10 w-[550px] aspect-[4/5] bg-white rounded-[40px] shadow-[0_100px_150px_-50px_rgba(0,0,0,0.15)] border border-white/50 overflow-hidden transform-style-3d group hover:scale-[1.02] transition-transform duration-700 hover:shadow-blue-500/10"
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                className="relative z-10 w-[550px] aspect-[1/1.414] bg-white rounded-lg shadow-[0_100px_180px_-40px_rgba(37,99,235,0.2)] overflow-hidden group transition-all duration-700"
               >
-                  {/* Internal 3D Structure Simulation */}
-                  <div className="absolute inset-0 bg-white p-12 flex flex-col gap-10">
-                      <div className="flex justify-between items-start">
-                          <div className="space-y-4 flex-1">
-                              <div className="w-[80%] h-6 bg-gray-900 rounded-lg group-hover:bg-blue-600 transition-colors" />
-                              <div className="w-[50%] h-3 bg-gray-200 rounded-lg" />
+                  {/* Professional Resume Mockup - Detailed & Elegant (Pinterest Style) */}
+                  <div className="h-full bg-white flex flex-col md:flex-row">
+                      {/* Sidebar */}
+                      <div className="w-[35%] bg-slate-50 border-r border-gray-100 p-10 flex flex-col gap-10">
+                          <div className="relative group/photo">
+                            <div className="w-full aspect-square bg-white shadow-xl rounded-2xl overflow-hidden border-2 border-white flex items-center justify-center p-4">
+                                <FileText size={48} className="text-blue-100 group-hover/photo:scale-110 transition-transform" />
+                            </div>
+                            <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-blue-600 rounded-full border-4 border-white shadow-lg" />
                           </div>
-                          <div className="w-16 h-16 bg-blue-50 rounded-2xl border border-blue-100 flex items-center justify-center">
-                             <div className="w-8 h-8 bg-blue-500 rounded-lg animate-pulse" />
+
+                          <div className="space-y-6">
+                            <div className="space-y-3">
+                               <div className="w-[50%] h-3 bg-gray-900 rounded-sm" />
+                               <div className="w-[85%] h-1.5 bg-gray-300 rounded-sm" />
+                               <div className="w-[75%] h-1.5 bg-gray-300 rounded-sm" />
+                            </div>
+                            <div className="space-y-3">
+                               <div className="w-[40%] h-3 bg-gray-900 rounded-sm" />
+                               <div className="space-y-2">
+                                  <div className="flex items-center gap-2">
+                                      <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                          <div className="w-[90%] h-full bg-blue-500 rounded-full" />
+                                      </div>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                      <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                          <div className="w-[70%] h-full bg-blue-500 rounded-full" />
+                                      </div>
+                                  </div>
+                               </div>
+                            </div>
                           </div>
                       </div>
-                      <div className="space-y-6">
-                        <div className="w-[40%] h-2 bg-blue-100 rounded-full" />
-                        <div className="space-y-3">
-                          <div className="w-full h-1 bg-gray-100" />
-                          <div className="w-full h-1 bg-gray-100" />
-                          <div className="w-[85%] h-1 bg-gray-100" />
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-10">
-                        <div className="space-y-4">
-                           <div className="w-[60%] h-3 bg-gray-100 rounded-md" />
-                           <div className="w-full h-1 bg-gray-50" />
-                           <div className="w-full h-1 bg-gray-50" />
-                        </div>
-                        <div className="space-y-4">
-                           <div className="w-[60%] h-3 bg-gray-100 rounded-md" />
-                           <div className="w-full h-1 bg-gray-50" />
-                           <div className="w-full h-1 bg-gray-50" />
-                        </div>
-                      </div>
-                      <div className="mt-auto flex justify-end gap-3">
-                         <div className="w-20 h-2 bg-gray-100 rounded-full" />
-                         <div className="w-8 h-2 bg-blue-600 rounded-full" />
+
+                      {/* Main Content */}
+                      <div className="flex-1 p-14 flex flex-col gap-12">
+                          <div className="space-y-4">
+                              <div className="w-[70%] h-8 bg-gray-900 rounded-sm" />
+                              <div className="w-[40%] h-4 bg-blue-600 rounded-sm" />
+                              <p className="w-[90%] h-2 bg-gray-100 rounded-sm" />
+                              <p className="w-[85%] h-2 bg-gray-100 rounded-sm" />
+                          </div>
+
+                          <div className="space-y-10">
+                             <div className="space-y-6">
+                                <div className="flex items-center gap-4">
+                                   <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 font-bold border border-blue-100">01</div>
+                                   <div className="w-[45%] h-4 bg-gray-900 rounded-sm" />
+                                </div>
+                                <div className="pl-12 space-y-4">
+                                   <div className="flex justify-between items-center">
+                                      <div className="w-[35%] h-3.5 bg-gray-800 rounded-sm" />
+                                      <div className="w-[15%] h-2.5 bg-gray-200 rounded-sm" />
+                                   </div>
+                                   <div className="space-y-2.5">
+                                      <div className="w-full h-2 bg-gray-50 rounded-sm" />
+                                      <div className="w-full h-2 bg-gray-50 rounded-sm" />
+                                      <div className="w-[80%] h-2 bg-gray-50 rounded-sm" />
+                                   </div>
+                                </div>
+                             </div>
+                             
+                             <div className="space-y-6">
+                                <div className="flex items-center gap-4">
+                                   <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-blue-600 font-bold border border-blue-100">02</div>
+                                   <div className="w-[45%] h-4 bg-gray-900 rounded-sm" />
+                                </div>
+                                <div className="pl-12 space-y-4">
+                                   <div className="flex justify-between items-center">
+                                      <div className="w-[35%] h-3.5 bg-gray-800 rounded-sm" />
+                                      <div className="w-[15%] h-2.5 bg-gray-200 rounded-sm" />
+                                   </div>
+                                   <div className="space-y-2.5">
+                                      <div className="w-full h-2 bg-gray-50 rounded-sm" />
+                                      <div className="w-full h-2 bg-gray-50 rounded-sm" />
+                                      <div className="w-[85%] h-2 bg-gray-50 rounded-sm" />
+                                   </div>
+                                </div>
+                             </div>
+                          </div>
                       </div>
                   </div>
                   
-                  {/* Glossy Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-white/40 pointer-events-none" />
+                  {/* Premium Subtle Shine */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/[0.03] pointer-events-none" />
               </motion.div>
 
-              {/* Decorative 3D Floating Elements */}
+              {/* Floating Accents */}
               <motion.div 
-                animate={{ y: [-15, 15, -15], rotate: [0, 10, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
-                className="absolute -top-10 -left-10 z-20 bg-white/80 backdrop-blur-xl p-6 rounded-3xl shadow-2xl border border-white/50 flex items-center gap-4"
+                animate={{ y: [-10, 10, -10] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-10 -right-12 z-20 bg-white shadow-2xl p-4 rounded-2xl border border-gray-100 flex items-center gap-3"
               >
-                  <div className="w-10 h-10 bg-gray-900 text-white rounded-xl flex items-center justify-center">
-                    <Layout size={18} />
+                  <div className="w-8 h-8 bg-green-50 text-green-600 rounded-lg flex items-center justify-center">
+                    <Sparkles size={16} />
                   </div>
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest">Adaptive Grid</p>
-                    <p className="text-[8px] text-gray-400 font-bold uppercase mt-0.5 tracking-widest">Responsive v4</p>
-                  </div>
-              </motion.div>
-
-              <motion.div 
-                animate={{ y: [10, -10, 10], rotate: [5, -5, 5] }}
-                transition={{ duration: 5, repeat: Infinity }}
-                className="absolute -bottom-10 -right-10 z-20 bg-blue-600 p-6 rounded-3xl shadow-2xl flex items-center gap-4 text-white"
-              >
-                  <Download size={20} className="text-blue-200" />
-                  <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest">Pure A4 Vector</p>
-                    <p className="text-[8px] text-white/60 font-bold uppercase mt-0.5 tracking-widest">Crystal Clarity</p>
-                  </div>
+                  <span className="text-[10px] font-black uppercase tracking-widest text-gray-900">ATS Optimized</span>
               </motion.div>
               
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-blue-400/10 rounded-full blur-[100px] pointer-events-none" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-blue-400/5 rounded-full blur-[100px] pointer-events-none" />
             </motion.div>
           </div>
 
           <section className="mt-48 space-y-24">
             <div className="text-center space-y-6">
-              <h3 className="text-[11px] font-black uppercase tracking-[0.5em] text-blue-600">The Archetype Collection</h3>
-              <h4 className="text-6xl md:text-7xl font-black tracking-tighter leading-none text-gray-900">Physical Design. <br />Digital Precision.</h4>
-              <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Select a framework to begin your story</p>
+              <h3 className="text-[11px] font-black uppercase tracking-[0.5em] text-blue-600">Template Library</h3>
+              <h4 className="text-6xl md:text-7xl font-black tracking-tighter leading-none text-gray-900">Professional Formats. <br />Digital Precision.</h4>
+              <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Select a professional framework to begin</p>
+              
+              <div className="pt-8 flex justify-center">
+                 <ScriptAd 
+                    src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
+                    options={{
+                      'key' : 'c1a1fd1c38b67f937be1735b780adca9',
+                      'format' : 'iframe',
+                      'height' : 90,
+                      'width' : 728,
+                      'params' : {}
+                    }}
+                    className="opacity-80 rounded-xl overflow-hidden shadow-2xl"
+                  />
+              </div>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 lg:gap-12">
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
               {[
                 { 
                   id: "modern", 
                   name: "Modern", 
-                  desc: "Strategic hierarchy with precision-aligned sidebars.", 
+                  desc: "Clean, modern layout designed for high-growth tech roles.", 
                   color: "from-blue-600 to-indigo-600",
                   component: <ModernTemplate data={{ ...SAMPLE_RESUME_DATA, template: "modern" }} />
                 },
                 { 
                   id: "professional", 
                   name: "Professional", 
-                  desc: "The gold standard for established corporate careers.", 
+                  desc: "Traditional single-column structure optimized for ATS and recruiters.", 
                   color: "from-gray-700 to-gray-900",
                   component: <ProfessionalTemplate data={{ ...SAMPLE_RESUME_DATA, template: "professional" }} />
                 },
                 { 
                   id: "creative", 
                   name: "Creative", 
-                  desc: "Bold layout logic for high-impact visual roles.", 
+                  desc: "High-impact design for fashion, design, and creative industries.", 
                   color: "from-purple-600 to-pink-600",
                   component: <CreativeTemplate data={{ ...SAMPLE_RESUME_DATA, template: "creative" }} />
                 },
                 { 
                   id: "technical", 
                   name: "Technical", 
-                  desc: "Low-level system aesthetic for engineering leads.", 
+                  desc: "Code-inspired aesthetic tailored for Software Engineers and Devs.", 
                   color: "from-emerald-600 to-teal-600",
                   component: <TechnicalTemplate data={{ ...SAMPLE_RESUME_DATA, template: "technical" }} />
                 },
                 { 
+                  id: "academic", 
+                  name: "Academic", 
+                  desc: "Standard Serif format for research papers, internships, and academia.", 
+                  color: "from-stone-500 to-stone-700",
+                  component: <AcademicTemplate data={{ ...SAMPLE_RESUME_DATA, template: "academic" }} />
+                },
+                { 
                   id: "executive", 
                   name: "Executive", 
-                  desc: "Densely packed high-value leadership profiles.", 
+                  desc: "Maximized density for leaders with 10+ years of career history.", 
                   color: "from-amber-600 to-orange-700",
                   component: <ExecutiveTemplate data={{ ...SAMPLE_RESUME_DATA, template: "executive" }} />
                 },
@@ -338,13 +482,6 @@ export default function App() {
                   desc: "Strict reductionist aesthetic for absolute clarity.", 
                   color: "from-zinc-400 to-zinc-600",
                   component: <MinimalTemplate data={{ ...SAMPLE_RESUME_DATA, template: "minimal" }} />
-                },
-                { 
-                  id: "academic", 
-                  name: "Academic", 
-                  desc: "Traditional serif framework for research & CVs.", 
-                  color: "from-stone-500 to-stone-700",
-                  component: <AcademicTemplate data={{ ...SAMPLE_RESUME_DATA, template: "academic" }} />
                 },
                 { 
                   id: "indigo", 
@@ -385,27 +522,27 @@ export default function App() {
                 <button
                   key={template.id}
                   onClick={() => { setData({ ...data, template: template.id as any }); setView("editor"); }}
-                  className="group relative bg-white/80 backdrop-blur-xl rounded-[48px] p-8 border border-white/50 shadow-[0_15px_35px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] transition-all hover:-translate-y-4 text-left flex flex-col h-full overflow-hidden hover:rotate-1"
+                  className="group relative bg-white rounded-[32px] p-5 border border-gray-100 hover:shadow-[0_45px_100px_-20px_rgba(37,99,235,0.15)] transition-all hover:-translate-y-4 text-left flex flex-col h-full overflow-hidden"
                 >
-                  <div className="w-full aspect-[1/1.414] bg-gray-50 rounded-xl mb-6 overflow-hidden relative border border-gray-100 group-hover:border-blue-200 transition-all shadow-inner">
+                  <div className="w-full aspect-[1/1.414] bg-gray-50 rounded-2xl mb-5 overflow-hidden relative border border-gray-100 group-hover:border-blue-400 transition-all shadow-inner">
                     <div className="absolute inset-0 origin-top-left scale-[0.25] w-[400%] h-[400%] overflow-hidden bg-white">
                       {template.component}
                     </div>
                     {/* Perspective Hover Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-blue-50/10 to-white/30 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-blue-50/5 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                   
-                  <div className="relative z-10 flex flex-col h-full">
-                    <div className="flex items-center justify-between mb-4">
-                      <h5 className="text-2xl font-black uppercase tracking-tighter transition-colors group-hover:text-blue-600">{template.name}</h5>
-                      <span className={cn("w-3 h-3 rounded-full shadow-[0_0_15px_rgba(0,0,0,0.2)] bg-gradient-to-r", template.color)} />
+                  <div className="relative z-10 flex flex-col flex-grow">
+                    <div className="flex items-center justify-between mb-3">
+                      <h5 className="text-xl font-black uppercase tracking-tighter transition-colors group-hover:text-blue-600 leading-none">{template.name}</h5>
+                      <span className={cn("w-2.5 h-2.5 rounded-full shadow-sm bg-gradient-to-r", template.color)} />
                     </div>
-                    <p className="text-xs text-gray-400 font-bold leading-relaxed mb-8 flex-grow">{template.desc}</p>
+                    <p className="text-[10px] text-gray-400 font-bold leading-tight mb-8 line-clamp-2 uppercase tracking-widest">{template.desc}</p>
                     
-                    <div className="flex items-center justify-between pt-6 border-t border-gray-50">
+                    <div className="flex items-center justify-between pt-6 border-t border-gray-50 mt-auto">
                        <span className="text-[9px] font-black uppercase tracking-widest text-gray-300">A4 Ready</span>
                        <div className="px-5 py-2.5 bg-gray-900 text-white rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] shadow-xl group-hover:bg-blue-600 transition-all group-hover:scale-105">
-                          Select Canvas
+                          Get Started
                        </div>
                     </div>
                   </div>
@@ -418,27 +555,27 @@ export default function App() {
                   <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 mix-blend-overlay" />
                   <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                     <div className="space-y-8">
-                       <h4 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">Complete <br />Sovereignty.</h4>
-                       <p className="text-lg text-gray-400 leading-relaxed max-w-md">Your data never leaves your browser. We provide the engine, you provide the craft. 100% private, 100% free.</p>
+                       <h4 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">Privacy <br />First.</h4>
+                       <p className="text-lg text-gray-400 leading-relaxed max-w-md">Your data stays on your device—never in a database. Secure, fast, and completely client-side. 100% private, 100% free.</p>
                        <button 
                         onClick={startBlank}
-                        className="px-10 py-5 bg-white text-gray-900 rounded-3xl font-black uppercase text-[10px] tracking-[0.3em] hover:bg-blue-500 hover:text-white transition-all"
+                        className="px-10 py-5 bg-white text-gray-900 rounded-3xl font-black uppercase text-[10px] tracking-[0.3em] hover:bg-blue-500 hover:text-white transition-all shadow-2xl"
                        >
-                         Start From Zero
+                         Start Designing
                        </button>
                     </div>
                     <div className="flex justify-center md:justify-end">
                        <div className="grid grid-cols-2 gap-6">
                           <div className="w-32 h-32 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-3xl flex flex-col items-center justify-center gap-3">
                              <FileText size={20} className="text-white" />
-                             <span className="text-[8px] font-black text-white uppercase tracking-widest">SVG Render</span>
+                             <span className="text-[8px] font-black text-white uppercase tracking-widest">Client Side</span>
                           </div>
                           <div className="w-32 h-32 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-3xl flex flex-col items-center justify-center gap-3 active:scale-110 transition-transform">
                              <Download size={20} className="text-blue-400" />
-                             <span className="text-[8px] font-black text-white uppercase tracking-widest">Vector PDF</span>
+                             <span className="text-[8px] font-black text-white uppercase tracking-widest">Encrypted</span>
                           </div>
                           <div className="col-span-2 p-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-3xl">
-                             <p className="text-[9px] font-black text-gray-500 uppercase tracking-[0.3em] mb-3 leading-none">Security Protocol</p>
+                             <p className="text-[9px] font-black text-gray-500 uppercase tracking-[0.3em] mb-3 leading-none">Browser Sandbox</p>
                              <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
                                 <div className="w-full h-full bg-blue-500 animate-[loading_2s_ease-in-out_infinite]" />
                              </div>
@@ -451,10 +588,10 @@ export default function App() {
             
             <footer className="pt-24 pb-12 border-t border-gray-200/50 flex flex-col md:flex-row justify-between items-center gap-8">
                <Logo className="opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
-               <div className="flex gap-12 text-[9px] font-black uppercase tracking-[0.3em] text-gray-400">
-                  <a href="#" className="hover:text-gray-900">Privacy</a>
-                  <a href="#" className="hover:text-gray-900">Terms</a>
-                  <a href="#" className="hover:text-gray-900">GitHub</a>
+               <div className="flex gap-12 text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
+                  <button onClick={() => setView("privacy")} className="hover:text-gray-900">Privacy</button>
+                  <button onClick={() => setView("terms")} className="hover:text-gray-900">Terms</button>
+                  <button onClick={() => setView("contact")} className="hover:text-gray-900">Contact</button>
                </div>
             </footer>
           </section>
@@ -602,6 +739,20 @@ export default function App() {
                     </button>
                   </div>
                   <ResumeForm />
+                  
+                  <div className="mt-12 pt-8 border-t border-gray-100 flex justify-center">
+                    <ScriptAd 
+                      src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
+                      options={{
+                        'key' : 'c1a1fd1c38b67f937be1735b780adca9',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                      }}
+                      className="rounded-xl overflow-hidden shadow-sm"
+                    />
+                  </div>
                 </section>
 
                 <div className="text-center pt-8 pb-12 opacity-30 group hover:opacity-100 transition-opacity">
