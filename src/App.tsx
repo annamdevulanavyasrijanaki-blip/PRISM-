@@ -295,7 +295,7 @@ export default function App() {
               <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Select a framework to begin your story</p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-16">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 lg:gap-12">
               {[
                 { 
                   id: "modern", 
@@ -338,6 +338,48 @@ export default function App() {
                   desc: "Strict reductionist aesthetic for absolute clarity.", 
                   color: "from-zinc-400 to-zinc-600",
                   component: <MinimalTemplate data={{ ...SAMPLE_RESUME_DATA, template: "minimal" }} />
+                },
+                { 
+                  id: "academic", 
+                  name: "Academic", 
+                  desc: "Traditional serif framework for research & CVs.", 
+                  color: "from-stone-500 to-stone-700",
+                  component: <AcademicTemplate data={{ ...SAMPLE_RESUME_DATA, template: "academic" }} />
+                },
+                { 
+                  id: "indigo", 
+                  name: "Indigo", 
+                  desc: "Modern sidebar with vibrant gradients.", 
+                  color: "from-indigo-500 to-blue-700",
+                  component: <IndigoTemplate data={{ ...SAMPLE_RESUME_DATA, template: "indigo" }} />
+                },
+                { 
+                  id: "brutalist", 
+                  name: "Brutalist", 
+                  desc: "High-contrast monochrome bold aesthetic.", 
+                  color: "from-black to-zinc-800",
+                  component: <BrutalistTemplate data={{ ...SAMPLE_RESUME_DATA, template: "brutalist" }} />
+                },
+                { 
+                  id: "elegant", 
+                  name: "Elegant", 
+                  desc: "Luxury whitespace & centered typography.", 
+                  color: "from-slate-400 to-slate-600",
+                  component: <ElegantTemplate data={{ ...SAMPLE_RESUME_DATA, template: "elegant" }} />
+                },
+                { 
+                  id: "compact", 
+                  name: "Compact", 
+                  desc: "High density for senior career summaries.", 
+                  color: "from-cyan-600 to-blue-800",
+                  component: <CompactTemplate data={{ ...SAMPLE_RESUME_DATA, template: "compact" }} />
+                },
+                { 
+                  id: "designer", 
+                  name: "Designer", 
+                  desc: "Creative grid with vibrant dark accents.", 
+                  color: "from-fuchsia-600 to-purple-800",
+                  component: <DesignerTemplate data={{ ...SAMPLE_RESUME_DATA, template: "designer" }} />
                 }
               ].map((template) => (
                 <button
@@ -345,8 +387,8 @@ export default function App() {
                   onClick={() => { setData({ ...data, template: template.id as any }); setView("editor"); }}
                   className="group relative bg-white/80 backdrop-blur-xl rounded-[48px] p-8 border border-white/50 shadow-[0_15px_35px_-10px_rgba(0,0,0,0.03)] hover:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] transition-all hover:-translate-y-4 text-left flex flex-col h-full overflow-hidden hover:rotate-1"
                 >
-                  <div className="w-full aspect-[4/5] bg-gray-50 rounded-3xl mb-10 overflow-hidden relative border border-gray-100 group-hover:border-blue-200 transition-all shadow-inner">
-                    <div className="absolute inset-0 origin-top-left scale-[0.32] w-[312%] h-[312%] overflow-hidden bg-white">
+                  <div className="w-full aspect-[1/1.414] bg-gray-50 rounded-xl mb-6 overflow-hidden relative border border-gray-100 group-hover:border-blue-200 transition-all shadow-inner">
+                    <div className="absolute inset-0 origin-top-left scale-[0.25] w-[400%] h-[400%] overflow-hidden bg-white">
                       {template.component}
                     </div>
                     {/* Perspective Hover Overlay */}
