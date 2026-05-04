@@ -16,14 +16,14 @@ export default function ResumeForm() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const steps: { id: Step; label: string }[] = [
-    { id: "personal", label: "Identity" },
+    { id: "personal", label: "Me" },
     { id: "experience", label: "Work" },
-    { id: "education", label: "Studies" },
-    { id: "skills", label: "Talent" },
-    { id: "projects", label: "Lab" },
-    { id: "extras", label: "Extras" },
+    { id: "education", label: "School" },
+    { id: "skills", label: "Skills" },
+    { id: "projects", label: "Projects" },
+    { id: "extras", label: "Other" },
     { id: "layout", label: "Layout" },
-    { id: "finish", label: "Export" },
+    { id: "finish", label: "Save" },
   ];
 
   const currentStepIndex = steps.findIndex(s => s.id === currentStep);
@@ -86,7 +86,7 @@ export default function ResumeForm() {
             throw new Error("Invalid format");
           }
         } catch (err) {
-          alert("Invalid life. Please use a .json export from this app.");
+          alert("Invalid file. Please use a .json file from this app.");
         }
       };
       reader.readAsText(file);

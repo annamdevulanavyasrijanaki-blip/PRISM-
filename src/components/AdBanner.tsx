@@ -16,29 +16,45 @@ interface ScriptAdProps {
 }
 
 export function ScriptAd({ options, src, className }: ScriptAdProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
-
-    const script = document.createElement('script');
+    if (!iframeRef.current) return;
     
-    if (options) {
-      const optionsScript = document.createElement('script');
-      optionsScript.innerHTML = `atOptions = ${JSON.stringify(options)};`;
-      containerRef.current.appendChild(optionsScript);
-    }
+    const doc = iframeRef.current.contentDocument || iframeRef.current.contentWindow?.document;
+    if (!doc) return;
 
-    script.src = src;
-    script.async = true;
-    containerRef.current.appendChild(script);
-
-    return () => {
-      if (containerRef.current) {
-        containerRef.current.innerHTML = '';
-      }
-    };
+    doc.open();
+    doc.write(`
+      <html>
+        <head>
+          <style>body { margin: 0; padding: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; }</style>
+        </head>
+        <body>
+          <div id="ad-container"></div>
+          <script>
+            window.atOptions = ${JSON.stringify(options || {})};
+            const script = document.createElement('script');
+            script.src = "${src}";
+            script.async = true;
+            document.getElementById('ad-container').appendChild(script);
+          </script>
+        </body>
+      </html>
+    `);
+    doc.close();
   }, [options, src]);
 
-  return <div ref={containerRef} className={className} />;
+  return (
+    <iframe 
+      ref={iframeRef}
+      className={className}
+      width={options?.width || '100%'}
+      height={options?.height || 'auto'}
+      frameBorder="0"
+      scrolling="no"
+      sandbox="allow-scripts allow-same-origin allow-popups"
+      title="Safe Ad"
+    />
+  );
 }

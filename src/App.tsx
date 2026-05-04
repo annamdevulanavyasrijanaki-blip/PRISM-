@@ -218,75 +218,74 @@ export default function App() {
           <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-purple-400/10 rounded-full blur-[100px]" />
         </div>
 
-        <nav className="relative z-50 px-8 md:px-12 py-8 flex justify-between items-center max-w-[1600px] mx-auto">
+        <nav className="relative z-50 px-4 md:px-12 py-6 flex justify-between items-center max-w-[1600px] mx-auto">
           <Logo />
           <div className="hidden md:flex items-center gap-10">
-             <ScriptAd 
-                src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
-                options={{
-                  'key' : 'c1a1fd1c38b67f937be1735b780adca9',
-                  'format' : 'iframe',
-                  'height' : 32,
-                  'width' : 468,
-                  'params' : {}
-                }}
-                className="opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all rounded"
-              />
+             {/* Ad space */}
           </div>
           <button 
             onClick={() => setView("editor")}
-            className="px-6 py-3 bg-gray-900 text-white rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-blue-600 transition-all hover:scale-105 active:scale-95 shadow-xl shadow-gray-200"
+            className="px-6 py-2.5 bg-blue-600 text-white rounded-full font-black uppercase text-[10px] tracking-widest shadow-lg shadow-blue-500/20 active:scale-95 transition-transform"
           >
-            Create Resume
+            Start Now
           </button>
         </nav>
 
-        <main className="relative z-10 max-w-[1600px] mx-auto px-8 md:px-12 pt-12 md:pt-24 pb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
+        <main className="relative z-10 max-w-[1600px] mx-auto px-4 md:px-12 pt-8 md:pt-24 pb-32">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-32 items-center">
             <motion.div 
-              initial={{ opacity: 0, y: 40 }} 
+              initial={{ opacity: 0, y: 30 }} 
               animate={{ opacity: 1, y: 0 }} 
-              className="space-y-12"
+              className="space-y-8 md:space-y-12"
             >
-              <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-white/60 backdrop-blur-md rounded-full border border-white/50 shadow-sm">
-                <Sparkles size={14} className="text-blue-500" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-blue-600">Free Forever • No Login Required</span>
+              <div className="inline-flex items-center gap-3 px-4 py-2 bg-green-50 rounded-full border border-green-100 shadow-sm">
+                <Sparkles size={14} className="text-green-600" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-green-700">100% Free Forever • No Login Needed</span>
               </div>
               
               <div className="relative">
-                <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[100px] font-black tracking-tighter leading-[0.85] text-gray-900">
-                  The Ultimate <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 italic">Resume Builder.</span>
+                <h2 className="text-4xl sm:text-6xl md:text-8xl lg:text-[90px] font-black tracking-tighter leading-[0.9] text-gray-900">
+                  Best Free <br />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 italic">Resume Builder.</span>
                 </h2>
-                <div className="absolute -top-10 -right-10 w-20 h-20 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" />
-                <div className="absolute -bottom-20 -left-20 w-32 h-32 bg-purple-500 rounded-full mix-blend-multiply filter blur-2xl opacity-20 animate-blob animation-delay-2000" />
               </div>
               
-              <p className="text-xl text-gray-500 font-medium leading-relaxed max-w-xl">
-                Design professional, A4-ready resumes in minutes. Built for the Tech Generation—100% Free, No Login, and Entirely Private.
+              <p className="text-lg md:text-xl text-gray-500 font-medium leading-relaxed max-w-xl">
+                Make your professional resume in minutes. Easy to use. 100% private. No hidden costs. Perfect for everyone.
               </p>
 
-              <div className="flex flex-wrap gap-8 pt-4">
+              <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
                 <button 
                   onClick={() => setView("editor")}
-                  className="group px-12 py-6 bg-gray-900 text-white rounded-[32px] font-black uppercase text-xs tracking-[0.3em] flex items-center gap-6 hover:bg-blue-600 transition-all hover:scale-105 active:scale-95 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)]"
+                  className="w-full sm:w-auto group px-10 py-5 bg-gray-900 text-white rounded-[24px] font-black uppercase text-xs tracking-[0.2em] flex items-center justify-center gap-4 hover:bg-blue-600 transition-all active:scale-95 shadow-2xl"
                 >
-                  Get Started <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                   Start Building <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                 </button>
+                <div className="flex -space-x-3">
+                   {[1,2,3].map(i => (
+                     <div key={i} className="w-9 h-9 rounded-full border-2 border-white bg-gray-200">
+                        <img src={`https://i.pravatar.cc/100?u=${i}`} className="w-full h-full rounded-full object-cover" alt="User" />
+                     </div>
+                   ))}
+                   <div className="pl-4">
+                      <p className="text-[10px] font-black text-gray-900 uppercase">Used by Thousands</p>
+                      <p className="text-[8px] text-gray-400 font-bold uppercase">Daily Users</p>
+                   </div>
+                </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-8 pt-16 border-t border-gray-200/50">
+              <div className="grid grid-cols-3 gap-4 md:gap-8 pt-10 border-t border-gray-200/50">
                 <div className="space-y-1">
-                   <p className="text-2xl font-black text-gray-900">12+</p>
-                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Templates</p>
+                   <p className="text-2xl font-black text-gray-900">FREE</p>
+                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Forever</p>
                 </div>
                 <div className="space-y-1">
-                   <p className="text-2xl font-black text-gray-900">0</p>
-                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Logins</p>
+                   <p className="text-2xl font-black text-gray-900">SAFE</p>
+                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Total Privacy</p>
                 </div>
                 <div className="space-y-1">
-                   <p className="text-2xl font-black text-gray-900">100%</p>
-                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Private</p>
+                   <p className="text-2xl font-black text-gray-900">FAST</p>
+                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Easy Export</p>
                 </div>
               </div>
             </motion.div>
@@ -411,138 +410,93 @@ export default function App() {
             </motion.div>
           </div>
 
-          <section className="mt-48 space-y-24">
-            <div className="text-center space-y-6">
-              <h3 className="text-[11px] font-black uppercase tracking-[0.5em] text-blue-600">Template Library</h3>
-              <h4 className="text-6xl md:text-7xl font-black tracking-tighter leading-none text-gray-900">Professional Formats. <br />Digital Precision.</h4>
-              <p className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Select a professional framework to begin</p>
-              
-              <div className="pt-8 flex justify-center">
-                 <ScriptAd 
-                    src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
-                    options={{
-                      'key' : 'c1a1fd1c38b67f937be1735b780adca9',
-                      'format' : 'iframe',
-                      'height' : 90,
-                      'width' : 728,
-                      'params' : {}
-                    }}
-                    className="opacity-80 rounded-xl overflow-hidden shadow-2xl"
-                  />
-              </div>
+          <section className="mt-24 md:mt-48 space-y-16 px-4 md:px-0">
+            <div className="text-center space-y-4">
+              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">Free Styles</h3>
+              <h4 className="text-4xl md:text-7xl font-black tracking-tighter leading-tight text-gray-900">Explore Templates.</h4>
+              <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px]">Select a template to start building</p>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
               {[
                 { 
                   id: "modern", 
                   name: "Modern", 
-                  desc: "Clean, modern layout designed for high-growth tech roles.", 
+                  desc: "Clean and simple look for any job.", 
                   color: "from-blue-600 to-indigo-600",
                   component: <ModernTemplate data={{ ...SAMPLE_RESUME_DATA, template: "modern" }} />
                 },
                 { 
                   id: "professional", 
                   name: "Professional", 
-                  desc: "Traditional single-column structure optimized for ATS and recruiters.", 
+                  desc: "Standard format for formal companies.", 
                   color: "from-gray-700 to-gray-900",
                   component: <ProfessionalTemplate data={{ ...SAMPLE_RESUME_DATA, template: "professional" }} />
                 },
                 { 
                   id: "creative", 
                   name: "Creative", 
-                  desc: "High-impact design for fashion, design, and creative industries.", 
+                  desc: "Bright design for creative jobs.", 
                   color: "from-purple-600 to-pink-600",
                   component: <CreativeTemplate data={{ ...SAMPLE_RESUME_DATA, template: "creative" }} />
                 },
                 { 
                   id: "technical", 
-                  name: "Technical", 
-                  desc: "Code-inspired aesthetic tailored for Software Engineers and Devs.", 
+                  name: "Engineering", 
+                  desc: "Focused look for technical roles.", 
                   color: "from-emerald-600 to-teal-600",
                   component: <TechnicalTemplate data={{ ...SAMPLE_RESUME_DATA, template: "technical" }} />
                 },
                 { 
                   id: "academic", 
                   name: "Academic", 
-                  desc: "Standard Serif format for research papers, internships, and academia.", 
+                  desc: "Formal structure for schools and research.", 
                   color: "from-stone-500 to-stone-700",
                   component: <AcademicTemplate data={{ ...SAMPLE_RESUME_DATA, template: "academic" }} />
                 },
                 { 
                   id: "executive", 
                   name: "Executive", 
-                  desc: "Maximized density for leaders with 10+ years of career history.", 
+                  desc: "Bold layout for leadership roles.", 
                   color: "from-amber-600 to-orange-700",
                   component: <ExecutiveTemplate data={{ ...SAMPLE_RESUME_DATA, template: "executive" }} />
                 },
                 { 
                   id: "minimal", 
                   name: "Minimal", 
-                  desc: "Strict reductionist aesthetic for absolute clarity.", 
-                  color: "from-zinc-400 to-zinc-600",
+                  desc: "Simple design with no distractions.", 
+                  color: "from-slate-400 to-slate-600",
                   component: <MinimalTemplate data={{ ...SAMPLE_RESUME_DATA, template: "minimal" }} />
                 },
                 { 
                   id: "indigo", 
-                  name: "Indigo", 
-                  desc: "Modern sidebar with vibrant gradients.", 
-                  color: "from-indigo-500 to-blue-700",
-                  component: <IndigoTemplate data={{ ...SAMPLE_RESUME_DATA, template: "indigo" }} />
-                },
-                { 
-                  id: "brutalist", 
-                  name: "Brutalist", 
-                  desc: "High-contrast monochrome bold aesthetic.", 
-                  color: "from-black to-zinc-800",
-                  component: <BrutalistTemplate data={{ ...SAMPLE_RESUME_DATA, template: "brutalist" }} />
-                },
-                { 
-                  id: "elegant", 
-                  name: "Elegant", 
-                  desc: "Luxury whitespace & centered typography.", 
-                  color: "from-slate-400 to-slate-600",
-                  component: <ElegantTemplate data={{ ...SAMPLE_RESUME_DATA, template: "elegant" }} />
-                },
-                { 
-                  id: "compact", 
-                  name: "Compact", 
-                  desc: "High density for senior career summaries.", 
-                  color: "from-cyan-600 to-blue-800",
-                  component: <CompactTemplate data={{ ...SAMPLE_RESUME_DATA, template: "compact" }} />
-                },
-                { 
-                  id: "designer", 
-                  name: "Designer", 
-                  desc: "Creative grid with vibrant dark accents.", 
-                  color: "from-fuchsia-600 to-purple-800",
-                  component: <DesignerTemplate data={{ ...SAMPLE_RESUME_DATA, template: "designer" }} />
+                  name: "Vibrant", 
+                  desc: "Modern layout with colorful accents.", 
+                  color: "from-indigo-400 to-blue-500",
+                  component: <ModernTemplate data={{ ...SAMPLE_RESUME_DATA, template: "modern" }} />
                 }
               ].map((template) => (
                 <button
                   key={template.id}
                   onClick={() => { setData({ ...data, template: template.id as any }); setView("editor"); }}
-                  className="group relative bg-white rounded-[32px] p-5 border border-gray-100 hover:shadow-[0_45px_100px_-20px_rgba(37,99,235,0.15)] transition-all hover:-translate-y-4 text-left flex flex-col h-full overflow-hidden"
+                  className="group relative bg-white rounded-[24px] p-4 border border-gray-100 hover:shadow-2xl transition-all hover:-translate-y-2 text-left flex flex-col"
                 >
-                  <div className="w-full aspect-[1/1.414] bg-gray-50 rounded-2xl mb-5 overflow-hidden relative border border-gray-100 group-hover:border-blue-400 transition-all shadow-inner">
+                  <div className="w-full aspect-[1/1.414] bg-gray-50 rounded-xl mb-4 overflow-hidden relative border border-gray-100 group-hover:border-blue-400 transition-all shadow-inner">
                     <div className="absolute inset-0 origin-top-left scale-[0.25] w-[400%] h-[400%] overflow-hidden bg-white">
                       {template.component}
                     </div>
-                    {/* Perspective Hover Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-blue-50/5 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                   
                   <div className="relative z-10 flex flex-col flex-grow">
-                    <div className="flex items-center justify-between mb-3">
-                      <h5 className="text-xl font-black uppercase tracking-tighter transition-colors group-hover:text-blue-600 leading-none">{template.name}</h5>
-                      <span className={cn("w-2.5 h-2.5 rounded-full shadow-sm bg-gradient-to-r", template.color)} />
+                    <div className="flex items-center justify-between mb-2">
+                      <h5 className="text-lg font-black uppercase tracking-tighter group-hover:text-blue-600 leading-none">{template.name}</h5>
+                      <span className={cn("w-2 h-2 rounded-full", template.color)} />
                     </div>
-                    <p className="text-[10px] text-gray-400 font-bold leading-tight mb-8 line-clamp-2 uppercase tracking-widest">{template.desc}</p>
+                    <p className="text-[10px] text-gray-400 font-bold leading-tight mb-4 uppercase tracking-widest">{template.desc}</p>
                     
-                    <div className="flex items-center justify-between pt-6 border-t border-gray-50 mt-auto">
-                       <span className="text-[9px] font-black uppercase tracking-widest text-gray-300">A4 Ready</span>
-                       <div className="px-5 py-2.5 bg-gray-900 text-white rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] shadow-xl group-hover:bg-blue-600 transition-all group-hover:scale-105">
-                          Get Started
+                    <div className="flex items-center justify-end pt-4 border-t border-gray-50 mt-auto">
+                       <div className="px-4 py-2 bg-gray-900 text-white rounded-lg text-[8px] font-black uppercase tracking-widest group-hover:bg-blue-600 transition-colors">
+                          Pick
                        </div>
                     </div>
                   </div>
@@ -550,49 +504,40 @@ export default function App() {
               ))}
             </div>
 
-            <div className="container mx-auto px-4 md:px-0">
-               <div className="bg-gray-900 rounded-[60px] p-12 md:p-24 relative overflow-hidden shadow-3xl">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 mix-blend-overlay" />
-                  <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                    <div className="space-y-8">
-                       <h4 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">Privacy <br />First.</h4>
-                       <p className="text-lg text-gray-400 leading-relaxed max-w-md">Your data stays on your device—never in a database. Secure, fast, and completely client-side. 100% private, 100% free.</p>
+            <div className="relative p-8 md:p-16 bg-gray-900 rounded-[32px] md:rounded-[48px] overflow-hidden group shadow-3xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-indigo-600/10" />
+                  <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
+                    <div className="space-y-6">
+                       <h4 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">Privacy <br className="hidden md:block" />First.</h4>
+                       <p className="text-base md:text-lg text-gray-400 leading-relaxed max-w-md">Your data stays with you. No login. No database. 100% free and safe.</p>
                        <button 
                         onClick={startBlank}
-                        className="px-10 py-5 bg-white text-gray-900 rounded-3xl font-black uppercase text-[10px] tracking-[0.3em] hover:bg-blue-500 hover:text-white transition-all shadow-2xl"
+                        className="px-10 py-5 bg-white text-gray-900 rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] hover:bg-blue-500 hover:text-white transition-all shadow-xl"
                        >
-                         Start Designing
+                         Start From Blank
                        </button>
                     </div>
-                    <div className="flex justify-center md:justify-end">
-                       <div className="grid grid-cols-2 gap-6">
-                          <div className="w-32 h-32 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-3xl flex flex-col items-center justify-center gap-3">
-                             <FileText size={20} className="text-white" />
-                             <span className="text-[8px] font-black text-white uppercase tracking-widest">Client Side</span>
-                          </div>
-                          <div className="w-32 h-32 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-3xl flex flex-col items-center justify-center gap-3 active:scale-110 transition-transform">
-                             <Download size={20} className="text-blue-400" />
-                             <span className="text-[8px] font-black text-white uppercase tracking-widest">Encrypted</span>
-                          </div>
-                          <div className="col-span-2 p-6 bg-white/5 rounded-3xl border border-white/10 backdrop-blur-3xl">
-                             <p className="text-[9px] font-black text-gray-500 uppercase tracking-[0.3em] mb-3 leading-none">Browser Sandbox</p>
-                             <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
-                                <div className="w-full h-full bg-blue-500 animate-[loading_2s_ease-in-out_infinite]" />
-                             </div>
-                          </div>
-                       </div>
+                    <div className="hidden md:flex gap-6">
+                        <div className="w-28 h-28 bg-white/5 rounded-2xl border border-white/10 flex flex-col items-center justify-center gap-2">
+                           <FileText size={20} className="text-white" />
+                           <span className="text-[8px] font-black text-white uppercase">Safe</span>
+                        </div>
+                        <div className="w-28 h-28 bg-blue-600 rounded-2xl flex flex-col items-center justify-center gap-2">
+                           <Sparkles size={20} className="text-white" />
+                           <span className="text-[8px] font-black text-white uppercase">Free</span>
+                        </div>
                     </div>
                   </div>
-               </div>
             </div>
             
-            <footer className="pt-24 pb-12 border-t border-gray-200/50 flex flex-col md:flex-row justify-between items-center gap-8">
-               <Logo className="opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
-               <div className="flex gap-12 text-[10px] font-black uppercase tracking-[0.3em] text-gray-400">
+            <footer className="pt-20 pb-12 border-t border-gray-200/50 flex flex-col md:flex-row justify-between items-center gap-8">
+               <Logo className="opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
+               <div className="flex gap-12 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
                   <button onClick={() => setView("privacy")} className="hover:text-gray-900">Privacy</button>
                   <button onClick={() => setView("terms")} className="hover:text-gray-900">Terms</button>
                   <button onClick={() => setView("contact")} className="hover:text-gray-900">Contact</button>
                </div>
+               <p className="text-[9px] font-bold text-gray-400 uppercase">Free Forever • Built for you</p>
             </footer>
           </section>
         </main>
