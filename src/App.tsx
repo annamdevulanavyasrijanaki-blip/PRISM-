@@ -30,7 +30,7 @@ import { cn } from "./lib/utils";
 import { AdContainer, ScriptAd } from "./components/AdBanner";
 
 export default function App() {
-  const [view, setView] = useState<"landing" | "editor" | "privacy" | "terms" | "contact">("landing");
+  const [view, setView] = useState<"landing" | "editor" | "privacy" | "terms" | "contact" | "about">("landing");
   const { data, setData, resetData, sidebarOpen, toggleSidebar, formOpen, toggleForm } = useResumeStore();
   const [isImporting, setIsImporting] = useState(false);
   const [zoom, setZoom] = useState(0.8);
@@ -149,45 +149,122 @@ export default function App() {
     }
   };
 
+  if (view === "about") {
+    return (
+      <div className="min-h-screen bg-white p-6 md:p-12 max-w-4xl mx-auto space-y-12 font-sans">
+        <button onClick={() => setView("landing")} className="flex items-center gap-2 text-blue-600 font-black uppercase text-xs tracking-widest mb-12">
+          <ChevronLeft size={16} /> Back to Home
+        </button>
+        <div className="space-y-6">
+          <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-gray-900 leading-tight">Helping You Win Your Next Job.</h1>
+          <p className="text-xl md:text-2xl text-gray-500 font-medium leading-relaxed">At Prism Resume Studio, we believe that high-quality career tools should be accessible to everyone, regardless of their budget. That's why we built the world's most advanced, free-to-use resume builder.</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-8">
+           <div className="space-y-4">
+              <h3 className="text-2xl font-black text-gray-900">Our Mission</h3>
+              <p className="text-gray-600 leading-relaxed">Our mission is simple: to democratize professional design. We provide premium resume frameworks that are usually hidden behind expensive paywalls. We focus on speed, privacy, and precision, ensuring every export is perfectly formatted for ATS systems.</p>
+           </div>
+           <div className="space-y-4">
+              <h3 className="text-2xl font-black text-gray-900">Why We Are Free</h3>
+              <p className="text-gray-600 leading-relaxed">Most resume builders hold your data hostage until you pay. We do the opposite. We use non-intrusive advertisements to keep our servers running, allowing us to offer 100% of our features—including all premium templates and direct PDF exports—at no cost to you.</p>
+           </div>
+        </div>
+
+        <div className="py-12 border-y border-gray-100 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div className="space-y-2">
+               <p className="text-4xl font-black text-blue-600">100%</p>
+               <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Privacy Focused</p>
+            </div>
+            <div className="space-y-2">
+               <p className="text-4xl font-black text-blue-600">0</p>
+               <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Registration Required</p>
+            </div>
+            <div className="space-y-2">
+               <p className="text-4xl font-black text-blue-600">12+</p>
+               <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Designer Templates</p>
+            </div>
+        </div>
+
+        <div className="space-y-6">
+           <h3 className="text-2xl font-black text-gray-900">Our Technology</h3>
+           <p className="text-gray-600">Unlike traditional editors, Prism Studio works entirely in your browser. We don't store your personal stories on our servers. Your data is yours. Using modern React-based rendering, we ensure your resume looks exactly the same on the screen as it does on paper.</p>
+        </div>
+
+        <div className="pt-12 text-center">
+           <button 
+             onClick={() => setView("editor")}
+             className="px-12 py-5 bg-gray-900 text-white rounded-[24px] font-black uppercase text-xs tracking-[0.2em] hover:bg-blue-600 transition-all shadow-2xl"
+           >
+              Try the Editor
+           </button>
+        </div>
+      </div>
+    );
+  }
+
   if (view === "privacy") {
     return (
-      <div className="min-h-screen bg-white p-12 max-w-4xl mx-auto space-y-8 font-sans">
+      <div className="min-h-screen bg-white p-6 md:p-12 max-w-4xl mx-auto space-y-8 font-sans">
         <button onClick={() => setView("landing")} className="flex items-center gap-2 text-blue-600 font-black uppercase text-xs tracking-widest mb-12">
           <ChevronLeft size={16} /> Back to Home
         </button>
         <h1 className="text-6xl font-black tracking-tighter">Privacy Policy</h1>
-        <div className="my-8 py-4 bg-gray-50 flex items-center justify-center rounded-2xl border border-gray-100 overflow-hidden">
-          <ScriptAd 
-            src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
-            options={{
-              'key' : 'c1a1fd1c38b67f937be1735b780adca9',
-              'format' : 'iframe',
-              'height' : 90,
-              'width' : 728,
-              'params' : {}
-            }}
-          />
+        
+        <div className="space-y-6 text-gray-600 leading-relaxed">
+          <p className="font-bold text-gray-900">Effective Date: May 7, 2026</p>
+          <p>Prism Resume Studio is committed to protecting your privacy. This policy explains how we handle your information when you use our application.</p>
+          
+          <h2 className="text-2xl font-black text-gray-900 pt-4">No Data Collection</h2>
+          <p>The most important thing for you to know is that **we do not collect, store, or share your personal resume data**. Our application operates 100% on the client-side (inside your browser). When you enter your professional details, they are stored in your browser's local memory or session storage to facilitate the real-time preview. This data never reaches our servers.</p>
+          
+          <h2 className="text-2xl font-black text-gray-900 pt-4">Google AdSense & Cookies</h2>
+          <p>We use third-party advertising companies to serve ads when you visit our website. These companies may use cookies and web beacons to collect non-personally identifiable information (such as your IP address, browser type, and the pages you visit) to provide advertisements about goods and services that may be of interest to you.</p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Google, as a third-party vendor, uses cookies to serve ads on your site.</li>
+            <li>Google's use of the DART cookie enables it to serve ads to your users based on their visit to your sites and other sites on the Internet.</li>
+            <li>Users may opt out of the use of the DART cookie by visiting the Google ad and content network privacy policy.</li>
+          </ul>
+
+          <h2 className="text-2xl font-black text-gray-900 pt-4">Log Files</h2>
+          <p>Like most standard website servers, we use log files. This includes internet protocol (IP) addresses, browser type, internet service provider (ISP), referring/exit pages, platform type, date/time stamp, and number of clicks to analyze trends, administer the site, track user’s movement in the aggregate, and gather broad demographic information for aggregate use. This information is not linked to any personally identifiable information.</p>
+
+          <h2 className="text-2xl font-black text-gray-900 pt-4">Contact Information</h2>
+          <p>If you have any questions or suggestions regarding our privacy policy, please contact us at thenewyouai@gmail.com.</p>
         </div>
-        <p className="text-gray-600 leading-relaxed font-medium">Your privacy is our priority. Prism Resume Studio operates entirely on the client-side. This means your personal data, resume content, and uploaded images are stored locally in your browser's session storage and are never transmitted to our servers. We do not maintain a database of your personal information.</p>
-        <h2 className="text-2xl font-black">Data Usage</h2>
-        <p className="text-gray-500">We do not track your personal identity. We use standard analytical tools to improve the user interface and performance of the application without collecting PII (Personally Identifiable Information).</p>
       </div>
     );
   }
 
   if (view === "terms") {
     return (
-      <div className="min-h-screen bg-white p-12 max-w-4xl mx-auto space-y-8 font-sans">
+      <div className="min-h-screen bg-white p-6 md:p-12 max-w-4xl mx-auto space-y-8 font-sans">
         <button onClick={() => setView("landing")} className="flex items-center gap-2 text-blue-600 font-black uppercase text-xs tracking-widest mb-12">
           <ChevronLeft size={16} /> Back to Home
         </button>
-        <h1 className="text-6xl font-black tracking-tighter">Terms & Conditions</h1>
-        <div className="my-8 py-4 bg-gray-50 flex items-center justify-center rounded-2xl border border-gray-100 overflow-hidden">
-          <AdContainer id="a870fdd741d63cdfaeb2898e965a37bb" className="shadow-sm" />
+        <h1 className="text-6xl font-black tracking-tighter">Terms of Service</h1>
+        
+        <div className="space-y-6 text-gray-600 leading-relaxed">
+          <p>By accessing and using Prism Resume Studio, you agree to comply with and be bound by the following terms and conditions of use.</p>
+          
+          <h2 className="text-2xl font-black text-gray-900 pt-4">Use License</h2>
+          <p>Permission is granted to temporarily use Prism Resume Studio for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:</p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Modify or copy the core code;</li>
+            <li>Use the templates for any commercial resale purpose;</li>
+            <li>Attempt to decompile or reverse engineer any software contained on the website;</li>
+            <li>Remove any copyright or other proprietary notations from the materials.</li>
+          </ul>
+
+          <h2 className="text-2xl font-black text-gray-900 pt-4">Disclaimer</h2>
+          <p>The materials on Prism Resume Studio's website are provided on an 'as is' basis. Prism Resume Studio makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+
+          <h2 className="text-2xl font-black text-gray-900 pt-4">Limitations</h2>
+          <p>In no event shall Prism Resume Studio or its partners be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on the website.</p>
+
+          <h2 className="text-2xl font-black text-gray-900 pt-4">Accuracy of Materials</h2>
+          <p>The materials appearing on the website could include technical, typographical, or photographic errors. Prism Resume Studio does not warrant that any of the materials on its website are accurate, complete or current. We may make changes to the materials contained on its website at any time without notice.</p>
         </div>
-        <p className="text-gray-600 leading-relaxed font-medium font-medium">By using Prism Resume Studio, you agree to these terms. This tool is provided as-is for personal resume creation. You are responsible for the content you create and ensuring you have the rights to use any images or information provided.</p>
-        <h2 className="text-2xl font-black">Usage License</h2>
-        <p className="text-gray-500">You may use the resumes generated for any legal professional purpose. You may not reverse engineer, redistribute, or sell the core application engine without explicit permission.</p>
       </div>
     );
   }
@@ -221,7 +298,8 @@ export default function App() {
         <nav className="relative z-50 px-4 md:px-12 py-6 flex justify-between items-center max-w-[1600px] mx-auto">
           <Logo />
           <div className="hidden md:flex items-center gap-10">
-             {/* Ad space */}
+             <button onClick={() => setView("about")} className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">About</button>
+             <button onClick={() => setView("contact")} className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">Support</button>
           </div>
           <button 
             onClick={() => setView("editor")}
@@ -410,6 +488,33 @@ export default function App() {
             </motion.div>
           </div>
 
+          {/* How it Works Section */}
+          <section className="mt-24 md:mt-48 relative">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+              <div className="space-y-6">
+                <div className="w-14 h-14 bg-white rounded-2xl shadow-xl flex items-center justify-center text-blue-600 border border-gray-50">
+                  <FileText size={24} />
+                </div>
+                <h3 className="text-xl font-black uppercase tracking-tighter">1. Add Details</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">Enter your personal information, work experience, and education. Everything is saved locally in your browser for absolute privacy.</p>
+              </div>
+              <div className="space-y-6">
+                <div className="w-14 h-14 bg-white rounded-2xl shadow-xl flex items-center justify-center text-indigo-600 border border-gray-50">
+                  <Layout size={24} />
+                </div>
+                <h3 className="text-xl font-black uppercase tracking-tighter">2. Pick Design</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">Choose from our collection of professional, recruiter-approved templates. Mix and match layouts to find your perfect fit.</p>
+              </div>
+              <div className="space-y-6">
+                <div className="w-14 h-14 bg-white rounded-2xl shadow-xl flex items-center justify-center text-emerald-600 border border-gray-100">
+                   <Download size={24} />
+                </div>
+                <h3 className="text-xl font-black uppercase tracking-tighter">3. Export Free</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">Generate your high-quality PDF resume instantly. No watermarks, no hidden fees. Ready to send to employers.</p>
+              </div>
+            </div>
+          </section>
+
           <section className="mt-24 md:mt-48 space-y-16 px-4 md:px-0">
             <div className="text-center space-y-4">
               <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">Free Styles</h3>
@@ -532,7 +637,8 @@ export default function App() {
             
             <footer className="pt-20 pb-12 border-t border-gray-200/50 flex flex-col md:flex-row justify-between items-center gap-8">
                <Logo className="opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
-               <div className="flex gap-12 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+               <div className="flex flex-wrap justify-center gap-6 md:gap-12 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+                  <button onClick={() => setView("about")} className="hover:text-gray-900">About Us</button>
                   <button onClick={() => setView("privacy")} className="hover:text-gray-900">Privacy</button>
                   <button onClick={() => setView("terms")} className="hover:text-gray-900">Terms</button>
                   <button onClick={() => setView("contact")} className="hover:text-gray-900">Contact</button>
@@ -788,8 +894,14 @@ export default function App() {
             />
           </div>
           
-          <div className="text-center space-y-4 opacity-50">
-            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-900">
+          <div className="text-center space-y-6 opacity-60">
+            <div className="flex flex-wrap justify-center gap-8 text-[9px] font-black uppercase tracking-widest text-gray-400">
+               <button onClick={() => setView("about")} className="hover:text-blue-600 transition-colors">About Us</button>
+               <button onClick={() => setView("privacy")} className="hover:text-blue-600 transition-colors">Privacy</button>
+               <button onClick={() => setView("terms")} className="hover:text-blue-600 transition-colors">Terms</button>
+               <button onClick={() => setView("contact")} className="hover:text-blue-600 transition-colors">Support</button>
+            </div>
+            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-900 pt-4">
               Prism Studio v4.0.2
             </p>
             <div className="flex gap-8 justify-center">
