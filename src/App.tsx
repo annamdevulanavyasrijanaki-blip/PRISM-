@@ -27,8 +27,6 @@ import SourceSidebar from "./components/SourceSidebar";
 import Logo from "./components/Logo";
 import { cn } from "./lib/utils";
 
-import { AdContainer, ScriptAd } from "./components/AdBanner";
-
 export default function App() {
   const [view, setView] = useState<"landing" | "editor" | "privacy" | "terms" | "contact" | "about">("landing");
   const { data, setData, resetData, sidebarOpen, toggleSidebar, formOpen, toggleForm } = useResumeStore();
@@ -174,15 +172,15 @@ export default function App() {
         <div className="py-12 border-y border-gray-100 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div className="space-y-2">
                <p className="text-4xl font-black text-blue-600">100%</p>
-               <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Privacy Focused</p>
+               <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">Privacy Focused</p>
             </div>
             <div className="space-y-2">
                <p className="text-4xl font-black text-blue-600">0</p>
-               <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Registration Required</p>
+               <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">Registration Required</p>
             </div>
             <div className="space-y-2">
                <p className="text-4xl font-black text-blue-600">12+</p>
-               <p className="text-[10px] font-black uppercase tracking-widest text-gray-400">Designer Templates</p>
+               <p className="text-[10px] font-black uppercase tracking-widest text-gray-500">Designer Templates</p>
             </div>
         </div>
 
@@ -316,20 +314,20 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }} 
               className="space-y-8 md:space-y-12"
             >
-              <div className="inline-flex items-center gap-3 px-4 py-2 bg-green-50 rounded-full border border-green-100 shadow-sm">
-                <Sparkles size={14} className="text-green-600" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-green-700">100% Free Forever • No Login Needed</span>
+              <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-50 rounded-full border border-blue-100 shadow-sm">
+                <Sparkles size={14} className="text-blue-600" />
+                <span className="text-[10px] font-black uppercase tracking-widest text-blue-700">100% Free • No Account Required</span>
               </div>
               
               <div className="relative">
                 <h2 className="text-4xl sm:text-6xl md:text-8xl lg:text-[90px] font-black tracking-tighter leading-[0.9] text-gray-900">
-                  Best Free <br />
+                  Professional <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 italic">Resume Builder.</span>
                 </h2>
               </div>
               
-              <p className="text-lg md:text-xl text-gray-500 font-medium leading-relaxed max-w-xl">
-                Make your professional resume in minutes. Easy to use. 100% private. No hidden costs. Perfect for everyone.
+              <p className="text-lg md:text-xl text-gray-600 font-medium leading-relaxed max-w-xl">
+                Create your job-winning resume in minutes. Easy to use, 100% private, and permanently free. No hidden fees or watermarks.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
@@ -347,7 +345,7 @@ export default function App() {
                    ))}
                    <div className="pl-4">
                       <p className="text-[10px] font-black text-gray-900 uppercase">Used by Thousands</p>
-                      <p className="text-[8px] text-gray-400 font-bold uppercase">Daily Users</p>
+                      <p className="text-[8px] text-gray-500 font-bold uppercase">Daily Users</p>
                    </div>
                 </div>
               </div>
@@ -355,15 +353,15 @@ export default function App() {
               <div className="grid grid-cols-3 gap-4 md:gap-8 pt-10 border-t border-gray-200/50">
                 <div className="space-y-1">
                    <p className="text-2xl font-black text-gray-900">FREE</p>
-                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Forever</p>
+                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">Permanently</p>
                 </div>
                 <div className="space-y-1">
                    <p className="text-2xl font-black text-gray-900">SAFE</p>
-                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Total Privacy</p>
+                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">Total Privacy</p>
                 </div>
                 <div className="space-y-1">
                    <p className="text-2xl font-black text-gray-900">FAST</p>
-                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400">Easy Export</p>
+                   <p className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-500">Easy Export</p>
                 </div>
               </div>
             </motion.div>
@@ -517,9 +515,9 @@ export default function App() {
 
           <section className="mt-24 md:mt-48 space-y-16 px-4 md:px-0">
             <div className="text-center space-y-4">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">Free Styles</h3>
+              <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">Template Library</h3>
               <h4 className="text-4xl md:text-7xl font-black tracking-tighter leading-tight text-gray-900">Explore Templates.</h4>
-              <p className="text-gray-400 font-bold uppercase tracking-widest text-[9px]">Select a template to start building</p>
+              <p className="text-gray-500 font-bold uppercase tracking-widest text-[9px]">Select a format to begin your application</p>
             </div>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
@@ -594,10 +592,10 @@ export default function App() {
                   
                   <div className="relative z-10 flex flex-col flex-grow">
                     <div className="flex items-center justify-between mb-2">
-                      <h5 className="text-lg font-black uppercase tracking-tighter group-hover:text-blue-600 leading-none">{template.name}</h5>
+                      <h5 className="text-lg font-black uppercase tracking-tighter group-hover:text-blue-600 transition-colors leading-none">{template.name}</h5>
                       <span className={cn("w-2 h-2 rounded-full", template.color)} />
                     </div>
-                    <p className="text-[10px] text-gray-400 font-bold leading-tight mb-4 uppercase tracking-widest">{template.desc}</p>
+                    <p className="text-[10px] text-gray-500 font-bold leading-tight mb-4 uppercase tracking-widest">{template.desc}</p>
                     
                     <div className="flex items-center justify-end pt-4 border-t border-gray-50 mt-auto">
                        <div className="px-4 py-2 bg-gray-900 text-white rounded-lg text-[8px] font-black uppercase tracking-widest group-hover:bg-blue-600 transition-colors">
@@ -636,14 +634,14 @@ export default function App() {
             </div>
             
             <footer className="pt-20 pb-12 border-t border-gray-200/50 flex flex-col md:flex-row justify-between items-center gap-8">
-               <Logo className="opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
-               <div className="flex flex-wrap justify-center gap-6 md:gap-12 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400">
+               <Logo className="opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all" />
+               <div className="flex flex-wrap justify-center gap-6 md:gap-12 text-[10px] font-black uppercase tracking-[0.2em] text-gray-500">
                   <button onClick={() => setView("about")} className="hover:text-gray-900">About Us</button>
                   <button onClick={() => setView("privacy")} className="hover:text-gray-900">Privacy</button>
                   <button onClick={() => setView("terms")} className="hover:text-gray-900">Terms</button>
                   <button onClick={() => setView("contact")} className="hover:text-gray-900">Contact</button>
                </div>
-               <p className="text-[9px] font-bold text-gray-400 uppercase">Free Forever • Built for you</p>
+               <p className="text-[9px] font-bold text-gray-500 uppercase tracking-widest">Free Forever • Built for you</p>
             </footer>
           </section>
         </main>
@@ -790,20 +788,6 @@ export default function App() {
                     </button>
                   </div>
                   <ResumeForm />
-                  
-                  <div className="mt-12 pt-8 border-t border-gray-100 flex justify-center">
-                    <ScriptAd 
-                      src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
-                      options={{
-                        'key' : 'c1a1fd1c38b67f937be1735b780adca9',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
-                      }}
-                      className="rounded-xl overflow-hidden shadow-sm"
-                    />
-                  </div>
                 </section>
 
                 <div className="text-center pt-8 pb-12 opacity-30 group hover:opacity-100 transition-opacity">
@@ -877,34 +861,17 @@ export default function App() {
           </div>
         </div>
 
-        {/* Dedicated Non-Intrusive Ad Footer Area within Main - Absolute Bottom */}
+        {/* Support Section - Absolute Bottom */}
         <div className="mt-32 pb-16 border-t border-gray-100 flex flex-col items-center gap-12 no-print relative z-10">
-          <div className="flex flex-wrap justify-center gap-12 pt-12">
-            <AdContainer id="a870fdd741d63cdfaeb2898e965a37bb" className="shadow-sm rounded-lg overflow-hidden" />
-            <ScriptAd 
-              src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
-              options={{
-                'key' : 'c1a1fd1c38b67f937be1735b780adca9',
-                'format' : 'iframe',
-                'height' : 50,
-                'width' : 320,
-                'params' : {}
-              }}
-              className="flex justify-center border border-gray-50 rounded-lg p-2"
-            />
-          </div>
-          
-          <div className="text-center space-y-6 opacity-60">
-            <div className="flex flex-wrap justify-center gap-8 text-[9px] font-black uppercase tracking-widest text-gray-400">
+          <div className="text-center space-y-8 opacity-80 pt-12">
+            <div className="flex flex-wrap justify-center gap-8 text-[11px] font-black uppercase tracking-widest text-gray-500">
                <button onClick={() => setView("about")} className="hover:text-blue-600 transition-colors">About Us</button>
                <button onClick={() => setView("privacy")} className="hover:text-blue-600 transition-colors">Privacy</button>
                <button onClick={() => setView("terms")} className="hover:text-blue-600 transition-colors">Terms</button>
                <button onClick={() => setView("contact")} className="hover:text-blue-600 transition-colors">Support</button>
             </div>
-            <p className="text-[10px] font-black uppercase tracking-[0.5em] text-gray-900 pt-4">
-              Prism Studio v4.0.2
-            </p>
-            <div className="flex gap-8 justify-center">
+            
+            <div className="flex gap-8 justify-center pt-4">
               <span className="text-[8px] uppercase font-bold tracking-[0.2em] text-gray-400 underline decoration-gray-200">System Status: Optimal</span>
               <span className="text-[8px] uppercase font-bold tracking-[0.2em] text-gray-400 underline decoration-gray-200">A4 Vector Engine: Active</span>
             </div>
