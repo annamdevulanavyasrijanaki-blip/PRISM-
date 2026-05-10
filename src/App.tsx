@@ -26,7 +26,6 @@ import DesignerTemplate from "./components/templates/DesignerTemplate";
 import SourceSidebar from "./components/SourceSidebar";
 import Logo from "./components/Logo";
 import { cn } from "./lib/utils";
-import { AdContainer, ScriptAd } from "./components/AdBanner";
 
 export default function App() {
   const [view, setView] = useState<"landing" | "editor" | "privacy" | "terms" | "contact" | "about">("landing");
@@ -789,20 +788,6 @@ export default function App() {
                     </button>
                   </div>
                   <ResumeForm />
-
-                  <div className="mt-12 pt-8 border-t border-gray-100 flex justify-center">
-                    <ScriptAd 
-                      src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
-                      options={{
-                        'key' : 'c1a1fd1c38b67f937be1735b780adca9',
-                        'format' : 'iframe',
-                        'height' : 250,
-                        'width' : 300,
-                        'params' : {}
-                      }}
-                      className="rounded-xl overflow-hidden shadow-sm"
-                    />
-                  </div>
                 </section>
 
                 <div className="text-center pt-8 pb-12 opacity-30 group hover:opacity-100 transition-opacity">
@@ -878,21 +863,6 @@ export default function App() {
 
         {/* Support Section - Absolute Bottom */}
         <div className="mt-32 pb-16 border-t border-gray-100 flex flex-col items-center gap-12 no-print relative z-10">
-          <div className="flex flex-wrap justify-center gap-12 pt-12">
-            <AdContainer id="a870fdd741d63cdfaeb2898e965a37bb" className="shadow-sm rounded-lg overflow-hidden" />
-            <ScriptAd 
-              src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
-              options={{
-                'key' : 'c1a1fd1c38b67f937be1735b780adca9',
-                'format' : 'iframe',
-                'height' : 50,
-                'width' : 320,
-                'params' : {}
-              }}
-              className="flex justify-center border border-gray-50 rounded-lg p-2"
-            />
-          </div>
-          
           <div className="text-center space-y-8 opacity-80 pt-12">
             <div className="flex flex-wrap justify-center gap-8 text-[11px] font-black uppercase tracking-widest text-gray-500">
                <button onClick={() => setView("about")} className="hover:text-blue-600 transition-colors">About Us</button>
