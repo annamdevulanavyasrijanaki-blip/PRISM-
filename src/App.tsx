@@ -5,7 +5,7 @@
 
 import { useRef, useState, useEffect, CSSProperties } from "react";
 import { useReactToPrint } from "react-to-print";
-import { Download, FileText, Settings, Layout, Sparkles, MonitorPause, ChevronLeft, ArrowRight } from "lucide-react";
+import { Download, FileText, Settings, Layout, Sparkles, MonitorPause, ChevronLeft, ArrowRight, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ResumeData, SAMPLE_RESUME_DATA } from "./types";
 import { useResumeStore } from "./store/useResumeStore";
@@ -293,49 +293,49 @@ export default function App() {
           <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-purple-400/10 rounded-full blur-[100px]" />
         </div>
 
-        <nav className="relative z-50 px-4 md:px-12 py-6 flex justify-between items-center max-w-[1600px] mx-auto">
+        <nav className="relative z-50 px-6 md:px-12 py-4 md:py-6 flex justify-between items-center max-w-[1600px] mx-auto">
           <Logo />
           <div className="hidden md:flex items-center gap-10">
-             <button onClick={() => setView("about")} className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">About</button>
-             <button onClick={() => setView("contact")} className="text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">Support</button>
+             <button onClick={() => setView("about")} className="text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">About</button>
+             <button onClick={() => setView("contact")} className="text-[9px] font-black uppercase tracking-widest text-gray-400 hover:text-blue-600 transition-colors">Support</button>
           </div>
           <button 
             onClick={() => setView("editor")}
-            className="px-6 py-2.5 bg-blue-600 text-white rounded-full font-black uppercase text-[10px] tracking-widest shadow-lg shadow-blue-500/20 active:scale-95 transition-transform"
+            className="px-5 py-2 bg-blue-600 text-white rounded-full font-black uppercase text-[9px] tracking-widest shadow-lg shadow-blue-500/20 active:scale-95 transition-transform"
           >
             Start Now
           </button>
         </nav>
 
-        <main className="relative z-10 max-w-[1600px] mx-auto px-4 md:px-12 pt-8 md:pt-24 pb-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-32 items-center">
+        <main className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 pt-10 md:pt-24 pb-32">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
             <motion.div 
               initial={{ opacity: 0, y: 30 }} 
               animate={{ opacity: 1, y: 0 }} 
-              className="space-y-8 md:space-y-12"
+              className="space-y-6 md:space-y-10"
             >
-              <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-50 rounded-full border border-blue-100 shadow-sm">
-                <Sparkles size={14} className="text-blue-600" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-blue-700">100% Free • No Account Required</span>
+              <div className="inline-flex items-center gap-3 px-3 py-1.5 bg-blue-50 rounded-full border border-blue-100 shadow-sm">
+                <Sparkles size={12} className="text-blue-600" />
+                <span className="text-[9px] font-black uppercase tracking-widest text-blue-700">100% Free • No Account Required</span>
               </div>
               
               <div className="relative">
-                <h2 className="text-4xl sm:text-6xl md:text-8xl lg:text-[90px] font-black tracking-tighter leading-[0.9] text-gray-900">
+                <h2 className="text-3xl sm:text-5xl md:text-7xl lg:text-[80px] font-black tracking-tighter leading-[0.9] text-gray-900">
                   Professional <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600 italic">Resume Builder.</span>
                 </h2>
               </div>
               
-              <p className="text-lg md:text-xl text-gray-600 font-medium leading-relaxed max-w-xl">
+              <p className="text-base md:text-lg text-gray-600 font-medium leading-relaxed max-w-xl">
                 Create your job-winning resume in minutes. Easy to use, 100% private, and permanently free. No hidden fees or watermarks.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
+              <div className="flex flex-col sm:flex-row items-center gap-6 pt-2">
                 <button 
                   onClick={() => setView("editor")}
-                  className="w-full sm:w-auto group px-10 py-5 bg-gray-900 text-white rounded-[24px] font-black uppercase text-xs tracking-[0.2em] flex items-center justify-center gap-4 hover:bg-blue-600 transition-all active:scale-95 shadow-2xl"
+                  className="w-full sm:w-auto group px-8 py-4 bg-gray-900 text-white rounded-[20px] font-black uppercase text-[11px] tracking-[0.2em] flex items-center justify-center gap-4 hover:bg-blue-600 transition-all active:scale-95 shadow-2xl"
                 >
-                   Start Building <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
+                   Start Building <ArrowRight size={16} className="group-hover:translate-x-2 transition-transform" />
                 </button>
                 <div className="flex -space-x-3">
                    {[1,2,3].map(i => (
@@ -652,24 +652,24 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F8F9FA] text-gray-900 font-sans selection:bg-blue-100 selection:text-blue-900 scroll-smooth">
       {/* High-End Navigation */}
-      <nav className="sticky top-0 z-50 bg-[#F8F9FA]/80 backdrop-blur-xl border-b border-gray-200/50 px-8 py-5">
+      <nav className="sticky top-0 z-50 bg-[#F8F9FA]/80 backdrop-blur-xl border-b border-gray-200/50 px-4 md:px-8 py-3 md:py-4">
         <div className="max-w-[1600px] mx-auto flex justify-between items-center">
-          <button onClick={() => setView("landing")} className="flex items-center gap-6 group">
-            <div className="w-12 h-12 bg-gray-900 rounded-[20px] flex items-center justify-center text-white shadow-2xl transition-all group-hover:bg-blue-600 group-hover:rotate-12">
-              <ChevronLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+          <button onClick={() => setView("landing")} className="flex items-center gap-3 md:gap-6 group">
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-gray-900 rounded-[16px] md:rounded-[20px] flex items-center justify-center text-white shadow-2xl transition-all group-hover:bg-blue-600 group-hover:rotate-12">
+              <ChevronLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
             </div>
             <div className="text-left">
-              <h1 className="font-black text-xl leading-none tracking-tighter uppercase whitespace-nowrap">Prism Studio</h1>
-              <p className="text-[9px] uppercase tracking-[0.4em] text-gray-400 font-black mt-1">Exit to Landing</p>
+              <h1 className="font-black text-lg md:text-xl leading-none tracking-tighter uppercase whitespace-nowrap">Prism Studio</h1>
+              <p className="text-[8px] uppercase tracking-[0.4em] text-gray-400 font-black mt-1">Exit to Landing</p>
             </div>
           </button>
 
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 md:gap-6">
             {/* Quick Scale Control */}
-            <div className="hidden xl:flex items-center gap-4 px-6 py-3 bg-white border border-gray-100/50 rounded-2xl shadow-sm">
+            <div className="hidden xl:flex items-center gap-4 px-4 py-2.5 bg-white border border-gray-100/50 rounded-2xl shadow-sm">
               <div className="flex flex-col">
-                <span className="text-[8px] font-black uppercase text-gray-400 tracking-widest leading-none mb-1">Canvas Zoom</span>
-                <span className="text-[10px] font-black text-blue-600">{Math.round(zoom * 100)}%</span>
+                <span className="text-[7px] font-black uppercase text-gray-400 tracking-widest leading-none mb-1">Canvas Zoom</span>
+                <span className="text-[9px] font-black text-blue-600">{Math.round(zoom * 100)}%</span>
               </div>
               <input 
                 type="range"
@@ -678,7 +678,7 @@ export default function App() {
                 step="0.05"
                 value={zoom}
                 onChange={(e) => setZoom(parseFloat(e.target.value))}
-                className="w-32 h-1 bg-gray-100 rounded-full appearance-none cursor-pointer accent-blue-600"
+                className="w-24 h-1 bg-gray-100 rounded-full appearance-none cursor-pointer accent-blue-600"
               />
             </div>
 
@@ -686,16 +686,16 @@ export default function App() {
               <button
                 onClick={exportDirectPdf}
                 disabled={isImporting}
-                className="relative overflow-hidden group flex items-center gap-3 bg-gray-900 text-white px-8 py-3.5 rounded-2xl transition-all active:scale-95 font-black text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-gray-200 disabled:opacity-50"
+                className="relative overflow-hidden group flex items-center gap-2 md:gap-3 bg-gray-900 text-white px-5 md:px-8 py-2.5 md:py-3.5 rounded-xl md:rounded-2xl transition-all active:scale-95 font-black text-[9px] md:text-[10px] uppercase tracking-[0.2em] shadow-2xl shadow-gray-200 disabled:opacity-50"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="relative z-10 flex items-center gap-3">
+                <div className="relative z-10 flex items-center gap-2 md:gap-3">
                   {isImporting ? (
-                    <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    <span className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                   ) : (
                     <Download size={14} strokeWidth={3} />
                   )}
-                  Export PDF
+                  Export
                 </div>
               </button>
             </div>
@@ -703,9 +703,9 @@ export default function App() {
         </div>
       </nav>
 
-      <main className="max-w-none mx-auto px-2 md:px-8 py-6 md:pt-12 no-print relative">
+      <main className="max-w-none mx-auto px-4 md:px-8 py-4 md:pt-12 no-print relative">
         {/* Horizontal Toggle Shelf */}
-        <div className="flex gap-4 mb-6 md:mb-8 no-print overflow-x-auto pb-2 scrollbar-hide">
+        <div className="flex gap-3 mb-4 md:mb-8 no-print overflow-x-auto pb-2 scrollbar-hide">
           <AnimatePresence>
             {!sidebarOpen && (
               <motion.button
@@ -714,12 +714,12 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 onClick={() => toggleSidebar(true)}
-                className="px-4 md:px-6 py-3 bg-orange-50 border border-orange-100 rounded-2xl flex items-center gap-3 group hover:bg-orange-100 transition-all shadow-sm shrink-0"
+                className="px-4 py-2.5 bg-orange-50 border border-orange-100 rounded-xl md:rounded-2xl flex items-center gap-2.5 group hover:bg-orange-100 transition-all shadow-sm shrink-0"
               >
-                <div className="w-6 h-6 rounded-lg bg-orange-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform">
-                   <FileText size={12} />
+                <div className="w-5 h-5 rounded-lg bg-orange-500 text-white flex items-center justify-center group-hover:scale-110 transition-transform">
+                   <FileText size={10} />
                 </div>
-                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-orange-600">Source</span>
+                <span className="text-[8px] font-black uppercase tracking-[0.2em] text-orange-600">Source</span>
               </motion.button>
             )}
             {!formOpen && (
@@ -729,12 +729,12 @@ export default function App() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 onClick={() => toggleForm(true)}
-                className="px-4 md:px-6 py-3 bg-blue-50 border border-blue-100 rounded-2xl flex items-center gap-3 group hover:bg-blue-100 transition-all shadow-sm shrink-0"
+                className="px-4 py-2.5 bg-blue-50 border border-blue-100 rounded-xl md:rounded-2xl flex items-center gap-2.5 group hover:bg-blue-100 transition-all shadow-sm shrink-0"
               >
-                <div className="w-6 h-6 rounded-lg bg-blue-600 text-white flex items-center justify-center group-hover:scale-110 transition-transform">
-                   <Layout size={12} />
+                <div className="w-5 h-5 rounded-lg bg-blue-600 text-white flex items-center justify-center group-hover:scale-110 transition-transform">
+                   <Layout size={10} />
                 </div>
-                <span className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-600">Editor</span>
+                <span className="text-[8px] font-black uppercase tracking-[0.2em] text-blue-600">Editor</span>
               </motion.button>
             )}
           </AnimatePresence>
@@ -751,7 +751,7 @@ export default function App() {
                 animate={{ opacity: 1, x: 0, width: 'auto' }}
                 exit={{ opacity: 0, x: -300, width: 0 }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                className="hidden lg:block lg:col-span-3 xl:col-span-2 sticky top-32 h-[calc(100vh-160px)] no-print sidebar-source overflow-hidden sidebar-controls"
+                className="lg:col-span-3 xl:col-span-2 sticky top-32 lg:h-[calc(100vh-160px)] no-print sidebar-source overflow-hidden sidebar-controls z-40 bg-white"
               >
                 <SourceSidebar />
               </motion.div>
@@ -760,7 +760,7 @@ export default function App() {
 
           {/* Controls Panel */}
           <AnimatePresence>
-            {formOpen ? (
+            {formOpen && (
               <motion.div 
                 key="form-editor-container"
                 initial={{ opacity: 0, scale: 0.95, width: '100%' }}
@@ -771,33 +771,31 @@ export default function App() {
                   sidebarOpen ? "lg:col-span-4 xl:col-span-4" : "lg:col-span-5 xl:col-span-5"
                 )}
               >
-                <section className="bg-white rounded-[32px] md:rounded-[40px] p-4 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.02)] border border-gray-50 relative">
+                <section className="bg-white rounded-[24px] md:rounded-[40px] p-5 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.02)] border border-gray-50 relative">
                   <div className="flex items-center justify-between mb-6 md:mb-8">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400">
-                        <Settings size={14} strokeWidth={3} />
+                      <div className="w-7 h-7 rounded-full bg-gray-50 flex items-center justify-center text-gray-400">
+                        <Settings size={12} strokeWidth={3} />
                       </div>
-                      <h2 className="text-[10px] uppercase font-black tracking-[0.2em] text-gray-400">Editor</h2>
+                      <h2 className="text-[9px] uppercase font-black tracking-[0.2em] text-gray-400">Editor</h2>
                     </div>
                     <button 
                       onClick={() => toggleForm(false)}
                       className="p-2 text-gray-300 hover:text-gray-900 transition-colors"
                       title="Hide Editor"
                     >
-                      <ChevronLeft size={16} />
+                      <X size={16} />
                     </button>
                   </div>
                   <ResumeForm />
                 </section>
 
                 <div className="text-center pt-8 pb-12 opacity-30 group hover:opacity-100 transition-opacity">
-                   <p className="text-[9px] uppercase font-black tracking-[0.4em] text-gray-400">
+                   <p className="text-[8px] uppercase font-black tracking-[0.4em] text-gray-400">
                      Crafted for Performance & Clarity
                    </p>
                 </div>
               </motion.div>
-            ) : (
-              <div key="form-editor-placeholder" className="lg:col-span-1 hidden" />
             )}
           </AnimatePresence>
 
@@ -805,25 +803,25 @@ export default function App() {
           <div className={cn(
             "transition-all duration-500 ease-in-out w-full relative z-20",
             sidebarOpen && formOpen ? "lg:col-span-5 xl:col-span-6" :
-            !sidebarOpen && formOpen ? "lg:col-span-7 xl:col-span-7" :
-            sidebarOpen && !formOpen ? "lg:col-span-8 xl:col-span-9" :
+            !sidebarOpen && formOpen ? "lg:col-span-12 lg:lg:col-span-7 lg:xl:col-span-7" :
+            sidebarOpen && !formOpen ? "lg:col-span-12 lg:lg:col-span-8 lg:xl:col-span-9" :
             "lg:col-span-11 xl:col-span-11"
           )}>
             <div className="relative group">
-              <div className="flex justify-between items-center mb-6 border-b border-gray-100 pb-4 no-print px-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-4 h-4 bg-blue-600 rounded-full relative z-10" />
-                  <span className="text-[9px] text-gray-400 font-bold uppercase tracking-widest block">Rendering {data.template} style</span>
+              <div className="flex justify-between items-center mb-4 border-b border-gray-100 pb-3 no-print px-2">
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 bg-blue-600 rounded-full relative z-10" />
+                  <span className="text-[8px] text-gray-400 font-bold uppercase tracking-widest block">Rendering {data.template} style</span>
                 </div>
               </div>
 
-              <div ref={wrapperRef} className="resume-viewport-wrapper no-print">
+              <div ref={wrapperRef} className="resume-viewport-wrapper no-print bg-[#F8F9FA] p-0 md:p-4 rounded-3xl min-h-[400px] flex items-start justify-center overflow-x-auto">
                 <div 
-                  className="resume-paper shadow-2xl transition-all duration-700 group-hover/canvas:shadow-[0_0_150px_rgba(0,0,0,0.15)] rounded-sm overflow-hidden"
+                  className="resume-paper shadow-2xl transition-all duration-700 group-hover/canvas:shadow-[0_0_150px_rgba(0,0,0,0.15)] rounded-sm overflow-hidden bg-white shrink-0"
                   style={{ 
                     '--res-font-scale': data.settings?.fontSize || 1,
                     transform: `scale(${zoom * autoScale})`,
-                    flexShrink: 0,
+                    transformOrigin: 'top center',
                     marginBottom: `calc((1 - ${zoom * autoScale}) * -297mm)` // Compensate for scaled space
                   } as CSSProperties}
                 >
@@ -846,17 +844,6 @@ export default function App() {
                   </AnimatePresence>
                 </div>
               </div>
-
-              {/* Pristine Document Source (for PDF/Print) */}
-              <div id="print-source-root" className="fixed top-0 left-[-9999px] print:static print:left-0 print:m-0 print:p-0">
-                <div 
-                  ref={printRef}
-                  className="resume-paper shadow-none rounded-none print-container"
-                  style={{ '--res-font-scale': data.settings?.fontSize || 1 } as CSSProperties}
-                >
-                  {renderTemplate()}
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -875,6 +862,17 @@ export default function App() {
               <span className="text-[8px] uppercase font-bold tracking-[0.2em] text-gray-400 underline decoration-gray-200">System Status: Optimal</span>
               <span className="text-[8px] uppercase font-bold tracking-[0.2em] text-gray-400 underline decoration-gray-200">A4 Vector Engine: Active</span>
             </div>
+          </div>
+        </div>
+
+        {/* Pristine Document Source (for PDF/Print) */}
+        <div id="print-source-root" className="fixed top-0 left-[-9999px] print:static print:left-0 print:m-0 print:p-0">
+          <div 
+            ref={printRef}
+            className="resume-paper shadow-none rounded-none print-container"
+            style={{ '--res-font-scale': data.settings?.fontSize || 1 } as CSSProperties}
+          >
+            {renderTemplate()}
           </div>
         </div>
       </main>
