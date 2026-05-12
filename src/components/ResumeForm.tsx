@@ -331,11 +331,11 @@ export default function ResumeForm() {
                {idx < currentStepIndex ? (
                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full" />
               ) : (
-                <span className="text-[9px] font-black">{idx + 1}</span>
+                <span className="text-[10px] font-black">{idx + 1}</span>
               )}
             </div>
             <span className={cn(
-              "text-[7px] font-black tracking-widest",
+              "text-[8px] font-black tracking-widest",
               currentStep === step.id ? "text-blue-600" : "text-gray-300 group-hover:text-gray-400"
             )}>
               {step.label}
@@ -363,13 +363,13 @@ export default function ResumeForm() {
                             <RotateCcw size={18} />
                          </div>
                          <div>
-                            <p className="text-[9px] font-black uppercase tracking-widest text-gray-900">Reset Data</p>
-                            <p className="text-[7px] text-gray-400 font-bold uppercase">Clean Canvas</p>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-gray-900">Reset Data</p>
+                            <p className="text-[8px] text-gray-400 font-bold uppercase">Clean Canvas</p>
                          </div>
                       </div>
                       <button 
                         onClick={() => { resetData(true); setCurrentStep("personal"); }}
-                        className="px-4 py-2 bg-white rounded-xl text-[8px] font-black uppercase tracking-widest text-red-500 shadow-sm border border-red-50 hover:bg-red-50 transition-all font-black"
+                        className="px-4 py-2 bg-white rounded-xl text-[9px] font-black uppercase tracking-widest text-red-500 shadow-sm border border-red-50 hover:bg-red-50 transition-all font-black"
                       >
                         Wipe Canvas
                       </button>
@@ -425,106 +425,106 @@ export default function ResumeForm() {
 
                 <div className="grid grid-cols-2 gap-6">
                   <div className="col-span-2">
-                    <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">Legal Name</label>
+                    <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">Legal Name</label>
                     <input
                       type="text"
                       value={data.personal.fullName}
                       onChange={(e) => updatePersonalField("fullName", e.target.value)}
-                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-xs focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
+                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-sm focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
                     />
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">Current Focus / Title</label>
+                    <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">Current Focus / Title</label>
                     <input
                       type="text"
                       value={data.personal.jobTitle}
                       onChange={(e) => updatePersonalField("jobTitle", e.target.value)}
-                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-xs focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
+                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-sm focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">Direct Email</label>
+                    <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">Direct Email</label>
                     <input
                       type="email"
                       value={data.personal.email}
                       onChange={(e) => updatePersonalField("email", e.target.value)}
-                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-xs focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
+                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-sm focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">Mobile</label>
+                    <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">Mobile</label>
                     <input
                       type="text"
                       value={data.personal.phone}
                       onChange={(e) => updatePersonalField("phone", e.target.value)}
-                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-xs focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
+                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-sm focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
                     />
                   </div>
                    <div className="col-span-2">
-                    <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">Location / Timezone</label>
+                    <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">Location / Timezone</label>
                     <input
                       type="text"
                       value={data.personal.location}
                       onChange={(e) => updatePersonalField("location", e.target.value)}
-                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-xs focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
+                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-sm focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
                     />
                   </div>
                   <div className="col-span-2">
-                    <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">Portfolio / Website</label>
+                    <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">Portfolio / Website</label>
                     <input
                       type="text"
                       value={data.personal.website}
                       onChange={(e) => updatePersonalField("website", e.target.value)}
                       placeholder="https://yourportfolio.com"
-                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-xs focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
+                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-sm focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">LinkedIn</label>
+                    <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">LinkedIn</label>
                     <input
                       type="text"
                       value={data.personal.linkedin || ""}
                       onChange={(e) => updatePersonalField("linkedin", e.target.value)}
                       placeholder="linkedin.com/in/username"
-                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-xs focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
+                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-sm focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">GitHub</label>
+                    <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">GitHub</label>
                     <input
                       type="text"
                       value={data.personal.github || ""}
                       onChange={(e) => updatePersonalField("github", e.target.value)}
                       placeholder="github.com/username"
-                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-xs focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
+                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-sm focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">LeetCode</label>
+                    <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">LeetCode</label>
                     <input
                       type="text"
                       value={data.personal.leetcode || ""}
                       onChange={(e) => updatePersonalField("leetcode", e.target.value)}
                       placeholder="leetcode.com/username"
-                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-xs focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
+                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-sm focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">Hackathon (Devpost/Other)</label>
+                    <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">Hackathon (Devpost/Other)</label>
                     <input
                       type="text"
                       value={data.personal.hackathon || ""}
                       onChange={(e) => updatePersonalField("hackathon", e.target.value)}
                       placeholder="devpost.com/username"
-                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-xs focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
+                      className="w-full p-4 bg-gray-50/50 border border-gray-100 rounded-[20px] text-sm focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none"
                     />
                   </div>
                   <div className="col-span-2 relative">
                     <div className="flex justify-between items-center mb-2 px-1">
-                      <label className="block text-[8px] uppercase font-black text-gray-400">Professional Summary</label>
+                      <label className="block text-[9px] uppercase font-black text-gray-400">Professional Summary</label>
                       <button 
                         onClick={() => setShowSuggestions(showSuggestions === 'summary' ? null : 'summary')}
-                        className="flex items-center gap-1.5 text-[8px] uppercase font-black text-blue-500 hover:text-blue-600 transition-colors"
+                        className="flex items-center gap-1.5 text-[9px] uppercase font-black text-blue-500 hover:text-blue-600 transition-colors"
                       >
                         <Sparkles size={11} strokeWidth={3} /> Suggest Ideas
                       </button>
@@ -537,12 +537,12 @@ export default function ResumeForm() {
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           className="absolute z-50 bottom-full left-0 right-0 mb-4 p-4 bg-white border border-gray-100 shadow-2xl rounded-[32px] space-y-2 max-h-64 overflow-y-auto backdrop-blur-xl bg-white/95"
                         >
-                          <p className="text-[8px] font-black uppercase tracking-widest text-gray-400 mb-2 px-2">Recommended Frames</p>
+                          <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2 px-2">Recommended Frames</p>
                           {RESUME_SUGGESTIONS.roles.find(r => r.title === 'Graduate / Fresher')?.points.map((p, i) => (
                             <button 
                               key={`summary-pref-${i}`}
                               onClick={() => { addSuggestionToSummary(p); setShowSuggestions(null); }}
-                              className="w-full text-left p-4 text-[10px] hover:bg-blue-50/50 rounded-2xl border border-transparent hover:border-blue-100/50 transition-all leading-relaxed text-gray-600 font-medium whitespace-normal"
+                              className="w-full text-left p-4 text-[11px] hover:bg-blue-50/50 rounded-2xl border border-transparent hover:border-blue-100/50 transition-all leading-relaxed text-gray-600 font-medium whitespace-normal"
                             >
                               "{p}"
                             </button>
@@ -554,7 +554,7 @@ export default function ResumeForm() {
                       value={data.personal.summary}
                       onChange={(e) => updatePersonalField("summary", e.target.value)}
                       rows={5}
-                      className="w-full p-5 bg-gray-50/50 border border-gray-100 rounded-[28px] text-xs focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none resize-none leading-relaxed"
+                      className="w-full p-5 bg-gray-50/50 border border-gray-100 rounded-[28px] text-sm focus:bg-white focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500/20 transition-all outline-none resize-none leading-relaxed"
                       placeholder="Show your unique value proposition..."
                     />
                   </div>
@@ -566,8 +566,8 @@ export default function ResumeForm() {
               <div className="space-y-8">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-xs font-black uppercase tracking-[0.2em]">Work History</h3>
-                    <p className="text-[9px] text-gray-400 font-bold mt-1">Chronological experience and achievements</p>
+                    <h3 className="text-sm font-black uppercase tracking-[0.2em]">Work History</h3>
+                    <p className="text-[10px] text-gray-400 font-bold mt-1">Chronological experience and achievements</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
@@ -590,7 +590,7 @@ export default function ResumeForm() {
                   {data.experience.map((exp, idx) => (
                     <div key={exp.id} className="relative p-8 bg-gray-50/30 rounded-[40px] border border-gray-100 group hover:bg-white hover:shadow-2xl hover:shadow-gray-200/40 transition-all">
                       <div className="flex justify-between items-start mb-6">
-                        <div className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-[9px] font-black">
+                        <div className="w-8 h-8 rounded-full bg-gray-900 text-white flex items-center justify-center text-[10px] font-black">
                           {idx + 1}
                         </div>
                         <button
@@ -603,41 +603,41 @@ export default function ResumeForm() {
                       
                       <div className="grid grid-cols-2 gap-6">
                         <div className="col-span-2">
-                          <label className="block text-[8px] uppercase font-black text-gray-400 mb-2">Company / Organization</label>
+                          <label className="block text-[9px] uppercase font-black text-gray-400 mb-2">Company / Organization</label>
                           <input
                             type="text"
                             value={exp.company}
                             onChange={(e) => updateExperience(exp.id, "company", e.target.value)}
-                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-xs"
+                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-sm"
                           />
                         </div>
                         <div className="col-span-2">
-                          <label className="block text-[8px] uppercase font-black text-gray-400 mb-2">Formal Position</label>
+                          <label className="block text-[9px] uppercase font-black text-gray-400 mb-2">Formal Position</label>
                           <input
                             type="text"
                             value={exp.position}
                             onChange={(e) => updateExperience(exp.id, "position", e.target.value)}
-                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-xs"
+                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-sm"
                           />
                         </div>
                         <div>
-                          <label className="block text-[8px] uppercase font-black text-gray-400 mb-2">Start Date</label>
+                          <label className="block text-[9px] uppercase font-black text-gray-400 mb-2">Start Date</label>
                           <input
                             type="text"
                             value={exp.startDate}
                             onChange={(e) => updateExperience(exp.id, "startDate", e.target.value)}
                             placeholder="e.g. June 2021"
-                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-xs"
+                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-sm"
                           />
                         </div>
                         <div>
-                          <label className="block text-[8px] uppercase font-black text-gray-400 mb-2">End Date</label>
+                          <label className="block text-[9px] uppercase font-black text-gray-400 mb-2">End Date</label>
                           <input
                             type="text"
                             disabled={exp.current}
                             value={exp.current ? "Present" : exp.endDate}
                             onChange={(e) => updateExperience(exp.id, "endDate", e.target.value)}
-                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-xs disabled:opacity-30"
+                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-sm disabled:opacity-30"
                           />
                            <label className="flex items-center gap-2 mt-3 cursor-pointer group/check">
                             <input
@@ -646,15 +646,15 @@ export default function ResumeForm() {
                               onChange={(e) => updateExperience(exp.id, "current", e.target.checked)}
                               className="rounded-full border-gray-200 text-blue-600 focus:ring-blue-500"
                             />
-                            <span className="text-[8px] uppercase font-black text-gray-300 group-hover/check:text-gray-400 transition-colors">Currently Active Role</span>
+                            <span className="text-[9px] uppercase font-black text-gray-300 group-hover/check:text-gray-400 transition-colors">Currently Active Role</span>
                           </label>
                         </div>
                         <div className="col-span-2 relative">
                            <div className="flex justify-between items-center mb-2">
-                            <label className="block text-[8px] uppercase font-black text-gray-400">Accomplishments</label>
+                            <label className="block text-[9px] uppercase font-black text-gray-400">Accomplishments</label>
                             <button 
                               onClick={() => setShowSuggestions(showSuggestions === exp.id ? null : exp.id)}
-                              className="flex items-center gap-1.5 text-[8px] uppercase font-black text-blue-500 hover:text-blue-600"
+                              className="flex items-center gap-1.5 text-[9px] uppercase font-black text-blue-500 hover:text-blue-600"
                             >
                               <Lightbulb size={11} strokeWidth={3} /> Suggest Points
                             </button>
@@ -667,12 +667,12 @@ export default function ResumeForm() {
                                  exit={{ opacity: 0, y: 10, scale: 0.95 }}
                                  className="absolute z-50 bottom-full left-0 right-0 mb-4 p-6 bg-white border border-gray-100 shadow-2xl rounded-[32px] space-y-3 max-h-72 overflow-y-auto backdrop-blur-xl ring-1 ring-black/5"
                                >
-                                 <p className="text-[8px] font-black uppercase tracking-widest text-gray-400 mb-2 px-2">Bullet Point Inspiration</p>
+                                 <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-2 px-2">Bullet Point Inspiration</p>
                                  {RESUME_SUGGESTIONS.roles.flatMap(r => r.points).map((p, i) => (
                                    <button 
                                      key={`exp-sug-${exp.id}-${i}`}
                                      onClick={() => { addSuggestionToDescription(exp.id, p); setShowSuggestions(null); }}
-                                     className="w-full text-left p-4 text-[10px] leading-relaxed hover:bg-blue-50 rounded-2xl border border-transparent hover:border-blue-100 transition-all font-medium text-gray-600 whitespace-normal"
+                                     className="w-full text-left p-4 text-[11px] leading-relaxed hover:bg-blue-50 rounded-2xl border border-transparent hover:border-blue-100 transition-all font-medium text-gray-600 whitespace-normal"
                                    >
                                      {p}
                                    </button>
@@ -685,7 +685,7 @@ export default function ResumeForm() {
                             onChange={(e) => updateExperience(exp.id, "description", e.target.value)}
                             rows={6}
                             placeholder="Focus on results, not just tasks..."
-                            className="w-full p-5 bg-white border border-gray-100 rounded-[28px] text-xs resize-none outline-none focus:ring-4 focus:ring-blue-500/5 transition-all leading-relaxed"
+                            className="w-full p-5 bg-white border border-gray-100 rounded-[28px] text-sm resize-none outline-none focus:ring-4 focus:ring-blue-500/5 transition-all leading-relaxed"
                           />
                         </div>
                       </div>
@@ -699,8 +699,8 @@ export default function ResumeForm() {
               <div className="space-y-8">
                  <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-xs font-black uppercase tracking-[0.2em]">Academic Records</h3>
-                    <p className="text-[9px] text-gray-400 font-bold mt-1">Foundational knowledge and certifications</p>
+                    <h3 className="text-sm font-black uppercase tracking-[0.2em]">Academic Records</h3>
+                    <p className="text-[10px] text-gray-400 font-bold mt-1">Foundational knowledge and certifications</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
@@ -730,39 +730,39 @@ export default function ResumeForm() {
                       </button>
                       <div className="grid grid-cols-2 gap-6">
                         <div className="col-span-2">
-                          <label className="block text-[8px] uppercase font-black text-gray-400 mb-2">School / Institute</label>
+                          <label className="block text-[9px] uppercase font-black text-gray-400 mb-2">School / Institute</label>
                           <input
                             type="text"
                             value={edu.school}
                             onChange={(e) => updateEducation(edu.id, "school", e.target.value)}
-                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-xs"
+                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-sm"
                           />
                         </div>
                         <div className="col-span-2">
-                          <label className="block text-[8px] uppercase font-black text-gray-400 mb-2">Concentration / Degree</label>
+                          <label className="block text-[9px] uppercase font-black text-gray-400 mb-2">Concentration / Degree</label>
                           <input
                             type="text"
                             value={edu.degree}
                             onChange={(e) => updateEducation(edu.id, "degree", e.target.value)}
-                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-xs"
+                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-sm"
                           />
                         </div>
                         <div>
-                          <label className="block text-[8px] uppercase font-black text-gray-400 mb-2">Start Year</label>
+                          <label className="block text-[9px] uppercase font-black text-gray-400 mb-2">Start Year</label>
                           <input
                             type="text"
                             value={edu.startDate}
                             onChange={(e) => updateEducation(edu.id, "startDate", e.target.value)}
-                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-xs"
+                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-sm"
                           />
                         </div>
                         <div>
-                          <label className="block text-[8px] uppercase font-black text-gray-400 mb-2">End Year</label>
+                          <label className="block text-[9px] uppercase font-black text-gray-400 mb-2">End Year</label>
                           <input
                             type="text"
                             value={edu.endDate}
                             onChange={(e) => updateEducation(edu.id, "endDate", e.target.value)}
-                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-xs"
+                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-sm"
                           />
                         </div>
                       </div>
@@ -776,8 +776,8 @@ export default function ResumeForm() {
               <div className="space-y-8">
                  <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-xs font-black uppercase tracking-[0.2em]">Competencies</h3>
-                    <p className="text-[9px] text-gray-400 font-bold mt-1">Core strengths and domain expertize</p>
+                    <h3 className="text-sm font-black uppercase tracking-[0.2em]">Competencies</h3>
+                    <p className="text-[10px] text-gray-400 font-bold mt-1">Core strengths and domain expertize</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
@@ -804,7 +804,7 @@ export default function ResumeForm() {
                         value={skill.name}
                         onChange={(e) => updateSkill(skill.id, "name", e.target.value)}
                         placeholder="Skill e.g. Figma"
-                        className="flex-1 bg-transparent text-xs outline-none font-black text-gray-900 placeholder:text-gray-200"
+                        className="flex-1 bg-transparent text-sm outline-none font-black text-gray-900 placeholder:text-gray-200"
                       />
                        <select
                         value={skill.level}
@@ -831,8 +831,8 @@ export default function ResumeForm() {
               <div className="space-y-8">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-xs font-black uppercase tracking-[0.2em]">Key Projects</h3>
-                    <p className="text-[9px] text-gray-400 font-bold mt-1">Public portfolio and side initiatives</p>
+                    <h3 className="text-sm font-black uppercase tracking-[0.2em]">Key Projects</h3>
+                    <p className="text-[10px] text-gray-400 font-bold mt-1">Public portfolio and side initiatives</p>
                   </div>
                   <div className="flex items-center gap-2">
                     <button
@@ -862,31 +862,31 @@ export default function ResumeForm() {
                       </button>
                       <div className="space-y-6">
                         <div>
-                          <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">Initiative Name</label>
+                          <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">Initiative Name</label>
                           <input
                             type="text"
                             value={proj.name}
                             onChange={(e) => updateProject(proj.id, "name", e.target.value)}
-                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-xs"
+                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-sm"
                           />
                         </div>
                         <div>
-                          <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">Manifest Link</label>
+                          <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">Manifest Link</label>
                           <input
                             type="text"
                             value={proj.link}
                             onChange={(e) => updateProject(proj.id, "link", e.target.value)}
                             placeholder="github.com/profile/repo"
-                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-xs text-blue-600 font-medium"
+                            className="w-full p-4 bg-white border border-gray-100 rounded-[20px] text-sm text-blue-600 font-medium"
                           />
                         </div>
                         <div>
-                          <label className="block text-[8px] uppercase font-black text-gray-400 mb-2 ml-1">Brief Description</label>
+                          <label className="block text-[9px] uppercase font-black text-gray-400 mb-2 ml-1">Brief Description</label>
                           <textarea
                             value={proj.description}
                             onChange={(e) => updateProject(proj.id, "description", e.target.value)}
                             rows={3}
-                            className="w-full p-5 bg-white border border-gray-100 rounded-[28px] text-xs resize-none outline-none focus:ring-4 focus:ring-blue-500/5 transition-all"
+                            className="w-full p-5 bg-white border border-gray-100 rounded-[28px] text-sm resize-none outline-none focus:ring-4 focus:ring-blue-500/5 transition-all"
                           />
                         </div>
                       </div>
@@ -902,8 +902,8 @@ export default function ResumeForm() {
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-xs font-black uppercase tracking-[0.2em]">Languages</h3>
-                      <p className="text-[8px] text-gray-400 font-bold mt-1">Linguistic proficiencies</p>
+                      <h3 className="text-sm font-black uppercase tracking-[0.2em]">Languages</h3>
+                      <p className="text-[9px] text-gray-400 font-bold mt-1">Linguistic proficiencies</p>
                     </div>
                     <button onClick={addLanguage} className="p-2 bg-gray-900 text-white rounded-xl shadow-lg border-2 border-gray-900 transition-all hover:bg-white hover:text-gray-900 active:scale-95"><Plus size={16}/></button>
                   </div>

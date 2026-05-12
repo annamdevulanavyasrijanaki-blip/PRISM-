@@ -1,67 +1,77 @@
-import React, { useState } from 'react';
-import { ExternalLink, Info } from 'lucide-react';
+import React from 'react';
+import { cn } from '../lib/utils';
 
-/**
- * Placeholder for Google AdSense or other ad scripts.
- * Only loads/shows when user explicitly clicks to see it.
- */
-export const ScriptAd = () => {
-  const [showAd, setShowAd] = useState(false);
+interface AdContainerProps {
+  id: string;
+  className?: string;
+}
 
-  if (!showAd) {
-    return (
-      <div className="w-full py-4 text-center">
-        <button 
-          onClick={() => setShowAd(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-blue-50 text-gray-400 hover:text-blue-500 rounded-xl border border-gray-100 transition-all text-[8px] font-black uppercase tracking-widest"
-        >
-          <Info size={12} /> Show Partner Content
-        </button>
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-full py-4 opacity-50 text-center animate-in fade-in zoom-in duration-300">
-      <div className="inline-block px-4 py-2 bg-gray-100 rounded-lg border border-gray-200">
-        <p className="text-[8px] font-black uppercase tracking-[0.2em] text-gray-400">Advertisement Blueprint</p>
-      </div>
-      <button 
-        onClick={() => setShowAd(false)}
-        className="block mx-auto mt-2 text-[7px] font-black uppercase text-gray-300 hover:text-red-400"
-      >
-        Dismiss
-      </button>
-    </div>
-  );
-};
-
-export const BannerAd = () => {
-  const [showAd, setShowAd] = useState(false);
-
-  if (!showAd) {
-    return (
-      <div className="w-full aspect-[728/90] md:aspect-[970/90] bg-gray-50 rounded-2xl border border-dotted border-gray-200 flex flex-col items-center justify-center gap-3">
-        <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-300">Monetization Slot</p>
-        <button 
-          onClick={() => setShowAd(true)}
-          className="px-6 py-2.5 bg-white text-gray-900 rounded-full text-[9px] font-black uppercase tracking-widest shadow-sm hover:shadow-md transition-all flex items-center gap-2"
-        >
-          View Sponsored Link <ExternalLink size={12} />
-        </button>
-      </div>
-    );
-  }
+export function AdContainer({ id, className }: AdContainerProps) {
+  const srcDoc = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          body { margin: 0; padding: 0; overflow: hidden; display: flex; justify-content: center; align-items: center; min-height: 50px; }
+          #atcontainer-${id} { width: 100%; height: 100%; }
+        </style>
+      </head>
+      <body>
+        <div id="atcontainer-${id}"></div>
+        <script async="async" data-cfasync="false" src="https://glamourpicklessteward.com/${id}/invoke.js"></script>
+      </body>
+    </html>
+  `;
 
   return (
-    <div className="w-full aspect-[728/90] md:aspect-[970/90] bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-center overflow-hidden animate-in fade-in duration-500 relative">
-      <p className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-300">Professional Partner Space</p>
-      <button 
-        onClick={() => setShowAd(false)}
-        className="absolute top-2 right-2 p-1 bg-white/50 hover:bg-white rounded-md text-gray-400"
-      >
-        <ExternalLink size={10} className="rotate-180" />
-      </button>
+    <div className={cn("ad-container flex justify-center w-full min-h-[90px]", className)}>
+      <iframe
+        title="Ad Container"
+        srcDoc={srcDoc}
+        className="w-full border-0 overflow-hidden min-h-[250px]"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-top-navigation-by-user-activation"
+        loading="lazy"
+      />
     </div>
   );
-};
+}
+
+interface ScriptAdProps {
+  src: string;
+  options: Record<string, any>;
+  className?: string;
+}
+
+export function ScriptAd({ src, options, className }: ScriptAdProps) {
+  const width = options.width || 300;
+  const height = options.height || 250;
+
+  const srcDoc = `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>body { margin: 0; padding: 0; overflow: hidden; }</style>
+      </head>
+      <body>
+        <script type="text/javascript">
+          var atOptions = ${JSON.stringify(options)};
+          document.write('<scr' + 'ipt type="text/javascript" src="${src}"></scr' + 'ipt>');
+        </script>
+      </body>
+    </html>
+  `;
+
+  return (
+    <div className={cn("script-ad-wrapper", className)} style={{ width, height }}>
+      <iframe
+        title="Script Ad"
+        srcDoc={srcDoc}
+        width={width}
+        height={height}
+        className="border-0 overflow-hidden"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms allow-top-navigation-by-user-activation"
+        loading="lazy"
+      />
+    </div>
+  );
+}
