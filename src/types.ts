@@ -84,10 +84,16 @@ export interface Interest {
   name: string;
 }
 
+export interface CustomItem {
+  id: string;
+  label: string;
+  value: string;
+}
+
 export interface CustomSection {
   id: string;
   title: string;
-  content: string;
+  items: CustomItem[];
 }
 
 export interface ResumeData {
@@ -102,7 +108,8 @@ export interface ResumeData {
   languages?: Language[];
   interests?: Interest[];
   customSections?: CustomSection[];
-  sectionOrder: string[];
+  sectionOrder: string[]; 
+  pages?: string[][];
   template: string;
   sectionLabels?: Record<string, string>;
   settings?: {
@@ -137,6 +144,7 @@ export const INITIAL_RESUME_DATA: ResumeData = {
   interests: [],
   customSections: [],
   sectionOrder: ["summary", "experience", "education", "skills", "projects"],
+  pages: [["summary", "experience", "education", "skills", "projects"]],
   template: "modern",
   sectionLabels: {
     summary: "Profile",
@@ -182,6 +190,7 @@ export const EMPTY_RESUME_DATA: ResumeData = {
   interests: [],
   customSections: [],
   sectionOrder: ["summary", "experience", "education", "skills", "projects"],
+  pages: [["summary", "experience", "education", "skills", "projects"]],
   template: "modern",
   sectionLabels: {
     summary: "Profile",
@@ -225,4 +234,5 @@ export const SAMPLE_RESUME_DATA: ResumeData = {
     { id: "s2", name: "Key Skill 2", level: "Intermediate" }
   ],
   sectionOrder: ["summary", "experience", "education", "skills", "projects"],
+  pages: [["summary", "experience", "education", "skills", "projects"]],
 };

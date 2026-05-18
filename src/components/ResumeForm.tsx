@@ -1,4 +1,4 @@
-import { Plus, Trash2, ChevronLeft, ChevronRight, Lightbulb, Sparkles, Upload, FileJson, FileText, ArrowRight, Save, RotateCcw, Image as ImageIcon, GripVertical, Eye, EyeOff } from "lucide-react";
+import { Plus, Trash2, ChevronLeft, ChevronRight, Lightbulb, Sparkles, Upload, FileJson, FileText, ArrowRight, Save, RotateCcw, Image as ImageIcon, GripVertical, Eye, EyeOff, Layout } from "lucide-react";
 import React, { useState, useRef } from "react";
 import { ResumeData, Experience, Education, Skill, Project, INITIAL_RESUME_DATA, Certification, Award, Volunteer, Language, Interest, CustomSection } from "../types";
 import { cn } from "../lib/utils";
@@ -9,7 +9,18 @@ import { useResumeStore } from "../store/useResumeStore";
 type Step = "personal" | "experience" | "education" | "skills" | "projects" | "extras" | "layout" | "finish";
 
 export default function ResumeForm() {
-  const { data, setData, updatePersonal, setSectionOrder, toggleSection, resetData, removeSectionCompletely: storeRemoveSection } = useResumeStore();
+  const { 
+    data, 
+    setData, 
+    updatePersonal, 
+    setSectionOrder, 
+    toggleSection, 
+    resetData, 
+    removeSectionCompletely: storeRemoveSection,
+    addPage,
+    removePage,
+    setPages
+  } = useResumeStore();
   const [currentStep, setCurrentStep] = useState<Step>("personal");
   const [showSuggestions, setShowSuggestions] = useState<string | null>(null);
   const jsonImportRef = useRef<HTMLInputElement>(null);
@@ -272,7 +283,7 @@ export default function ResumeForm() {
   };
 
   const addCustomSection = () => {
-    const newSec: CustomSection = { id: crypto.randomUUID(), title: "New Section", content: "" };
+    const newSec: CustomSection = { id: crypto.randomUUID(), title: "New Section", items: [] };
     setData({ ...data, customSections: [...(data.customSections || []), newSec] });
     ensureSectionInOrder("custom");
   };
@@ -283,6 +294,31 @@ export default function ResumeForm() {
 
   const updateCustomSection = (id: string, field: string, value: string) => {
     const updated = (data.customSections || []).map(s => s.id === id ? { ...s, [field]: value } : s);
+    setData({ ...data, customSections: updated });
+  };
+
+  const addCustomItem = (sectionId: string) => {
+    const newItem = { id: crypto.randomUUID(), label: "New Label", value: "Value" };
+    const updated = (data.customSections || []).map(s => 
+      s.id === sectionId ? { ...s, items: [...(s.items || []), newItem] } : s
+    );
+    setData({ ...data, customSections: updated });
+  };
+
+  const updateCustomItem = (sectionId: string, itemId: string, field: 'label' | 'value', value: string) => {
+    const updated = (data.customSections || []).map(s => 
+      s.id === sectionId ? { 
+        ...s, 
+        items: s.items.map(item => item.id === itemId ? { ...item, [field]: value } : item) 
+      } : s
+    );
+    setData({ ...data, customSections: updated });
+  };
+
+  const removeCustomItem = (sectionId: string, itemId: string) => {
+    const updated = (data.customSections || []).map(s => 
+      s.id === sectionId ? { ...s, items: s.items.filter(i => i.id !== itemId) } : s
+    );
     setData({ ...data, customSections: updated });
   };
 
@@ -1099,21 +1135,45 @@ export default function ResumeForm() {
                   </div>
                   <div className="space-y-6">
                     {(data.customSections || []).map((section) => (
-                      <div key={section.id} className="p-8 bg-white rounded-[40px] border border-gray-100 shadow-sm space-y-4">
+                      <div key={section.id} className="p-8 bg-white rounded-[40px] border border-gray-100 shadow-sm space-y-6">
                         <div className="flex items-center justify-between gap-4">
                            <input 
                             value={section.title}
                             onChange={(e) => updateCustomSection(section.id, "title", e.target.value)}
-                            className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-900 bg-transparent outline-none flex-1"
+                            className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-900 bg-transparent outline-none flex-1 border-b border-gray-100 focus:border-blue-500 pb-1"
                           />
-                          <button onClick={() => removeCustomSection(section.id)} className="text-gray-300 hover:text-red-500 transition-colors"><Trash2 size={16}/></button>
+                          <div className="flex items-center gap-2">
+                            <button onClick={() => addCustomItem(section.id)} className="p-2 bg-gray-50 text-gray-400 rounded-lg hover:text-blue-500 transition-colors"><Plus size={14}/></button>
+                            <button onClick={() => removeCustomSection(section.id)} className="p-2 text-gray-300 hover:text-red-500 transition-colors"><Trash2 size={14}/></button>
+                          </div>
                         </div>
-                        <textarea 
-                          value={section.content}
-                          onChange={(e) => updateCustomSection(section.id, "content", e.target.value)}
-                          placeholder="Add anything here..."
-                          className="w-full p-4 bg-gray-50/50 rounded-[24px] text-sm resize-none h-32 focus:bg-white transition-all outline-none"
-                        />
+                        <div className="space-y-3">
+                          {(section.items || []).map((item) => (
+                            <div key={item.id} className="flex gap-3 items-center group/item">
+                              <input 
+                                value={item.label}
+                                onChange={(e) => updateCustomItem(section.id, item.id, 'label', e.target.value)}
+                                className="w-1/3 p-3 bg-gray-50/50 rounded-xl text-[10px] font-black uppercase tracking-widest outline-none border border-transparent focus:border-blue-100 focus:bg-white transition-all"
+                                placeholder="Label"
+                              />
+                              <input 
+                                value={item.value}
+                                onChange={(e) => updateCustomItem(section.id, item.id, 'value', e.target.value)}
+                                className="flex-1 p-3 bg-gray-50/50 rounded-xl text-xs outline-none border border-transparent focus:border-blue-100 focus:bg-white transition-all"
+                                placeholder="Details..."
+                              />
+                              <button onClick={() => removeCustomItem(section.id, item.id)} className="opacity-0 group-hover/item:opacity-100 p-2 text-gray-300 hover:text-red-500 transition-all"><Trash2 size={12}/></button>
+                            </div>
+                          ))}
+                          {(!section.items || section.items.length === 0) && (
+                            <button 
+                              onClick={() => addCustomItem(section.id)}
+                              className="w-full py-4 border-2 border-dashed border-gray-100 rounded-2xl text-[9px] font-black uppercase tracking-widest text-gray-300 hover:border-blue-200 hover:text-blue-400 transition-all"
+                            >
+                              + Add Custom Item
+                            </button>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -1126,7 +1186,7 @@ export default function ResumeForm() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
                     <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
-                      <GripVertical size={18} />
+                      <Layout size={18} />
                     </div>
                     <div>
                       <h3 className="text-sm font-black uppercase tracking-[0.2em]">Architecture & Style</h3>
@@ -1196,83 +1256,105 @@ export default function ResumeForm() {
                 </div>
 
                 <div className="space-y-6">
-                  <div className="flex items-center gap-2 px-1">
-                    <FileText size={14} className="text-gray-400" />
-                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Section Branding / Labels</p>
+                  <div className="flex items-center justify-between px-1">
+                    <div className="flex items-center gap-2">
+                       <Sparkles size={14} className="text-blue-500" />
+                       <p className="text-[10px] text-gray-900 font-black uppercase tracking-widest">Multi-Page Architecture</p>
+                    </div>
+                    <button 
+                      onClick={addPage}
+                      className="px-4 py-2 bg-gray-900 text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-blue-600 transition-all flex items-center gap-2"
+                    >
+                      <Plus size={12} /> Add Page
+                    </button>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {ALL_SECTIONS.filter(s => s.id !== 'custom').map(section => (
-                      <div key={`label-${section.id}`} className="group p-4 bg-white border border-gray-50 rounded-[28px] hover:border-blue-100 transition-all shadow-sm">
-                        <label className="block text-[8px] uppercase font-black text-gray-300 mb-2 ml-2">
-                          Original: {section.label}
-                        </label>
-                        <input 
-                          type="text"
-                          value={data.sectionLabels?.[section.id] || ""}
-                          placeholder={section.label}
-                          onChange={(e) => {
-                            const newLabels = { ...(data.sectionLabels || {}), [section.id]: e.target.value };
-                            setData({ ...data, sectionLabels: newLabels });
+  
+                  <div className="space-y-8">
+                    {(data.pages || [[...data.sectionOrder]]).map((pageSections, pageIdx) => (
+                      <div key={`page-${pageIdx}`} className="space-y-4 p-8 bg-gray-50/50 rounded-[40px] border border-gray-100 relative">
+                        <div className="flex items-center justify-between">
+                           <h4 className="text-[10px] font-black uppercase tracking-widest text-gray-400">Page {pageIdx + 1}</h4>
+                           {pageIdx > 0 && (
+                             <button onClick={() => removePage(pageIdx)} className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"><Trash2 size={14} /></button>
+                           )}
+                        </div>
+
+                        <Reorder.Group 
+                          axis="y" 
+                          values={pageSections} 
+                          onReorder={(newOrder) => {
+                            const newPages = [...(data.pages || [data.sectionOrder])];
+                            newPages[pageIdx] = newOrder;
+                            setPages(newPages);
                           }}
-                          className="w-full px-4 py-3 bg-gray-50/50 rounded-2xl text-[11px] font-bold outline-none focus:ring-2 focus:ring-blue-500/10 focus:bg-white transition-all"
-                        />
+                          className="space-y-3"
+                        >
+                          {pageSections.map((sectionId) => {
+                            const sectionInfo = ALL_SECTIONS.find(s => s.id === sectionId);
+                            if (!sectionInfo) return null;
+        
+                            return (
+                              <Reorder.Item 
+                                key={sectionId} 
+                                value={sectionId}
+                                className="flex items-center justify-between p-5 bg-white border border-gray-100 rounded-[24px] shadow-sm cursor-grab active:cursor-grabbing group hover:border-blue-200 hover:shadow-md transition-all"
+                              >
+                                <div className="flex items-center gap-4">
+                                  <GripVertical size={14} className="text-gray-300 group-hover:text-blue-400" />
+                                  <span className="text-[11px] font-black uppercase tracking-widest text-gray-700">
+                                    {sectionInfo.label}
+                                  </span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                  {/* Page Move Controls */}
+                                  <div className="flex items-center bg-gray-50 rounded-lg overflow-hidden border border-gray-100">
+                                    <button 
+                                      disabled={pageIdx === 0}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        const newPages = [...(data.pages || [data.sectionOrder])].map(p => [...p]);
+                                        newPages[pageIdx] = newPages[pageIdx].filter(id => id !== sectionId);
+                                        newPages[pageIdx - 1].push(sectionId);
+                                        setPages(newPages);
+                                      }}
+                                      className="p-2 text-gray-400 hover:text-blue-500 disabled:opacity-30"
+                                    >
+                                      <ChevronLeft size={12} className="rotate-90" />
+                                    </button>
+                                    <div className="w-[1px] h-3 bg-gray-200" />
+                                    <button 
+                                      disabled={pageIdx === (data.pages?.length || 1) - 1}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        const newPages = [...(data.pages || [data.sectionOrder])].map(p => [...p]);
+                                        newPages[pageIdx] = newPages[pageIdx].filter(id => id !== sectionId);
+                                        newPages[pageIdx + 1].push(sectionId);
+                                        setPages(newPages);
+                                      }}
+                                      className="p-2 text-gray-400 hover:text-blue-500 disabled:opacity-30"
+                                    >
+                                      <ChevronRight size={12} className="rotate-90" />
+                                    </button>
+                                  </div>
+                                  <button 
+                                    onClick={() => toggleSection(sectionId)}
+                                    className="p-2 text-gray-300 hover:text-blue-500 transition-colors"
+                                    title="Toggle Visibility"
+                                  >
+                                    <Eye size={16} />
+                                  </button>
+                                </div>
+                              </Reorder.Item>
+                            );
+                          })}
+                        </Reorder.Group>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="space-y-6">
-                  <div className="flex items-center gap-2 px-1">
-                    <Lightbulb size={14} className="text-gray-400" />
-                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Priority Sequencing</p>
-                  </div>
-  
-                  <Reorder.Group 
-                    axis="y" 
-                    values={data.sectionOrder} 
-                    onReorder={setSectionOrder}
-                    className="space-y-3"
-                  >
-                    {data.sectionOrder.map((sectionId) => {
-                      const sectionInfo = ALL_SECTIONS.find(s => s.id === sectionId);
-                      if (!sectionInfo) return null;
-  
-                      return (
-                        <Reorder.Item 
-                          key={sectionId} 
-                          value={sectionId}
-                          className="flex items-center justify-between p-5 bg-white border border-gray-100 rounded-[24px] shadow-sm cursor-grab active:cursor-grabbing group hover:border-blue-200 hover:shadow-md transition-all"
-                        >
-                          <div className="flex items-center gap-4">
-                            <GripVertical size={14} className="text-gray-300 group-hover:text-blue-400" />
-                            <span className="text-[11px] font-black uppercase tracking-widest text-gray-700">
-                              {sectionInfo.label}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <button 
-                              onClick={() => toggleSection(sectionId)}
-                              className="p-3 text-gray-300 hover:text-blue-500 transition-colors"
-                              title="Toggle Visibility"
-                            >
-                              {data.sectionOrder.includes(sectionId) ? <Eye size={16} /> : <EyeOff size={16} />}
-                            </button>
-                            <button 
-                              onClick={() => removeSectionCompletely(sectionId)}
-                              className="p-3 text-gray-300 hover:text-red-500 transition-colors"
-                              title="Delete Heading"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </div>
-                        </Reorder.Item>
-                      );
-                    })}
-                  </Reorder.Group>
-                </div>
-
                 <div className="pt-8 border-t border-gray-50">
-                   <p className="text-[9px] font-black uppercase tracking-widest text-gray-300 mb-4 px-1">Available to Add</p>
+                   <p className="text-[9px] font-black uppercase tracking-widest text-gray-300 mb-4 px-1">Available Modules</p>
                    <div className="flex flex-wrap gap-2">
                      {ALL_SECTIONS.filter(s => !data.sectionOrder.includes(s.id)).map(s => (
                        <button

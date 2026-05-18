@@ -206,8 +206,21 @@ export function CustomSectionRenderer({ data }: SectionProps) {
       {data.customSections.map((section: CustomSection) => (
         <div key={section.id}>
           <SectionWrapper title={section.title}>
-            <div className="res-scale-text-sm text-gray-600 whitespace-pre-line leading-relaxed">
-              {section.content}
+            <div className="space-y-4">
+              {section.items && section.items.length > 0 ? (
+                <div className="space-y-3">
+                  {section.items.map((item) => (
+                    <div key={item.id} className="flex gap-4">
+                      <span className="res-scale-text-xs font-black uppercase tracking-widest text-blue-600 min-w-[100px]">{item.label}</span>
+                      <span className="res-scale-text-xs text-gray-700 flex-1 leading-relaxed">{item.value}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="res-scale-text-sm text-gray-400 italic">
+                  No items added to this section.
+                </div>
+              )}
             </div>
           </SectionWrapper>
         </div>
@@ -217,7 +230,7 @@ export function CustomSectionRenderer({ data }: SectionProps) {
 }
 
 // Master Renderer Logic
-export function ResumeMasterRenderer({ data, templateType }: SectionProps) {
+export function ResumeMasterRenderer({ data, templateType, pageIndex = 0 }: SectionProps & { pageIndex?: number }) {
   const fontSize = data.settings?.fontSize || 1;
   const sectionSpacing = data.settings?.sectionSpacing || 1;
   
@@ -239,6 +252,8 @@ export function ResumeMasterRenderer({ data, templateType }: SectionProps) {
     interests: InterestsSection,
   };
 
+  const sectionsToRender = data.pages?.[pageIndex] || (pageIndex === 0 ? data.sectionOrder : []);
+
   return (
     <div 
       className="flex flex-col" 
@@ -247,7 +262,7 @@ export function ResumeMasterRenderer({ data, templateType }: SectionProps) {
         gap: `${sectionSpacing * 2}rem`
       }}
     >
-      {data.sectionOrder.map((sectionId) => {
+      {sectionsToRender.map((sectionId) => {
         if (!hasData(sectionId, data)) return null;
 
         if (sectionId === 'custom') {

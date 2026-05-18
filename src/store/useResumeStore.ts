@@ -14,6 +14,10 @@ interface ResumeState {
   toggleForm: (open?: boolean) => void;
   resetData: (empty?: boolean) => void;
   removeSectionCompletely: (sectionId: string) => void;
+  addPage: () => void;
+  removePage: (index: number) => void;
+  moveSection: (sectionId: string, toPageIndex: number, toIndex: number) => void;
+  setPages: (pages: string[][]) => void;
 }
 
 export const useResumeStore = create<ResumeState>()(
@@ -40,12 +44,73 @@ export const useResumeStore = create<ResumeState>()(
         const newOrder = order.includes(sectionId)
           ? order.filter(id => id !== sectionId)
           : [...order, sectionId];
-        return { data: { ...state.data, sectionOrder: newOrder } };
+        
+        // Also update pages
+        const pages = state.data.pages || [order];
+        let newPages = pages.map(p => p.filter(id => id !== sectionId));
+        if (!order.includes(sectionId)) {
+          // If adding, add to the last page by default
+          newPages[newPages.length - 1].push(sectionId);
+        }
+        
+        return { 
+          data: { 
+            ...state.data, 
+            sectionOrder: newOrder,
+            pages: newPages
+          } 
+        };
       }),
+      addPage: () => set((state) => ({
+        data: {
+          ...state.data,
+          pages: [...(state.data.pages || [state.data.sectionOrder]), []]
+        }
+      })),
+      removePage: (index) => set((state) => {
+        const pages = [...(state.data.pages || [state.data.sectionOrder])];
+        if (pages.length <= 1) return state;
+        
+        const sectionsToMove = pages[index];
+        const newPages = pages.filter((_, i) => i !== index);
+        // Move sections from deleted page to the previous page (or next if index 0)
+        const targetIndex = index === 0 ? 0 : index - 1;
+        newPages[targetIndex] = [...newPages[targetIndex], ...sectionsToMove];
+        
+        return {
+          data: { ...state.data, pages: newPages }
+        };
+      }),
+      moveSection: (sectionId, toPageIndex, toIndex) => set((state) => {
+        const pages = (state.data.pages || [state.data.sectionOrder]).map(p => [...p]);
+        // Remove from current position
+        const newPages = pages.map(p => p.filter(id => id !== sectionId));
+        // Add to new position
+        newPages[toPageIndex].splice(toIndex, 0, sectionId);
+        
+        // Update sectionOrder as a flat version for compatibility
+        const newOrder = newPages.flat();
+        
+        return {
+          data: {
+            ...state.data,
+            pages: newPages,
+            sectionOrder: newOrder
+          }
+        };
+      }),
+      setPages: (pages) => set((state) => ({
+        data: {
+          ...state.data,
+          pages,
+          sectionOrder: pages.flat()
+        }
+      })),
       removeSectionCompletely: (sectionId) => set((state) => ({
         data: {
           ...state.data,
-          sectionOrder: state.data.sectionOrder.filter(id => id !== sectionId)
+          sectionOrder: state.data.sectionOrder.filter(id => id !== sectionId),
+          pages: (state.data.pages || [state.data.sectionOrder]).map(p => p.filter(id => id !== sectionId))
         }
       })),
       toggleSidebar: (open) => set((state) => ({ 
