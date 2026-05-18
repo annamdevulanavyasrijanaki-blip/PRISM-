@@ -71,49 +71,22 @@ export default function App() {
       const { toPng } = await import("html-to-image");
       const { jsPDF } = await import("jspdf");
       
-      // Capture the element as an image
-      const imgData = await toPng(printRef.current, {
-        quality: 1.0,
-        pixelRatio: 2, 
-        backgroundColor: "#ffffff",
-      });
-      
+      // Find all page elements (we should add a class to them in templates)
+      const pageElements = printRef.current.querySelectorAll('.resume-page-wrap');
       const pdf = new jsPDF("p", "mm", "a4");
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      
-      const img = new Image();
-      img.src = imgData;
-      await new Promise((resolve, reject) => {
-        img.onload = resolve;
-        img.onerror = reject;
-      });
-      
-      const imgWidth = pdfWidth;
-      const calculatedImgHeight = (img.height * imgWidth) / img.width;
-      
-      // If the content is slightly over one page, scale it down to fit one page
-      // This fulfills the user's request to "reduce font" to fit content
-      const threshold = pdfHeight * 1.25; // 25% tolerance
-      if (calculatedImgHeight > pdfHeight && calculatedImgHeight <= threshold) {
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
-      } else if (calculatedImgHeight <= pdfHeight) {
-        // Fits perfectly on one page
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, calculatedImgHeight, undefined, 'FAST');
-      } else {
-        // Handle multiple pages for very long resumes
-        let heightLeft = calculatedImgHeight;
-        let position = 0;
-        
-        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, calculatedImgHeight, undefined, 'FAST');
-        heightLeft -= pdfHeight;
 
-        while (heightLeft >= 0) {
-          position = heightLeft - calculatedImgHeight;
-          pdf.addPage();
-          pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, calculatedImgHeight, undefined, 'FAST');
-          heightLeft -= pdfHeight;
-        }
+      for (let i = 0; i < pageElements.length; i++) {
+        const el = pageElements[i] as HTMLElement;
+        const imgData = await toPng(el, {
+          quality: 1.0,
+          pixelRatio: 2, 
+          backgroundColor: "#ffffff",
+        });
+
+        if (i > 0) pdf.addPage();
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight, undefined, 'FAST');
       }
       
       pdf.save(`${data.personal.fullName.replace(/\s+/g, "_")}_Resume.pdf`);

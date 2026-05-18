@@ -1318,6 +1318,7 @@ export default function ResumeForm() {
                                         setPages(newPages);
                                       }}
                                       className="p-2 text-gray-400 hover:text-blue-500 disabled:opacity-30"
+                                      title="Move to Previous Page"
                                     >
                                       <ChevronLeft size={12} className="rotate-90" />
                                     </button>
@@ -1332,6 +1333,7 @@ export default function ResumeForm() {
                                         setPages(newPages);
                                       }}
                                       className="p-2 text-gray-400 hover:text-blue-500 disabled:opacity-30"
+                                      title="Move to Next Page"
                                     >
                                       <ChevronRight size={12} className="rotate-90" />
                                     </button>
@@ -1348,6 +1350,35 @@ export default function ResumeForm() {
                             );
                           })}
                         </Reorder.Group>
+
+                        {/* Add to this specific page button */}
+                        <div className="pt-2">
+                           <div className="relative group/add">
+                              <button className="w-full py-3 border-2 border-dashed border-gray-100 rounded-2xl text-[9px] font-black uppercase tracking-widest text-gray-300 hover:border-blue-200 hover:text-blue-400 transition-all flex items-center justify-center gap-2">
+                                 <Plus size={12} /> Add to Page {pageIdx + 1}
+                              </button>
+                              <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-2xl shadow-xl p-4 opacity-0 group-hover/add:opacity-100 translate-y-2 group-hover/add:translate-y-0 pointer-events-none group-hover/add:pointer-events-auto transition-all z-20">
+                                 <div className="grid grid-cols-2 gap-2">
+                                    {ALL_SECTIONS.filter(s => !data.sectionOrder.includes(s.id)).map(s => (
+                                      <button
+                                        key={s.id}
+                                        onClick={() => {
+                                          const newPages = [...(data.pages || [data.sectionOrder])].map(p => [...p]);
+                                          newPages[pageIdx].push(s.id);
+                                          setPages(newPages);
+                                        }}
+                                        className="px-3 py-2 bg-gray-50 rounded-xl text-[8px] font-black uppercase tracking-widest text-gray-500 hover:bg-blue-600 hover:text-white transition-all text-center"
+                                      >
+                                        {s.label}
+                                      </button>
+                                    ))}
+                                    {ALL_SECTIONS.filter(s => !data.sectionOrder.includes(s.id)).length === 0 && (
+                                      <p className="col-span-2 text-[8px] text-gray-400 font-bold uppercase text-center italic">All modules active</p>
+                                    )}
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
                       </div>
                     ))}
                   </div>

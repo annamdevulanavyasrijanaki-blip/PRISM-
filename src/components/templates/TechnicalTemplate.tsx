@@ -9,7 +9,7 @@ export default function TechnicalTemplate({ data }: { data: ResumeData }) {
   return (
     <div className="flex flex-col gap-4 md:gap-8 print:gap-0">
       {pages.map((pageSections, idx) => (
-        <div key={idx} className="bg-[#0f172a] text-[#e2e8f0] p-12 min-h-[297mm] w-full mx-auto shadow-2xl print:shadow-none font-mono text-[11px] leading-relaxed flex flex-col">
+        <div key={idx} className="resume-page-wrap bg-[#0f172a] text-[#e2e8f0] p-12 min-h-[297mm] w-full mx-auto shadow-2xl print:shadow-none font-mono text-[11px] leading-relaxed flex flex-col print:break-after-page">
           {/* Header */}
           {idx === 0 && (
             <header className="mb-10 p-6 border border-[#1e293b] bg-[#1e293b]/30 rounded-lg flex items-center justify-between gap-8">

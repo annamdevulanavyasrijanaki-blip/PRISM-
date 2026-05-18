@@ -9,7 +9,7 @@ export default function ModernTemplate({ data }: { data: ResumeData }) {
   return (
     <div className="flex flex-col gap-4 md:gap-8 print:gap-0">
       {pages.map((page, idx) => (
-        <div key={idx} className="bg-white text-gray-800 p-8 min-h-[297mm] w-full mx-auto shadow-lg print:shadow-none print:p-0 font-sans flex flex-col">
+        <div key={idx} className="resume-page-wrap bg-white text-gray-800 p-8 min-h-[297mm] w-full mx-auto shadow-lg print:shadow-none print:p-0 font-sans flex flex-col print:break-after-page">
           {idx === 0 && (
             <header className="border-b-4 border-blue-600 pb-6 mb-8 flex justify-between items-start gap-6">
               <div className="flex gap-6 items-center min-w-0 flex-1">

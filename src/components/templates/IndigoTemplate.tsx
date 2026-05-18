@@ -11,7 +11,7 @@ export default function IndigoTemplate({ data }: { data: ResumeData }) {
   return (
     <div className="flex flex-col gap-4 md:gap-8 print:gap-0">
       {pages.map((pageSections, idx) => (
-        <div key={idx} className="bg-white text-slate-800 flex min-h-[297mm] w-full mx-auto shadow-2xl print:shadow-none font-sans flex-row">
+        <div key={idx} className="resume-page-wrap bg-white text-slate-800 flex min-h-[297mm] w-full mx-auto shadow-2xl print:shadow-none font-sans flex-row print:break-after-page">
           {/* Sidebar - Repeats on every page or just first? Usually repeated for these types of templates */}
           <div className="w-[320px] shrink-0 bg-gradient-to-br from-indigo-900 via-slate-900 to-black text-slate-100 p-10 space-y-12">
             <div>

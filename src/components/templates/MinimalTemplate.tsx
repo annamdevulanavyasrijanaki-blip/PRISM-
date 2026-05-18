@@ -11,7 +11,7 @@ export default function MinimalTemplate({ data }: { data: ResumeData }) {
   return (
     <div className="flex flex-col gap-4 md:gap-8 print:gap-0">
       {pages.map((pageSections, idx) => (
-        <div key={idx} className="bg-white text-zinc-900 p-16 min-h-[297mm] w-full mx-auto shadow-lg print:shadow-none print:p-0 font-sans tracking-tight flex flex-col">
+        <div key={idx} className="resume-page-wrap bg-white text-zinc-900 p-16 min-h-[297mm] w-full mx-auto shadow-lg print:shadow-none print:p-0 font-sans tracking-tight flex flex-col print:break-after-page">
           {/* Header */}
           {idx === 0 && (
             <header className="mb-16">
