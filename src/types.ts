@@ -115,6 +115,7 @@ export interface ResumeData {
   settings?: {
     fontSize: number;
     sectionSpacing: number;
+    fontFamily?: 'sans' | 'serif' | 'mono' | 'display' | 'elegant';
   };
 }
 

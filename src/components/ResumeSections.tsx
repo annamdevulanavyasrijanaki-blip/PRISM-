@@ -233,6 +233,15 @@ export function CustomSectionRenderer({ data }: SectionProps) {
 export function ResumeMasterRenderer({ data, templateType, pageIndex = 0 }: SectionProps & { pageIndex?: number }) {
   const fontSize = data.settings?.fontSize || 1;
   const sectionSpacing = data.settings?.sectionSpacing || 1;
+  const fontFamily = data.settings?.fontFamily || 'sans';
+
+  const fontClasses: Record<string, string> = {
+    sans: 'font-sans',
+    serif: 'font-serif',
+    mono: 'font-mono',
+    display: 'font-display',
+    elegant: 'font-elegant',
+  };
   
   // Custom section renderer is special because it returns multiple sections
   const renderCustomSections = () => {
@@ -256,7 +265,7 @@ export function ResumeMasterRenderer({ data, templateType, pageIndex = 0 }: Sect
 
   return (
     <div 
-      className="flex flex-col" 
+      className={cn("flex flex-col", fontClasses[fontFamily])} 
       style={{ 
         fontSize: `${fontSize}rem`,
         gap: `${sectionSpacing * 2}rem`

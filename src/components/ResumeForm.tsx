@@ -1,4 +1,4 @@
-import { Plus, Trash2, ChevronLeft, ChevronRight, Lightbulb, Sparkles, Upload, FileJson, FileText, ArrowRight, Save, RotateCcw, Image as ImageIcon, GripVertical, Eye, EyeOff, Layout } from "lucide-react";
+import { Plus, Trash2, ChevronLeft, ChevronRight, Lightbulb, Sparkles, Upload, FileJson, FileText, ArrowRight, Save, RotateCcw, Image as ImageIcon, GripVertical, Eye, EyeOff, Layout, Type } from "lucide-react";
 import React, { useState, useRef } from "react";
 import { ResumeData, Experience, Education, Skill, Project, INITIAL_RESUME_DATA, Certification, Award, Volunteer, Language, Interest, CustomSection } from "../types";
 import { cn } from "../lib/utils";
@@ -1149,20 +1149,23 @@ export default function ResumeForm() {
                         </div>
                         <div className="space-y-3">
                           {(section.items || []).map((item) => (
-                            <div key={item.id} className="flex gap-3 items-center group/item">
-                              <input 
-                                value={item.label}
-                                onChange={(e) => updateCustomItem(section.id, item.id, 'label', e.target.value)}
-                                className="w-1/3 p-3 bg-gray-50/50 rounded-xl text-[10px] font-black uppercase tracking-widest outline-none border border-transparent focus:border-blue-100 focus:bg-white transition-all"
-                                placeholder="Label"
-                              />
-                              <input 
-                                value={item.value}
-                                onChange={(e) => updateCustomItem(section.id, item.id, 'value', e.target.value)}
-                                className="flex-1 p-3 bg-gray-50/50 rounded-xl text-xs outline-none border border-transparent focus:border-blue-100 focus:bg-white transition-all"
-                                placeholder="Details..."
-                              />
-                              <button onClick={() => removeCustomItem(section.id, item.id)} className="opacity-0 group-hover/item:opacity-100 p-2 text-gray-300 hover:text-red-500 transition-all"><Trash2 size={12}/></button>
+                            <div key={item.id} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center group/item p-4 bg-gray-50/30 rounded-2xl border border-transparent hover:border-gray-100 transition-all">
+                              <div className="flex-1 w-full flex gap-3 items-center">
+                                <GripVertical size={14} className="text-gray-200" />
+                                <input 
+                                  value={item.label}
+                                  onChange={(e) => updateCustomItem(section.id, item.id, 'label', e.target.value)}
+                                  className="w-1/3 p-3 bg-gray-50/50 rounded-xl text-[10px] font-black uppercase tracking-widest outline-none border border-transparent focus:border-blue-100 focus:bg-white transition-all shrink-0"
+                                  placeholder="Label"
+                                />
+                                <input 
+                                  value={item.value}
+                                  onChange={(e) => updateCustomItem(section.id, item.id, 'value', e.target.value)}
+                                  className="flex-1 p-3 bg-gray-50/50 rounded-xl text-xs outline-none border border-transparent focus:border-blue-100 focus:bg-white transition-all"
+                                  placeholder="Details..."
+                                />
+                                <button onClick={() => removeCustomItem(section.id, item.id)} className="p-2 text-gray-300 hover:text-red-500 transition-all"><Trash2 size={12}/></button>
+                              </div>
                             </div>
                           ))}
                           {(!section.items || section.items.length === 0) && (
@@ -1183,6 +1186,45 @@ export default function ResumeForm() {
 
             {currentStep === "layout" && (
               <div className="space-y-12">
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl">
+                      <Type size={18} />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-black uppercase tracking-[0.2em]">Typography</h3>
+                      <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest mt-0.5">Select a voice for your resume</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {[
+                      { id: 'sans', label: 'Modern Sans', class: 'font-sans' },
+                      { id: 'serif', label: 'Classic Serif', class: 'font-serif' },
+                      { id: 'mono', label: 'Tech Mono', class: 'font-mono' },
+                      { id: 'display', label: 'Bold Display', class: 'font-display' },
+                      { id: 'elegant', label: 'Elegant Playfair', class: 'font-elegant text-xs' },
+                    ].map((font) => (
+                      <button
+                        key={font.id}
+                        onClick={() => setData({ 
+                          ...data, 
+                          settings: { ...data.settings!, fontFamily: font.id as any } 
+                        })}
+                        className={cn(
+                          "p-4 rounded-2xl border-2 transition-all text-center space-y-2",
+                          data.settings?.fontFamily === font.id 
+                            ? "border-blue-500 bg-blue-50/50" 
+                            : "border-gray-50 bg-white hover:border-gray-200"
+                        )}
+                      >
+                        <div className={cn("text-lg font-black", font.class)}>Aa</div>
+                        <p className="text-[8px] font-black uppercase tracking-widest text-gray-400">{font.label}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
                     <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">

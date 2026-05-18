@@ -46,12 +46,12 @@ export default function App() {
       // 210mm is 793.7px at 96 DPI
       const targetWidth = 794; 
       
-      const padding = window.innerWidth < 768 ? 20 : 40;
-      if (containerWidth < targetWidth + padding) {
-        setAutoScale((containerWidth - padding) / targetWidth);
-      } else {
-        setAutoScale(1);
-      }
+      // On mobile, we might want to scale down even more to fit, but not too much that it's unreadable
+      const padding = window.innerWidth < 768 ? 16 : 40;
+      const calculatedScale = (containerWidth - padding) / targetWidth;
+      
+      // Ensure we don't scale up past 1 unless explicitly zoomed
+      setAutoScale(Math.min(calculatedScale, 1.2));
     };
 
     calculateScale();
@@ -714,7 +714,7 @@ export default function App() {
           </AnimatePresence>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-12 items-start transition-all duration-500 ease-in-out">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:p-8 pt-0 lg:pt-8 bg-gray-100/30">
           
           {/* Source Text Sidebar */}
           <AnimatePresence>
@@ -741,11 +741,11 @@ export default function App() {
                 animate={{ opacity: 1, scale: 1, width: 'auto' }}
                 exit={{ opacity: 0, scale: 0.95, width: 0 }}
                 className={cn(
-                  "transition-all duration-500 ease-in-out lg:sticky lg:top-32 max-h-none lg:max-h-[calc(100vh-160px)] overflow-y-auto lg:pr-4 custom-scrollbar scroll-smooth no-print controls-sidebar w-full lg:min-w-[400px]",
+                  "transition-all duration-500 ease-in-out lg:sticky lg:top-32 max-h-none lg:max-h-[calc(100vh-160px)] overflow-y-auto px-4 lg:px-0 lg:pr-4 custom-scrollbar scroll-smooth no-print controls-sidebar w-full lg:min-w-[400px]",
                   sidebarOpen ? "lg:col-span-4 xl:col-span-4" : "lg:col-span-5 xl:col-span-5"
                 )}
               >
-                <section className="bg-white rounded-[32px] md:rounded-[40px] p-4 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.02)] border border-gray-50 relative">
+                <section className="bg-white rounded-[32px] md:rounded-[40px] p-6 md:p-8 shadow-[0_20px_50px_rgba(0,0,0,0.02)] border border-gray-50 relative">
                   <div className="flex items-center justify-between mb-6 md:mb-8">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-gray-400">
@@ -791,7 +791,7 @@ export default function App() {
 
           {/* Preview Canvas */}
           <div className={cn(
-            "transition-all duration-500 ease-in-out w-full relative z-20",
+            "transition-all duration-500 ease-in-out w-full relative z-20 px-4 lg:px-0",
             sidebarOpen && formOpen ? "lg:col-span-5 xl:col-span-6" :
             !sidebarOpen && formOpen ? "lg:col-span-7 xl:col-span-7" :
             sidebarOpen && !formOpen ? "lg:col-span-8 xl:col-span-9" :
