@@ -27,6 +27,7 @@ import SourceSidebar from "./components/SourceSidebar";
 import Logo from "./components/Logo";
 import { cn } from "./lib/utils";
 import { AdContainer, ScriptAd } from "./components/AdBanner";
+import CookieConsent from "./components/CookieConsent";
 
 export default function App() {
   const [view, setView] = useState<"landing" | "editor" | "privacy" | "terms" | "contact" | "about">("landing");
@@ -58,6 +59,29 @@ export default function App() {
     window.addEventListener("resize", calculateScale);
     return () => window.removeEventListener("resize", calculateScale);
   }, []);
+
+  // Dynamically load AdSense scripts for informational pages & remove inside the editor to prevent policy violations
+  useEffect(() => {
+    const existingScript = document.querySelector('script[src*="googlesyndication.com/pagead/js/adsbygoogle.js"]');
+    
+    if (view === "editor") {
+      if (existingScript) {
+        existingScript.remove();
+        // Clear AdSense global state if possible
+        try {
+          delete (window as any).adsbygoogle;
+        } catch (e) {}
+      }
+    } else {
+      if (!existingScript) {
+        const script = document.createElement("script");
+        script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2081546222880938";
+        script.async = true;
+        script.crossOrigin = "anonymous";
+        document.head.appendChild(script);
+      }
+    }
+  }, [view]);
 
   const handlePrint = useReactToPrint({
     contentRef: printRef,
@@ -171,6 +195,7 @@ export default function App() {
               Try the Editor
            </button>
         </div>
+        <CookieConsent onLearnMore={() => setView("privacy")} />
       </div>
     );
   }
@@ -204,6 +229,7 @@ export default function App() {
           <h2 className="text-2xl font-black text-gray-900 pt-4">Contact Information</h2>
           <p>If you have any questions or suggestions regarding our privacy policy, please contact us at thenewyouai@gmail.com.</p>
         </div>
+        <CookieConsent onLearnMore={() => setView("privacy")} />
       </div>
     );
   }
@@ -237,6 +263,7 @@ export default function App() {
           <h2 className="text-2xl font-black text-gray-900 pt-4">Accuracy of Materials</h2>
           <p>The materials appearing on the website could include technical, typographical, or photographic errors. Prism Resume Studio does not warrant that any of the materials on its website are accurate, complete or current. We may make changes to the materials contained on its website at any time without notice.</p>
         </div>
+        <CookieConsent onLearnMore={() => setView("privacy")} />
       </div>
     );
   }
@@ -253,6 +280,7 @@ export default function App() {
             <p className="text-gray-400 font-black uppercase tracking-widest text-[10px] mb-4">Official Contact Email</p>
             <a href="mailto:thenewyouai@gmail.com" className="text-2xl md:text-3xl font-black text-blue-600 hover:underline">thenewyouai@gmail.com</a>
         </div>
+        <CookieConsent onLearnMore={() => setView("privacy")} />
       </div>
     );
   }
@@ -581,6 +609,107 @@ export default function App() {
               ))}
             </div>
 
+            {/* SEO Article Area - Solving Google AdSense Low Value Content */}
+            <section className="mt-28 md:mt-48 space-y-16 max-w-5xl mx-auto" aria-labelledby="career-insights-title">
+              <div className="text-center space-y-4">
+                <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-blue-600">Career Resources</h3>
+                <h2 id="career-insights-title" className="text-4xl md:text-6xl font-black tracking-tighter text-gray-900 leading-tight">
+                  Resume Writing & Formatting Masterclass
+                </h2>
+                <p className="text-gray-500 font-bold uppercase tracking-widest text-[9px]">
+                  Expert strategies, ATS criteria, and structural guidelines to pass screening
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+                <article className="bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm space-y-4 hover:shadow-md transition-shadow">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-blue-600 bg-blue-50 px-3 py-1 rounded-full">Guides</span>
+                  <h3 className="text-2xl font-black text-gray-950 uppercase tracking-tighter">1. Understanding the ATS Scanner</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed font-medium">
+                    Modern employers utilize Applicant Tracking Systems (ATS) to scan, rank, and store submitted CVs and resumes before any recruiter ever reads them. Systems like Greenhouse, Workday, and Lever do not read text like humans do; they parse raw document markers to match precise keyword parameters.
+                  </p>
+                  <div className="text-xs text-gray-500 font-bold uppercase tracking-widest pt-2 flex items-center gap-2">
+                    <span className="shrink-0 text-[10px] bg-gray-900 text-white rounded px-1.5 py-0.5 font-bold">Key Takeaway</span>
+                    <span className="text-gray-900">Avoid non-standard side-by-side structures or high graphical intensity.</span>
+                  </div>
+                </article>
+
+                <article className="bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm space-y-4 hover:shadow-md transition-shadow">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">Formatting</span>
+                  <h3 className="text-2xl font-black text-gray-950 uppercase tracking-tighter">2. The Power of Typography</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed font-medium">
+                    The voice of your resume is directly represented by your layout and fonts. A well-chosen typeface conveys the exact career persona you want. Modern Sans is preferred for startup and agile teams; Classic Serif establishes lawyer-grade authority; Tech Mono demonstrates high fluency in software systems engineering.
+                  </p>
+                  <div className="text-xs text-gray-500 font-bold uppercase tracking-widest pt-2 flex items-center gap-2">
+                    <span className="shrink-0 text-[10px] bg-gray-900 text-white rounded px-1.5 py-0.5 font-bold">Key Takeaway</span>
+                    <span className="text-gray-900">Coordinate and size headers with clear text contrast ratios.</span>
+                  </div>
+                </article>
+
+                <article className="bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm space-y-4 hover:shadow-md transition-shadow">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-purple-600 bg-purple-50 px-3 py-1 rounded-full">Curation</span>
+                  <h3 className="text-2xl font-black text-gray-950 uppercase tracking-tighter">3. Writing an Impactful Profile Summary</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed font-medium">
+                    A stellar profile summary should never exceed three lines. Rather than presenting generic statements like "Hardworking professional seeking opportunity," detail your specific achievements: mention years of expertise, core programming or operational frameworks, and outline measurable, data-driven outcomes.
+                  </p>
+                  <div className="text-xs text-gray-500 font-bold uppercase tracking-widest pt-2 flex items-center gap-2">
+                    <span className="shrink-0 text-[10px] bg-gray-900 text-white rounded px-1.5 py-0.5 font-bold">Key Takeaway</span>
+                    <span className="text-gray-900">Structure with exact mathematical impact metrics.</span>
+                  </div>
+                </article>
+
+                <article className="bg-white p-8 rounded-[32px] border border-gray-100 shadow-sm space-y-4 hover:shadow-md transition-shadow">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Strategies</span>
+                  <h3 className="text-2xl font-black text-gray-950 uppercase tracking-tighter">4. Power Words & Action Verbs</h3>
+                  <p className="text-sm text-gray-600 leading-relaxed font-medium">
+                    Every bullet point on an effective resume must begin with an active action verb. Replace passive words like "responsible for" or "handled" with robust alternatives such as "Architected," "Engineered," "Spearheaded," "Optimized," "Pioneered," or "Orchestrated" to assert executive ownership and professional velocity.
+                  </p>
+                  <div className="text-xs text-gray-500 font-bold uppercase tracking-widest pt-2 flex items-center gap-2">
+                    <span className="shrink-0 text-[10px] bg-gray-900 text-white rounded px-1.5 py-0.5 font-bold">Key Takeaway</span>
+                    <span className="text-gray-900">Keep statements snappy, leading directly to the ultimate outcome.</span>
+                  </div>
+                </article>
+              </div>
+
+              <div className="p-8 md:p-12 bg-blue-50/50 rounded-[40px] border border-blue-100/50 space-y-6">
+                <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight">The Ultimate Resume Setup Checklist</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="flex gap-3 items-start text-xs font-semibold text-gray-700">
+                    <span className="text-blue-600 font-bold">✓</span>
+                    <p>Keep the resume length to exactly 1 page for every 5-7 years of professional experience.</p>
+                  </div>
+                  <div className="flex gap-3 items-start text-xs font-semibold text-gray-700">
+                    <span className="text-blue-600 font-bold">✓</span>
+                    <p>Ensure contact placeholders have simple valid email formats, phone indicators, and portfolio links.</p>
+                  </div>
+                  <div className="flex gap-3 items-start text-xs font-semibold text-gray-700">
+                    <span className="text-blue-600 font-bold">✓</span>
+                    <p>Use chronological structures starting with your most recent professional role to oldest.</p>
+                  </div>
+                  <div className="flex gap-3 items-start text-xs font-semibold text-gray-700">
+                    <span className="text-blue-600 font-bold">✓</span>
+                    <p>Never place critical contact data or personal information inside header/footer elements containing SVG imagery.</p>
+                  </div>
+                  <div className="flex gap-3 items-start text-xs font-semibold text-gray-700">
+                    <span className="text-blue-600 font-bold">✓</span>
+                    <p>Match spellings of technical languages and certification names exactly with targeted job boards.</p>
+                  </div>
+                  <div className="flex gap-3 items-start text-xs font-semibold text-gray-700">
+                    <span className="text-blue-600 font-bold">✓</span>
+                    <p>Use active voice: "Architected real-time data flows" instead of "Tasked with helping on pipelines".</p>
+                  </div>
+                  <div className="flex gap-3 items-start text-xs font-semibold text-gray-700">
+                    <span className="text-blue-600 font-bold">✓</span>
+                    <p>Check text contrast; avoid neon or extra low-contrast colors on clean backdrops.</p>
+                  </div>
+                  <div className="flex gap-3 items-start text-xs font-semibold text-gray-700">
+                    <span className="text-blue-600 font-bold">✓</span>
+                    <p>Group skills into logical taxonomies like Languages, Libraries, Frameworks, and Domain Expertise.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
             <div className="relative p-8 md:p-16 bg-gray-900 rounded-[32px] md:rounded-[48px] overflow-hidden group shadow-3xl">
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 to-indigo-600/10" />
                   <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12 text-center md:text-left">
@@ -902,6 +1031,7 @@ export default function App() {
           perspective: 1000px;
         }
       `}</style>
+      <CookieConsent onLearnMore={() => setView("privacy")} />
     </div>
   );
 }
