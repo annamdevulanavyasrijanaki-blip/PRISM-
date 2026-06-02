@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useRef, useState, useEffect, CSSProperties } from "react";
+import { useRef, useState, useEffect, CSSProperties, ChangeEvent } from "react";
 import { useReactToPrint } from "react-to-print";
-import { Download, FileText, Settings, Layout, Sparkles, MonitorPause, ChevronLeft, ArrowRight } from "lucide-react";
+import { Download, FileText, Settings, Layout, Sparkles, MonitorPause, ChevronLeft, ArrowRight, FileJson, Upload } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ResumeData, SAMPLE_RESUME_DATA } from "./types";
 import { useResumeStore } from "./store/useResumeStore";
@@ -87,6 +87,29 @@ export default function App() {
     contentRef: printRef,
     documentTitle: `${data.personal.fullName.replace(/\s+/g, "_")}_Resume`,
   });
+
+  const landingJsonInputRef = useRef<HTMLInputElement>(null);
+
+  const handleLandingJsonImport = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const importedData = JSON.parse(event.target?.result as string);
+          if (importedData.personal && Array.isArray(importedData.experience)) {
+            setData(importedData);
+            setView("editor");
+          } else {
+            throw new Error("Invalid format");
+          }
+        } catch (err) {
+          alert("Invalid file. Please use a valid .json file exported from this app.");
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
 
   const exportDirectPdf = async () => {
     if (!printRef.current) return;
@@ -332,23 +355,39 @@ export default function App() {
                 Create your job-winning resume in minutes. Easy to use, 100% private, and permanently free. No hidden fees or watermarks.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-center gap-6 pt-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-4">
                 <button 
                   onClick={() => setView("editor")}
-                  className="w-full sm:w-auto group px-10 py-5 bg-gray-900 text-white rounded-[24px] font-black uppercase text-xs tracking-[0.2em] flex items-center justify-center gap-4 hover:bg-blue-600 transition-all active:scale-95 shadow-2xl"
+                  className="w-full sm:w-auto group px-8 py-5 bg-gray-900 text-white rounded-[24px] font-black uppercase text-xs tracking-[0.2em] flex items-center justify-center gap-4 hover:bg-blue-600 transition-all active:scale-95 shadow-2xl"
                 >
                    Start Building <ArrowRight size={18} className="group-hover:translate-x-2 transition-transform" />
                 </button>
+                <button 
+                  onClick={() => landingJsonInputRef.current?.click()}
+                  className="w-full sm:w-auto group px-8 py-5 bg-white border-2 border-gray-100 text-gray-900 rounded-[24px] font-black uppercase text-xs tracking-[0.2em] flex items-center justify-center gap-4 hover:border-blue-500 hover:text-blue-600 transition-all active:scale-95 shadow-xl"
+                >
+                   Import JSON <FileJson size={18} className="text-gray-400 group-hover:text-blue-500 transition-colors" />
+                </button>
+                <input 
+                  type="file" 
+                  ref={landingJsonInputRef} 
+                  onChange={handleLandingJsonImport} 
+                  accept=".json" 
+                  className="hidden" 
+                />
+              </div>
+
+              <div className="flex items-center gap-4 pt-2">
                 <div className="flex -space-x-3">
                    {[1,2,3].map(i => (
                      <div key={i} className="w-9 h-9 rounded-full border-2 border-white bg-gray-200">
                         <img src={`https://i.pravatar.cc/100?u=${i}`} className="w-full h-full rounded-full object-cover" alt="User" />
                      </div>
                    ))}
-                   <div className="pl-4">
-                      <p className="text-[10px] font-black text-gray-900 uppercase">Used by Thousands</p>
-                      <p className="text-[8px] text-gray-500 font-bold uppercase">Daily Users</p>
-                   </div>
+                </div>
+                <div>
+                   <p className="text-[10px] font-black text-gray-900 uppercase font-sans">Used by Thousands</p>
+                   <p className="text-[8px] text-gray-500 font-bold uppercase tracking-wider font-sans">Daily Users • 100% Private Offline Exports</p>
                 </div>
               </div>
 
@@ -902,7 +941,7 @@ export default function App() {
                         'width' : 300,
                         'params' : {}
                       }}
-                      className="rounded-xl overflow-hidden shadow-sm"
+                      className="rounded-xl overflow-hidden bg-transparent"
                     />
                   </div>
                 </section>
@@ -981,7 +1020,7 @@ export default function App() {
         {/* Support Section - Absolute Bottom */}
         <div className="mt-32 pb-16 border-t border-gray-100 flex flex-col items-center gap-12 no-print relative z-10">
           <div className="flex flex-wrap justify-center gap-12 pt-12">
-            <AdContainer id="a870fdd741d63cdfaeb2898e965a37bb" className="shadow-sm rounded-lg overflow-hidden" />
+            <AdContainer id="a870fdd741d63cdfaeb2898e965a37bb" className="bg-transparent" />
             <ScriptAd 
               src="https://glamourpicklessteward.com/c1a1fd1c38b67f937be1735b780adca9/invoke.js"
               options={{
@@ -991,7 +1030,7 @@ export default function App() {
                 'width' : 320,
                 'params' : {}
               }}
-              className="flex justify-center border border-gray-50 rounded-lg p-2"
+              className="flex justify-center bg-transparent"
             />
           </div>
           

@@ -24,7 +24,7 @@ export function AdContainer({ id, className }: AdContainerProps) {
   `;
 
   return (
-    <div className={cn("ad-container flex justify-center w-full min-h-[250px] bg-gray-50/10 rounded-xl overflow-hidden", className)}>
+    <div className={cn("ad-container flex justify-center w-full min-h-[250px] bg-transparent overflow-hidden", className)}>
       <iframe
         title="Ad Container"
         srcDoc={srcDoc}
@@ -64,13 +64,13 @@ export function ScriptAd({ src, options, className }: ScriptAdProps) {
   `;
 
   return (
-    <div className={cn("script-ad-wrapper border-2 border-dashed border-gray-100 flex items-center justify-center bg-gray-50/5 rounded-2xl", className)} style={{ width, height }}>
+    <div className={cn("script-ad-wrapper flex items-center justify-center bg-transparent", className)} style={{ width, height }}>
       <iframe
         title="Script Ad"
         srcDoc={srcDoc}
         width={width}
         height={height}
-        className="border-0 overflow-hidden rounded-xl"
+        className="border-0 overflow-hidden bg-transparent"
         sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
         loading="lazy"
       />
